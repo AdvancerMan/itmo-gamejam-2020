@@ -21,15 +21,15 @@ class RainbowProcess(Process):
 
     def update(self):
         self.__color[abs(self.__changingColor) - 1] += self.__step if self.__changingColor > 0 else -self.__step
-        if self.__changingColor > 0 and self.__color[abs(self.__changingColor) - 1] == self.__maxValue:
+        if self.__changingColor > 0 and self.__color[abs(self.__changingColor) - 1] >= self.__maxValue:
             self.__changingColor = (self.__changingColor + 1) % 3 + 1
             self.__changingColor *= -1
-        elif self.__changingColor < 0 and self.__color[abs(self.__changingColor) - 1] == 0:
+        elif self.__changingColor < 0 and self.__color[abs(self.__changingColor) - 1] <= 0:
             self.__changingColor *= -1
             self.__changingColor = (self.__changingColor + 1) % 3 + 1
 
     def draw(self, screen: pg.Surface):
-        screen.fill(tuple(map(lambda x: x / self.__maxValue * 255, self.__color)))
+        screen.fill(tuple(map(lambda x: max(min(x / self.__maxValue * 255, 255), 0), self.__color)))
 
 
 if __name__ == "__main__":
