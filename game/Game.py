@@ -1,5 +1,4 @@
 import pygame as pg
-from process.GameProcess import GameProcess
 from process.Process import Process
 from config.Config import *
 
@@ -40,6 +39,16 @@ class Game:
             process.draw(self.__screen)
             pg.display.update()
             self.__popProcess()
+
+
+class GameProcess(Process):
+    def __init__(self, game: Game):
+        self.__game = game
+
+    def processEvents(self, events: list):
+        for e in events:
+            if e.type == pg.QUIT:
+                self.__game.stop()
 
 
 if __name__ == "__main__":
