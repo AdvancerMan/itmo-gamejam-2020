@@ -1,5 +1,5 @@
 import pygame as pg
-from util.Logger import logger
+from util.Logger import log
 
 
 class TextureManager:
@@ -13,7 +13,7 @@ class TextureManager:
             try:
                 texture = pg.image.load(textureID)
             except pg.error:
-                logger.log("Error occured during loading " + textureID)
+                log("Error occured during loading " + textureID)
                 texture = pg.Surface((20, 20))
                 texture.fill((128, 0, 128))  # purple
             self.__textures[textureID] = texture
