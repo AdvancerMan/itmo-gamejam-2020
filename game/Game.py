@@ -41,17 +41,9 @@ class Game:
             self.__popProcess()
 
 
-class GameProcess(Process):
-    def __init__(self, game: Game):
-        self.__game = game
-
-    def processEvents(self, events: list):
-        for e in events:
-            if e.type == pg.QUIT:
-                self.__game.stop()
-
-
 if __name__ == "__main__":
+    from process.MenuProcess import MenuProcess
+
     pg.init()
     game = Game()
-    game.run(GameProcess(game))
+    game.run(MenuProcess(game))
