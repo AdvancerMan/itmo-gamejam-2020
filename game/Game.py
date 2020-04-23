@@ -18,6 +18,7 @@ class Game:
 
     def __popProcess(self):
         if self.__popped:
+            self.__popped = False
             self.__processesStack.pop()
 
     def __init(self):
