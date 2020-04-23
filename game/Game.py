@@ -1,6 +1,7 @@
 import pygame as pg
 from process.Process import Process
 from config.Config import *
+from util.TextureManager import TextureManager
 
 
 class Game:
@@ -9,6 +10,10 @@ class Game:
         self.__popped = False
         self.__screen = None
         self.__running = False
+        self.__textureManager = TextureManager()
+
+    def getTextureManager(self):
+        return self.__textureManager
 
     def addProcess(self, process: Process):
         self.__processesStack.append(process)
