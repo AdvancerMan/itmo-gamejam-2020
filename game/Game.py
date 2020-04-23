@@ -45,11 +45,3 @@ class Game:
             process.draw(self.__screen)
             pg.display.update()
             self.__popProcess()
-
-
-if __name__ == "__main__":
-    from process.MenuProcess import MenuProcess
-
-    pg.init()
-    game = Game()
-    game.run(MenuProcess(game))
