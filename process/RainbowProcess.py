@@ -1,7 +1,7 @@
 import pygame as pg
 from game.Game import Game
 from process.Process import Process
-from util.Textures import TextureInfo
+from util.Textures import AnimationInfo
 
 
 class RainbowProcess(Process):
@@ -12,7 +12,8 @@ class RainbowProcess(Process):
         self.__step = step
         self.__maxValue = maxValue
 
-        self.__playerSurface = game.getTextureManager().getTexture(TextureInfo.BACKGROUND)
+        self.__playerAnimation = game.getTextureManager().getAnimation(AnimationInfo.FRIEND_ANIMATION)
+        self.__playerAnimation.play()
         self.__coords = [50, 50]
         self.__coordsChange = [0, 0]
 
@@ -47,10 +48,4 @@ class RainbowProcess(Process):
 
     def draw(self, screen: pg.Surface):
         screen.fill(tuple(map(lambda x: max(min(x / self.__maxValue * 255, 255), 0), self.__color)))
-        screen.blit(self.__playerSurface, tuple(self.__coords))
-
-
-if __name__ == "__main__":
-    pg.init()
-    game = Game()
-    game.run(RainbowProcess(game))
+        self.__playerAnimation.blit(screen, tuple(self.__coords))
