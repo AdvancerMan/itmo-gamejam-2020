@@ -14,4 +14,4 @@ except:
 
         log(format_exc())
     except:
-        print("ERROR IN LOGGING")
+        pass
