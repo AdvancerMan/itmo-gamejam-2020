@@ -42,4 +42,4 @@ class InGameObject:
             x = min(*xs)
             y = min(*ys)
             aabb = aabb.union(pg.Rect(x, y, max(*xs) - x, max(*ys) - y))
-        return aabb
+        return aabb.move(self.__body.position)
