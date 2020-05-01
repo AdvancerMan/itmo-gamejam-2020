@@ -41,7 +41,7 @@ class Game:
         while len(self.__processesStack) > 0 and self.__running:
             process = self.__processesStack[-1]
             process.processEvents(pg.event.get())
-            process.update(clock.get_time())
+            process.update(clock.get_time() / 1000)
             self.__screen.fill(BACKGROUND_COLOR)
             process.draw(self.__screen)
             pg.display.update()
