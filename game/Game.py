@@ -2,7 +2,6 @@ import pygame as pg
 from process.Process import Process
 from config.Config import *
 from util.textures.TextureManager import TextureManager
-from time import process_time
 
 
 class Game:
@@ -13,7 +12,7 @@ class Game:
         self.__running = False
         self.__textureManager = TextureManager()
 
-    def getTextureManager(self):
+    def getTextureManager(self) -> TextureManager:
         return self.__textureManager
 
     def addProcess(self, process: Process):
