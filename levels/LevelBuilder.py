@@ -6,24 +6,20 @@ import json
 from os.path import join
 
 
-class Level:
-    def __init__(self, game: Game, process):
+class Builder:
+    def __init__(self, game: Game, process, name):
         # process: GameProcess
         self.__game = game
         self.__process = process
         self.__data = dict()
+        self.putLevel(name)
+        self.build()
 
-    def putLevel(self, name):   # name without .json
-        with open(join("levels", name + ".json")) as file:
+    def putLevel(self,levelName):   # name without .json
+        with open(join("levels", levelName + ".json")) as file:
             self.__data = json.load(file)
 
     def build(self):
         for plate in self.__data["platforms"]:
             self.__process.addObject(Platform(self.__game, self.__process, plate["posX"], plate["posY"]))
 
-
-class Builder:
-    def __init__(self, game: Game, process, name):
-        self.__level = Level(game, process)
-        self.__level.putLevel(name)
-        self.__level.build()
