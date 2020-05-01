@@ -1,3 +1,4 @@
+import pygame as pg
 from Box2D import *
 import pyganim as pga
 from game.Game import Game
@@ -8,8 +9,10 @@ class InGameObject:
         # process: GameProcess
         self.__body = body
         self.game = game
-        self.__animation = animation
         self.process = process
+
+        self.__animation = animation
+        animation.scale(self.getAABB().size)
         animation.play()
 
     def update(self):
@@ -26,3 +29,15 @@ class InGameObject:
         if angle is None:
             angle = self.__body.angle
         self.__body.transform = b2Vec2(x, y), angle
+
+    def getAABB(self):
+        aabb = pg.Rect(0, 0, 0, 0)
+        for fixture in self.__body.fixtures:
+            if not isinstance(fixture.shape, b2PolygonShape):
+                raise NotImplementedError("TODO")
+            xs = list(map(lambda tpl: tpl[0], fixture.shape.vertices))
+            ys = list(map(lambda tpl: tpl[1], fixture.shape.vertices))
+            x = min(*xs)
+            y = min(*ys)
+            aabb = aabb.union(pg.Rect(x, y, max(*xs) - x, max(*ys) - y))
+        return aabb
