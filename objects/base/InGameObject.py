@@ -1,11 +1,11 @@
 from Box2D import *
 from game.Game import Game
 import pyganim as pga
-from process.GameProcess import GameProcess
 
 
 class InGameObject:
-    def __init__(self, game: Game, process: GameProcess, animation: pga.PygAnimation, body: b2Body):
+    def __init__(self, game: Game, process, animation: pga.PygAnimation, body: b2Body):
+        # process: GameProcess
         self.__body = body
         self.__game = game
         self.__animation = animation

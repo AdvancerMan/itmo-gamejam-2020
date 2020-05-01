@@ -4,7 +4,6 @@ from process.Process import Process
 from Box2D import *
 from util.box2d.BodyFactory import BodyFactory
 from objects.friendly.Player import Player
-from objects.base.InGameObject import InGameObject
 
 
 class GameProcess(Process):
@@ -19,7 +18,8 @@ class GameProcess(Process):
     def getFactory(self) -> BodyFactory:
         return self.__factory
 
-    def addObject(self, obj: InGameObject):
+    def addObject(self, obj):
+        # obj: InGameObject
         self.__objects.add(obj)
 
     def processEvents(self, events: list):

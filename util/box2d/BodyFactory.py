@@ -1,13 +1,14 @@
 from Box2D import *
-from objects.base import InGameObject
 
 
 class BodyFactory:
     def __init__(self, world: b2World):
         self.__world = world
 
-    def createBody(self, owner: InGameObject, bodyType: int, **kwargs) -> b2Body:
+    def createBody(self, owner, bodyType: int, **kwargs) -> b2Body:
         """
+        owner: InGameObject
+
         b2BodyType 	bodyType --- use b2_dynamicBody, b2_kinematicBody or b2_staticBody
         b2Vec2 	    position
         float 	    angle --- The world angle of the body in radians.
@@ -38,7 +39,8 @@ class BodyFactory:
         """
         return self.__world.CreateBody(userData=owner, type=bodyType, **kwargs)
 
-    def createRectangleBody(self, owner: InGameObject, bodyType: int, width: int, height: int) -> b2Body:
+    def createRectangleBody(self, owner, bodyType: int, width: int, height: int) -> b2Body:
+        # owner: InGameObject
         shape = b2PolygonShape()
         shape.SetAsBox(width, height)
         return self.createBody(owner, bodyType, fixtures=b2FixtureDef(shape=shape))
