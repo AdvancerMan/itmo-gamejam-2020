@@ -13,4 +13,4 @@ class UsualGun(Gun):
                      process.getFactory().createRectangleBody(self, b2_kinematicBody, 5, 5),
                      game.getTextureManager().getAnimation(AnimationInfo.USUALGUN_ANIMATION),
                      process.getFactory().createRectangleBody(self, b2_staticBody, 100, 10),
-                     {"bulletSpeed": 10})
+                     {"bulletSpeed": 800})

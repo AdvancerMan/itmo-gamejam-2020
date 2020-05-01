@@ -3,14 +3,14 @@ from Box2D import *
 from game.Game import Game
 from objects.base.InGameObject import InGameObject
 
-# from objects.platforms.Platform import Platform
-
 
 class Bullet(InGameObject):
     def __init__(self, game, process, animation: pga.PygAnimation,
                  speed: float, body: b2Body):
         InGameObject.__init__(self, game, process, animation, body)
-        self.getBody().linearVelocity = b2Vec2(speed, 0)
+
+        self.getBody().linearVelocity = b2Vec2(100.0, 0.0)  # TODO fix speed
+
         self.setPosition(100, -100, 0)
 
 
@@ -28,6 +28,6 @@ class Gun:
         self.__gunBody = gunbody
 
     def spawnBullet(self):
-        # self.__process.addObject(Platform(self.__game, self.__process, 100, -100))
+        # print(self.__params['bulletSpeed'])
         self.__process.addObject(Bullet(self.__game, self.__process, self.__bulletAnimation,
                                         self.__params['bulletSpeed'], self.__bulletBody))
