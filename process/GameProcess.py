@@ -4,8 +4,8 @@ from process.Process import Process
 from Box2D import *
 from util.box2d.BodyFactory import BodyFactory
 from objects.friendly.Player import Player
-from objects.platforms.Platform import Platform
 from levels.LevelBuilder import Builder
+
 
 class GameProcess(Process):
     def __init__(self, game: Game):
