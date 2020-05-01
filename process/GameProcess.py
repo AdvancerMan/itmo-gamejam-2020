@@ -12,6 +12,7 @@ class GameProcess(Process):
         self.__world = b2World()
         self.__factory = BodyFactory(self.__world)
         self.__game = game
+        self.__prevobjs = set()
         self.__objects = set()
         self.__player = Player(game, self)
         self.addObject(self.__player)
@@ -36,7 +37,8 @@ class GameProcess(Process):
         return self.__events
 
     def update(self, delta: float):
-        for obj in self.__objects:
+        self.__prevobjs = self.__objects.copy()
+        for obj in self.__prevobjs:
             obj.update()
         self.__world.Step(delta, 10, 10)
         self.__events = []

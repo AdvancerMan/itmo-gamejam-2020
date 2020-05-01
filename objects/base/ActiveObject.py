@@ -27,5 +27,4 @@ class ActiveObject(InGameObject):
 
     def shoot(self):
         self.__gun.spawnBullet()
-        # TODO shooting
         pass
