@@ -16,7 +16,8 @@ class GameProcess(Process):
         self.__player = Player(game, self)
         self.addObject(self.__player)
         self.__events = []
-        Builder(game, self, "L1")
+        self.__builder = Builder(game)
+        self.__builder.build(self, "L1")
 
     def getFactory(self) -> BodyFactory:
         return self.__factory
