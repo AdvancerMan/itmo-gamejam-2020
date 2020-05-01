@@ -1,6 +1,6 @@
 from Box2D import *
-from game.Game import Game
 import pyganim as pga
+from game.Game import Game
 
 
 class InGameObject:
@@ -16,7 +16,8 @@ class InGameObject:
         pass
 
     def draw(self, dst):
-        self.__animation.blit(dst, self.__body.position.tuple)
+        pos = self.__body.position.tuple
+        self.__animation.blit(dst, (pos[0], -pos[1]))
 
     def getBody(self) -> b2Body:
         return self.__body
