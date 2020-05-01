@@ -17,7 +17,7 @@ class TextureManager:
         return pga.PygAnimation(list(zip(textures, duration)))
 
     def getTexture(self, textureInfo: TextureInfo) -> pg.Surface:
-        return self.__getTexture(textureInfo.value, lambda: pg.image.load(textureInfo.value))[0]
+        return self.__getTexture(textureInfo.value, lambda: [pg.image.load(textureInfo.value)])[0]
 
     def __getTexture(self, path: str, loadTexture) -> list:  # list of pg.Surface:
         texture = self.__textures.get(path, None)
@@ -30,4 +30,4 @@ class TextureManager:
                 texture = [pg.Surface((20, 20))]
                 texture[0].fill((128, 0, 128))  # purple
             self.__textures[path] = texture
-        return texture
+        return list(map(lambda txt: txt.copy(), texture))
