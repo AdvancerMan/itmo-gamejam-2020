@@ -13,7 +13,7 @@ class ActiveObject(InGameObject):
         self.__jumpPower = jumpPower
 
     def go(self, speed):
-        self.getBody().ApplyLinearImpulse(b2Vec2(speed * self.getBody().mass, 0), b2Vec2(0, 0), True)
+        self.getBody().ApplyForceToCenter(b2Vec2(speed, 0), True)
 
     def goLeft(self):
         self.go(-self.__speed)
