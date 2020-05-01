@@ -22,7 +22,7 @@ class ActiveObject(InGameObject):
         self.go(self.__speed)
 
     def jump(self):
-        self.getBody().ApplyLinearImpulse(b2Vec2(0, self.__jumpPower * self.getBody().mass), b2Vec2(), True)
+        self.getBody().linearVelocity = b2Vec2(self.getBody().linearVelocity.x, self.__jumpPower)
 
     def shoot(self):
         # TODO shooting
