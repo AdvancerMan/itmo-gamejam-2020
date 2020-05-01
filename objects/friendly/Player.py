@@ -3,7 +3,7 @@ from Box2D import *
 from game.Game import Game
 from objects.base.ActiveObject import ActiveObject
 from util.textures.Textures import AnimationInfo
-# from objects.guns.UsualGun import UsualGun
+from objects.guns.UsualGun import UsualGun
 
 
 class Player(ActiveObject):
@@ -14,7 +14,7 @@ class Player(ActiveObject):
                               process.getFactory().createRectangleBody(self, b2_dynamicBody, 40, 100),
                               200, 100)
         self.__actions = set()
-        # self.__guns = [UsualGun(game, process)]
+
 
     def update(self):
         for e in self.process.getEvents():
