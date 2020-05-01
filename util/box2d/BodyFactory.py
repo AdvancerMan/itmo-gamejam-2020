@@ -39,8 +39,8 @@ class BodyFactory:
         """
         return self.__world.CreateBody(userData=owner, type=bodyType, **kwargs)
 
-    def createRectangleBody(self, owner, bodyType: int, width: int, height: int) -> b2Body:
+    def createRectangleBody(self, owner, bodyType: int, width: float, height: float) -> b2Body:
         # owner: InGameObject
         shape = b2PolygonShape()
-        shape.SetAsBox(width, height)
+        shape.SetAsBox(width / 2, height / 2)
         return self.createBody(owner, bodyType, fixtures=b2FixtureDef(shape=shape))
