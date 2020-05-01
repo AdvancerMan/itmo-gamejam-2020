@@ -19,8 +19,10 @@ class InGameObject:
         pass
 
     def draw(self, dst):
-        pos = self.__body.position.tuple
-        self.__animation.blit(dst, (pos[0], -pos[1]))
+        pos = self.__body.position.copy()
+        pos.y *= -1
+        pos = tuple(map(lambda tpl: tpl[0] - tpl[1] / 2, zip(pos.tuple, self.getAABB().size)))
+        self.__animation.blit(dst, pos)
 
     def getBody(self) -> b2Body:
         return self.__body
