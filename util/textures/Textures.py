@@ -23,3 +23,4 @@ class AnimationInfo(Enum):
     PLATFORM_ANIMATION = _createAnimation(1, 1, [100], "pics", "friend.png")
     USUALGUN_BULLET_ANIMATION = _createAnimation(1, 1, [100], "pics", "friend.png")
     USUALGUN_ANIMATION = _createAnimation(1, 1, [100], "pics", "friend.png")
+    STUPID_ENEMY_ANIMATION = _createAnimation(2, 3, [100] * 6, "pics", "friend.png")

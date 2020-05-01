@@ -14,7 +14,7 @@ class ActiveObject(InGameObject):
         self.__gun = UsualGun(game, process)
 
     def go(self, speed):
-        self.getBody().ApplyLinearImpulse(b2Vec2(speed * self.getBody().mass, 0), b2Vec2(0, 0), True)
+        self.getBody().ApplyForceToCenter(b2Vec2(speed, 0), True)
 
     def goLeft(self):
         self.go(-self.__speed)
@@ -23,7 +23,7 @@ class ActiveObject(InGameObject):
         self.go(self.__speed)
 
     def jump(self):
-        self.getBody().ApplyLinearImpulse(b2Vec2(0, self.__jumpPower * self.getBody().mass), b2Vec2(), True)
+        self.getBody().linearVelocity = b2Vec2(self.getBody().linearVelocity.x, self.__jumpPower)
 
     def shoot(self):
         self.__gun.spawnBullet()

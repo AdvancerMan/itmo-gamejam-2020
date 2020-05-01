@@ -4,12 +4,12 @@ from process.Process import Process
 from Box2D import *
 from util.box2d.BodyFactory import BodyFactory
 from objects.friendly.Player import Player
-from objects.platforms.Platform import Platform
 from levels.LevelBuilder import Builder
+
 
 class GameProcess(Process):
     def __init__(self, game: Game):
-        self.__world = b2World()
+        self.__world = b2World((0, -350))
         self.__factory = BodyFactory(self.__world)
         self.__game = game
         self.__prevobjs = set()

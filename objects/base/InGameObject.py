@@ -2,6 +2,15 @@ import pygame as pg
 from Box2D import *
 import pyganim as pga
 from game.Game import Game
+from config.Config import BOX2D_COEF
+
+
+def toPix(x: float) -> float:
+    return x / BOX2D_COEF
+
+
+def toMeters(x: float) -> float:
+    return x * BOX2D_COEF
 
 
 class InGameObject:
@@ -19,18 +28,16 @@ class InGameObject:
         pass
 
     def draw(self, dst):
-        pos = self.__body.position.copy()
-        pos.y *= -1
-        pos = tuple(map(lambda tpl: tpl[0] - tpl[1] / 2, zip(pos.tuple, self.getAABB().size)))
-        self.__animation.blit(dst, pos)
+        pos = self.getAABB().bottomleft
+        self.__animation.blit(dst, (pos[0], -pos[1]))
 
     def getBody(self) -> b2Body:
         return self.__body
 
-    def setPosition(self, x: int, y: int, angle: float):
+    def setPosition(self, x: int, y: int, angle: float = None):
         if angle is None:
             angle = self.__body.angle
-        self.__body.transform = b2Vec2(x, y), angle
+        self.__body.transform = b2Vec2(toMeters(x), toMeters(y)), angle
 
     def getAABB(self):
         aabb = pg.Rect(0, 0, 0, 0)
@@ -42,4 +49,8 @@ class InGameObject:
             x = min(*xs)
             y = min(*ys)
             aabb = aabb.union(pg.Rect(x, y, max(*xs) - x, max(*ys) - y))
-        return aabb
+
+        return pg.Rect(*map(toPix, [aabb.x, aabb.y, aabb.w, aabb.h])).move(*self.getPosition())
+
+    def getPosition(self):
+        return tuple(map(toPix, self.__body.position.tuple))

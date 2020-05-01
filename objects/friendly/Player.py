@@ -12,7 +12,7 @@ class Player(ActiveObject):
         ActiveObject.__init__(self, game, process,
                               game.getTextureManager().getAnimation(AnimationInfo.PLAYER_ANIMATION),
                               process.getFactory().createRectangleBody(self, b2_dynamicBody, 40, 100),
-                              200, 400)
+                              200, 100)
         self.__actions = set()
         # self.__guns = [UsualGun(game, process)]
 

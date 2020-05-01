@@ -1,4 +1,5 @@
 from Box2D import *
+from objects.base.InGameObject import toMeters
 
 
 class BodyFactory:
@@ -42,5 +43,5 @@ class BodyFactory:
     def createRectangleBody(self, owner, bodyType: int, width: float, height: float) -> b2Body:
         # owner: InGameObject
         shape = b2PolygonShape()
-        shape.SetAsBox(width / 2, height / 2)
+        shape.SetAsBox(toMeters(width) / 2, toMeters(height) / 2)
         return self.createBody(owner, bodyType, fixtures=b2FixtureDef(shape=shape))
