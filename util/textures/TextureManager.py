@@ -1,7 +1,7 @@
 import pygame as pg
 import pyganim as pga
 from util.Logger import log
-from util.Textures import TextureInfo, AnimationInfo
+from util.textures.Textures import TextureInfo, AnimationInfo
 from traceback import format_exc
 
 

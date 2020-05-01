@@ -1,7 +1,7 @@
 import pygame as pg
 from game.Game import Game
 from process.Process import Process
-from util.Textures import AnimationInfo
+from util.textures.Textures import AnimationInfo
 
 
 class RainbowProcess(Process):

@@ -19,3 +19,4 @@ class TextureInfo(Enum):
 
 class AnimationInfo(Enum):
     FRIEND_ANIMATION = _createAnimation(2, 3, [100] * 6, "pics", "friend.png")
+    PLAYER_ANIMATION = _createAnimation(2, 3, [100] * 6, "pics", "friend.png")

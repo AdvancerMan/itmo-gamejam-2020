@@ -1,7 +1,7 @@
 import pygame as pg
 from process.Process import Process
 from config.Config import *
-from util.TextureManager import TextureManager
+from util.textures.TextureManager import TextureManager
 
 
 class Game:
