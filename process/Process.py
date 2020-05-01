@@ -10,5 +10,5 @@ class Process:
     def update(self):
         pass
 
-    def draw(self, screen: Surface):
+    def draw(self, dst: Surface):
         pass

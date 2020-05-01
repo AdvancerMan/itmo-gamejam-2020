@@ -46,6 +46,6 @@ class RainbowProcess(Process):
 
         self.__coords = list(map(sum, zip(self.__coords, self.__coordsChange)))
 
-    def draw(self, screen: pg.Surface):
-        screen.fill(tuple(map(lambda x: max(min(x / self.__maxValue * 255, 255), 0), self.__color)))
-        self.__playerAnimation.blit(screen, tuple(self.__coords))
+    def draw(self, dst: pg.Surface):
+        dst.fill(tuple(map(lambda x: max(min(x / self.__maxValue * 255, 255), 0), self.__color)))
+        self.__playerAnimation.blit(dst, tuple(self.__coords))
