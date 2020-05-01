@@ -1,9 +1,19 @@
 from Box2D import *
+from game.Game import Game
+import pyganim as pga
 
 
 class InGameObject:
-    def __init__(self, body: b2Body):
+    def __init__(self, game: Game, animation: pga.PygAnimation, body: b2Body):
         self.__body = body
+        self.__game = game
+        self.__animation = animation
+
+    def update(self):
+        pass
+
+    def draw(self, dst):
+        self.__animation.blit(dst, self.__body.position)
 
     def getBody(self) -> b2Body:
         return self.__body
