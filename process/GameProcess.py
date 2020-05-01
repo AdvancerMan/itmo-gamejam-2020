@@ -9,7 +9,7 @@ from levels.LevelBuilder import Builder
 
 class GameProcess(Process):
     def __init__(self, game: Game):
-        self.__world = b2World()
+        self.__world = b2World((0, -350))
         self.__factory = BodyFactory(self.__world)
         self.__game = game
         self.__objects = set()
