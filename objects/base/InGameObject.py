@@ -7,15 +7,16 @@ class InGameObject:
     def __init__(self, game: Game, process, animation: pga.PygAnimation, body: b2Body):
         # process: GameProcess
         self.__body = body
-        self.__game = game
+        self.game = game
         self.__animation = animation
-        self.__process = process
+        self.process = process
+        animation.play()
 
     def update(self):
         pass
 
     def draw(self, dst):
-        self.__animation.blit(dst, self.__body.position)
+        self.__animation.blit(dst, self.__body.position.tuple)
 
     def getBody(self) -> b2Body:
         return self.__body

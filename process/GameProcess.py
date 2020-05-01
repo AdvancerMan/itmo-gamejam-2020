@@ -14,6 +14,7 @@ class GameProcess(Process):
         self.__objects = set()
         self.__player = Player(game, self)
         self.addObject(self.__player)
+        self.__events = []
 
     def getFactory(self) -> BodyFactory:
         return self.__factory
@@ -26,10 +27,16 @@ class GameProcess(Process):
         for e in events:
             if e.type == pg.QUIT:
                 self.__game.stop()
+        self.__events = events
 
-    def update(self):
+    def getEvents(self) -> list:
+        return self.__events
+
+    def update(self, delta: float):
         for obj in self.__objects:
             obj.update()
+        self.__world.Step(delta, 10, 10)
+        self.__events = []
 
     def draw(self, dst: pg.Surface):
         for obj in self.__objects:

@@ -2,6 +2,7 @@ import pygame as pg
 from process.Process import Process
 from config.Config import *
 from util.textures.TextureManager import TextureManager
+from time import process_time
 
 
 class Game:
@@ -37,11 +38,13 @@ class Game:
     def run(self, process: Process):
         self.__init()
         self.__processesStack.append(process)
+        clock = pg.time.Clock()
         while len(self.__processesStack) > 0 and self.__running:
             process = self.__processesStack[-1]
             process.processEvents(pg.event.get())
-            process.update()
+            process.update(clock.get_time())
             self.__screen.fill(BACKGROUND_COLOR)
             process.draw(self.__screen)
             pg.display.update()
             self.__popProcess()
+            clock.tick(60)

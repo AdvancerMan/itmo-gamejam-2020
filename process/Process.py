@@ -7,7 +7,7 @@ class Process:
     def processEvents(self, events: list):
         pass
 
-    def update(self):
+    def update(self, delta: float):
         pass
 
     def draw(self, dst: Surface):

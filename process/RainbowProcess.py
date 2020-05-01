@@ -35,7 +35,7 @@ class RainbowProcess(Process):
                 elif e.key == pg.K_DOWN:
                     self.__coordsChange[1] += d
 
-    def update(self):
+    def update(self, delta: float):
         self.__color[abs(self.__changingColor) - 1] += self.__step if self.__changingColor > 0 else -self.__step
         if self.__changingColor > 0 and self.__color[abs(self.__changingColor) - 1] >= self.__maxValue:
             self.__changingColor = (self.__changingColor + 1) % 3 + 1
