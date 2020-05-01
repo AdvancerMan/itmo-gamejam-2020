@@ -3,7 +3,7 @@ from game.Game import Game
 from process.Process import Process
 from objects.platforms.Platform import Platform
 import json
-
+from os.path import join
 
 
 class Level:
@@ -13,14 +13,14 @@ class Level:
         self.__process = process
         self.__data = dict()
 
-    def putLevel(self, name):   #name without .json
-        with open("levels\\" + name + ".json") as file:
+    def putLevel(self, name):   # name without .json
+        with open(join("levels", name + ".json")) as file:
             self.__data = json.load(file)
 
     def build(self):
         for plate in self.__data["platforms"]:
-            print(plate)
             self.__process.addObject(Platform(self.__game, self.__process, plate["posX"], plate["posY"]))
+
 
 class Builder:
     def __init__(self, game: Game, process, name):
