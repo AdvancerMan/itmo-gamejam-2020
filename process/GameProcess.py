@@ -5,6 +5,7 @@ from Box2D import *
 from util.box2d.BodyFactory import BodyFactory
 from objects.friendly.Player import Player
 from objects.platforms.Platform import Platform
+from levels.LevelBuilder import Builder
 
 class GameProcess(Process):
     def __init__(self, game: Game):
@@ -15,6 +16,7 @@ class GameProcess(Process):
         self.__player = Player(game, self)
         self.addObject(self.__player)
         self.__events = []
+        Builder(game, self, "L1")
 
     def getFactory(self) -> BodyFactory:
         return self.__factory
