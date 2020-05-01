@@ -1,6 +1,7 @@
 import pygame as pg
 from game.Game import Game
 from process.Process import Process
+from process.GameProcess import GameProcess
 
 
 class MenuProcess(Process):
@@ -11,9 +12,5 @@ class MenuProcess(Process):
         for e in events:
             if e.type == pg.QUIT:
                 self.__game.stop()
-
-
-if __name__ == "__main__":
-    pg.init()
-    game = Game()
-    game.run(MenuProcess(game))
+            if e.type == pg.KEYDOWN:
+                self.__game.addProcess(GameProcess(self.__game))
