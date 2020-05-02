@@ -1,9 +1,12 @@
+import pygame as pg
 import pyganim as pga
 from Box2D import *
 from game.Game import Game
 from objects.base.InGameObject import InGameObject
 from objects.guns.UsualGun import UsualGun
 from util.FloatCmp import lessOrEquals
+from util.Rectangle import Rectangle
+from util.textures.AnimationPack import AnimationName
 
 
 class ActiveObject(InGameObject):
@@ -15,18 +18,27 @@ class ActiveObject(InGameObject):
         self.__jumpPower = jumpPower
         self.__grounds = set()
         self.__gun = UsualGun(game, process)
+        self.__directedToRight = True
 
     def go(self, speed):
+        if self.isOnGround():
+            self.getAnimation().setAnimation(AnimationName.RUN)
         self.getBody().ApplyForceToCenter(b2Vec2(speed, 0), True)
 
     def goLeft(self):
+        self.setDirection(False)
         self.go(-self.__speed)
 
     def goRight(self):
+        self.setDirection(True)
         self.go(self.__speed)
 
     def jump(self):
         if self.isOnGround():
+            # TODO probably not the best solution
+            self.__grounds.clear()
+
+            self.getAnimation().setAnimation(AnimationName.JUMP)
             self.getBody().linearVelocity = b2Vec2(self.getBody().linearVelocity.x, self.__jumpPower)
 
     def shoot(self):
@@ -42,3 +54,12 @@ class ActiveObject(InGameObject):
 
     def endContact(self, obj, contact: b2Contact):
         self.__grounds.discard(obj)
+
+    def setDirection(self, toRight: bool):
+        if toRight != self.__directedToRight:
+            self.getAnimation().flip(True)
+        self.__directedToRight = toRight
+
+    def draw(self, dst: pg.Surface, cameraRect: Rectangle):
+        InGameObject.draw(self, dst, cameraRect)
+

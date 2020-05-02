@@ -14,8 +14,7 @@ class Player(ActiveObject):
                               200, 100)
         self.__actions = set()
 
-
-    def update(self):
+    def preUpdate(self):
         for e in self.process.getEvents():
             if e.type == pg.KEYDOWN or e.type == pg.KEYUP:
                 act = self.__actions.add if e.type == pg.KEYDOWN else self.__actions.discard
