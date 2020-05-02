@@ -31,8 +31,8 @@ class AnimationInfo(Enum):
 
 class AnimationPackInfo(Enum):
     PLAYER_ANIMATION = _createAnimationPack(
-        (AnimationName.STAY, 2, 3, [100] * 6, "pics", "friend.png"),
-        (AnimationName.RUN, 2, 3, [100] * 6, "pics", "friend.png"),
+        (AnimationName.RUN, 1, 4, [200] * 4, "pics", "Player", "Cosmopoc_walk.png"),
+        (AnimationName.STAY, 1, 1, [100], "pics", "Player", "Cosmopoc_static.png"),
         (AnimationName.JUMP, 2, 3, [100] * 6, "pics", "friend.png")
     )
     PLATFORM_ANIMATION = _createAnimationPack(
