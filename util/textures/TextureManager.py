@@ -1,7 +1,8 @@
 import pygame as pg
 import pyganim as pga
 from util.Logger import log
-from util.textures.Textures import TextureInfo, AnimationInfo
+from util.textures.AnimationPack import AnimationPack
+from util.textures.Textures import TextureInfo, AnimationInfo, AnimationPackInfo
 from traceback import format_exc
 
 
@@ -9,8 +10,17 @@ class TextureManager:
     def __init__(self):
         self.__textures = {}
 
+    def getAnimationPack(self, animationPackInfo: AnimationPackInfo):
+        animationInfos = animationPackInfo.value
+        animations = {}
+        for name, animationInfo in animationInfos.items():
+            animations[name] = self.__getAnimation(*animationInfo)
+        return AnimationPack(animations)
+
     def getAnimation(self, animationInfo: AnimationInfo) -> pga.PygAnimation:
-        path, loadTexture, duration = animationInfo.value
+        return self.__getAnimation(*animationInfo.value)
+
+    def __getAnimation(self, path: str, loadTexture, duration: list) -> pga.PygAnimation:
         textures = self.__getTexture(path, loadTexture)
         if len(textures) != len(duration):
             textures = textures * len(duration)

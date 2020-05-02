@@ -1,9 +1,9 @@
 import pygame as pg
 from Box2D import *
-import pyganim as pga
 from game.Game import Game
 from config.Config import BOX2D_COEF
 from util.Rectangle import Rectangle, rectFromTwoPoints, rectFromSize
+from util.textures.AnimationPack import AnimationPack
 
 
 def toPix(x: float) -> float:
@@ -15,7 +15,8 @@ def toMeters(x: float) -> float:
 
 
 class InGameObject:
-    def __init__(self, game: Game, process, animation: pga.PygAnimation, body: b2Body):
+    def __init__(self, game: Game, process, animation: AnimationPack, body: b2Body):
+        assert isinstance(animation, AnimationPack)
         # process: GameProcess
         self.__body = body
         body.userData = self
@@ -24,7 +25,6 @@ class InGameObject:
 
         self.__animation = animation
         animation.scale(tuple(map(int, self.getAABB().size())))
-        animation.play()
 
     def update(self):
         pass
