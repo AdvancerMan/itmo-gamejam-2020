@@ -1,6 +1,7 @@
 from Box2D import *
 from game.Game import Game
 from objects.base.InGameObject import InGameObject
+from objects.enemy.objects.Ant import Ant
 from objects.enemy.objects.StupidEnemy import StupidEnemy
 from objects.friendly.Player import Player
 from util.box2d.BodyFactory import createRectangleBodyTemplate
@@ -10,7 +11,8 @@ from util.textures.Textures import AnimationPackInfo
 
 class Spawner(InGameObject):
     SPAWNER_INFO = {
-        StupidEnemy: (AnimationPackInfo.STUPID_ENEMY_ANIMATION, createRectangleBodyTemplate(b2_dynamicBody, 40, 100))
+        StupidEnemy: (AnimationPackInfo.STUPID_ENEMY_ANIMATION, createRectangleBodyTemplate(b2_dynamicBody, 40, 100)),
+        Ant: (AnimationPackInfo.ANT_ANIMATION, createRectangleBodyTemplate(b2_dynamicBody, 20, 10))
     }
 
     def __init__(self, game: Game, process, player: Player,
@@ -24,3 +26,6 @@ class Spawner(InGameObject):
         self.__Constructor(animation=Spawner.SPAWNER_INFO[self.__Constructor][0],
                            body=Spawner.SPAWNER_INFO[self.__Constructor][1],
                            **self.__kwargs)
+
+    def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
+        contact.enabled = False
