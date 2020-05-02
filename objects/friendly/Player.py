@@ -20,7 +20,6 @@ class Player(ActiveObject):
         self.shootAngle = 0
         posMX, posMY = pg.mouse.get_pos()
         self.shootAngle = b2Vec2(posMX - WINDOW_RESOLUTION[0] / 2, WINDOW_RESOLUTION[1] / 2 - posMY)
-        print(self.shootAngle)
 
     def preUpdate(self, delta: float):
         super().preUpdate(delta)
