@@ -31,7 +31,7 @@ class GameProcess(Process):
         self.addObject(self.__player)
 
         self.__builder = Builder(game)
-        self.__builder.build(self, "L1")
+        self.__builder.build(self, self.__player, "L1")
 
     def centerCameraAt(self, x: float, y: float):
         self.__cameraRect.centerAt(x, y)
@@ -41,6 +41,9 @@ class GameProcess(Process):
 
     def getFactory(self) -> BodyFactory:
         return self.__factory
+
+    def getObjects(self) -> set:
+        return self.__objects
 
     def addObject(self, obj):
         # obj: InGameObject
