@@ -2,6 +2,7 @@ import pygame as pg
 from Box2D import *
 from game.Game import Game
 from config.Config import BOX2D_COEF
+from util.FloatCmp import lessOrEquals
 from util.Rectangle import Rectangle, rectFromTwoPoints, rectFromSize
 from util.textures.AnimationPack import AnimationPack
 
@@ -52,6 +53,10 @@ class InGameObject:
     def setPosition(self, x: float, y: float):
         size = self.getAABB().size()
         self.setTransform(x + size[0] / 2, y + size[1] / 2)
+
+    def isAbove(self, obj):
+        objAABB = obj.getAABB()
+        return lessOrEquals(objAABB[1].y + objAABB[1].h, self.getAABB().y)
 
     def getAABB(self) -> Rectangle:
         aabb = rectFromTwoPoints(0, 0, 0, 0)
