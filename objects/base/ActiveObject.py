@@ -4,6 +4,7 @@ from game.Game import Game
 from objects.base.InGameObject import InGameObject
 from objects.guns.UsualGun import UsualGun
 
+
 class ActiveObject(InGameObject):
     def __init__(self, game: Game, process, animation: pga.PygAnimation, body: b2Body,
                  speed: float, jumpPower: float):

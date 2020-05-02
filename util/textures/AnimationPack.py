@@ -16,7 +16,12 @@ class AnimationPack:
             assert isinstance(name, AnimationName)
             assert isinstance(anim, pga.PygAnimation)
         self.__animations = animations
-        self.__animation = next(iter(animations.keys()))
+        self.__animation = next(iter(animations.values()))
+        self.__animation.play()
+
+    def scale(self, size: tuple):
+        for anim in self.__animations.values():
+            anim.scale(size)
 
     def setAnimation(self, name: AnimationName):
         self.__animation.stop()

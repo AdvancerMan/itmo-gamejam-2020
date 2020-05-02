@@ -2,15 +2,14 @@ import pygame as pg
 from Box2D import *
 from game.Game import Game
 from objects.base.ActiveObject import ActiveObject
-from util.textures.Textures import AnimationInfo
-from objects.guns.UsualGun import UsualGun
+from util.textures.Textures import AnimationPackInfo
 
 
 class Player(ActiveObject):
     def __init__(self, game: Game, process):
         # process: GameProcess
         ActiveObject.__init__(self, game, process,
-                              game.getTextureManager().getAnimation(AnimationInfo.PLAYER_ANIMATION),
+                              game.getTextureManager().getAnimationPack(AnimationPackInfo.PLAYER_ANIMATION),
                               process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100),
                               200, 100)
         self.__actions = set()
