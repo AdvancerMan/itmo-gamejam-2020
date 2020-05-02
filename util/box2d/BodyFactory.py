@@ -13,6 +13,16 @@ class BodyTemplate:
         return factory.createBody(**self.__kwargs)
 
 
+def _getRectangleBodyInfo(bodyType: int, width: float, height: float) -> dict:
+    shape = b2PolygonShape()
+    shape.SetAsBox(toMeters(width) / 2, toMeters(height) / 2)
+    return {"bodyType": bodyType, "fixtures": b2FixtureDef(shape=shape)}
+
+
+def createRectangleBodyTemplate(bodyType: int, width: float, height: float) -> BodyTemplate:
+    return BodyTemplate(**_getRectangleBodyInfo(bodyType, width, height))
+
+
 class BodyFactory:
     def __init__(self, world: b2World):
         self.__world = world
@@ -49,13 +59,5 @@ class BodyFactory:
         """
         return self.__world.CreateBody(type=bodyType, **kwargs)
 
-    def __getRectangleBodyInfo(self, bodyType: int, width: float, height: float) -> dict:
-        shape = b2PolygonShape()
-        shape.SetAsBox(toMeters(width) / 2, toMeters(height) / 2)
-        return {"bodyType": bodyType, "fixtures": b2FixtureDef(shape=shape)}
-
-    def createRectangleBodyTemplate(self, bodyType: int, width: float, height: float) -> BodyTemplate:
-        return BodyTemplate(**self.__getRectangleBodyInfo(bodyType, width, height))
-
     def createRectangleBody(self, bodyType: int, width: float, height: float) -> b2Body:
-        return self.createBody(**self.__getRectangleBodyInfo(bodyType, width, height))
+        return self.createBody(**_getRectangleBodyInfo(bodyType, width, height))

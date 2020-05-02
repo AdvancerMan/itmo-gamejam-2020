@@ -21,7 +21,7 @@ class Enemy(ActiveObject):
         pass
 
     def think(self) -> set:
-        pass
+        return set()
 
     def act(self, actions: set):
         for action in actions:
