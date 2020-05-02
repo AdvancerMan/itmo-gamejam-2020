@@ -3,22 +3,26 @@ from Box2D import *
 from game.Game import Game
 from objects.base.InGameObject import InGameObject
 from util.box2d.BodyFactory import BodyTemplate
-from objects.enemy.objects.StupidEnemy import StupidEnemy
 
 
 class Bullet(InGameObject):
     def __init__(self, game, process, animation: pga.PygAnimation,
                  params: dict, owner, body: b2Body):
         InGameObject.__init__(self, game, process, animation, body)
+        self.__params = params
         posX, posY = owner.getPosition()
         direction = owner.shootAngle
         direction.Normalize()
-        if params["bulletType"] == "OneDirection" or params["bulletType"] == "Ballistic":
+        if self.__params["bulletType"] == "OneDirection" or self.__params["bulletType"] == "Ballistic":
             self.setPosition(posX + (50 * direction).x, posY + (50 * direction).y)
-            self.getBody().linearVelocity = params["bulletSpeed"] * direction
+            self.getBody().linearVelocity = params["bulletSpeed"] * direction + owner.getBody().linearVelocity
+
+    def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
+        contact.enabled = False
 
     def beginContact(self, obj, contact: b2Contact):
-        obj.takeDamage(123)
+        obj.takeDamage(self.__params["bulletPower"])
+        self.process.removeObject(self)
 
 
 class Gun:
@@ -43,7 +47,7 @@ class Gun:
         self.__owner = owner
         self.__game = game
         self.__process = process
-        self.__params = params      # params = {"bulletSpeed", "bulletType"}
+        self.__params = params      # params = {"bulletSpeed", "bulletType", "bulletPower"}
                                     # maybe add "deviation" and "angle"
         self.__bulletAnimation = bulletAnim
         self.__gunAnimation = gunAnim

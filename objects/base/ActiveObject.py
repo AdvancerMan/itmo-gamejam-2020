@@ -24,7 +24,7 @@ class ActiveObject(InGameObject):
         self.__acting = False  # used to make proper animation
         self.__lastShoot = 10   # more then any cooldown
         self.shootAngle = b2Vec2(1, 0)  # shoot direction
-        self.hp = PLAYER_HP
+        self.hp = 1.0
 
     def updateAnimation(self):
         if self.getAnimation().isFinished():
@@ -77,6 +77,11 @@ class ActiveObject(InGameObject):
         if self.__lastShoot > self.guns[0].cooldown:
             self.guns[0].spawnBullet(self)
             self.__lastShoot = 0
+
+    def takeDamage(self, amount: float):
+        self.hp -= amount       # gameprocess, removeobject
+        if self.hp <= 0:
+            self.process.removeObject(self)
 
     def changeGunRight(self):
         self.__lastShoot = 0

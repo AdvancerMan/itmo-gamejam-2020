@@ -23,7 +23,6 @@ class InGameObject:
         body.userData = self
         self.game = game
         self.process = process
-
         self.__animation = animation
         animation.scale(tuple(map(int, self.getAABB().size())))
 
