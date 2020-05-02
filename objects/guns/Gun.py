@@ -11,8 +11,9 @@ class Bullet(InGameObject):
         InGameObject.__init__(self, game, process, animation, body)
         posX, posY = owner.getPosition()
         direction = owner.shootAngle
+        direction.Normalize()
         if params["bulletType"] == "OneDirection" or params["bulletType"] == "Ballistic":
-            self.setPosition(posX + 100, posY)
+            self.setPosition(posX + (50 * direction).x, posY + (50 * direction).y)
             self.getBody().linearVelocity = params["bulletSpeed"] * direction
 
 
