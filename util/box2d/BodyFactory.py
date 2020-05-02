@@ -16,7 +16,7 @@ class BodyTemplate:
 def _getRectangleBodyInfo(bodyType: int, width: float, height: float) -> dict:
     shape = b2PolygonShape()
     shape.SetAsBox(toMeters(width) / 2, toMeters(height) / 2)
-    return {"bodyType": bodyType, "fixtures": b2FixtureDef(shape=shape)}
+    return {"bodyType": bodyType, "fixtures": b2FixtureDef(friction=0, shape=shape)}
 
 
 def createRectangleBodyTemplate(bodyType: int, width: float, height: float) -> BodyTemplate:

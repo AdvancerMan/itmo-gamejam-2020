@@ -15,10 +15,10 @@ from util.box2d.ContactListener import ContactListener
 
 
 class GameProcess(Process):
-    SAFE_RADIUS2 = 10000 * 10000
+    SAFE_RADIUS2 = 3000 * 3000
 
     def __init__(self, game: Game):
-        self.__world = b2World((0, -350))
+        self.__world = b2World((0, -100))
         self.__contactListener = ContactListener()
         self.__world.contactListener = self.__contactListener
         self.__factory = BodyFactory(self.__world)
