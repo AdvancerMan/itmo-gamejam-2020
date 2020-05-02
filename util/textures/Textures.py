@@ -46,6 +46,12 @@ class AnimationPackInfo(Enum):
     USUALGUN_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
     )
+    BALLISTICGUN_BULLET_ANIMATION = _createAnimationPack(
+        (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
+    )
+    BALLISTICGUN_ANIMATION = _createAnimationPack(
+        (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
+    )
     STUPID_ENEMY_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 2, 3, [100] * 6, "pics", "friend.png")
     )

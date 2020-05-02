@@ -7,11 +7,15 @@ from util.box2d.BodyFactory import BodyTemplate
 
 class Bullet(InGameObject):
     def __init__(self, game, process, animation: pga.PygAnimation,
-                 speed: float, body: b2Body):
+                 params: dict, posX, posY, body: b2Body):
         InGameObject.__init__(self, game, process, animation, body)
-        self.getBody().linearVelocity = b2Vec2(speed, 0.0)
-        self.setPosition(100, -100)
+        if params["bulletType"] == "OneDirection":
+            self.setPosition(posX + 100, posY)
+            self.getBody().linearVelocity = b2Vec2(params["bulletSpeed"], 0.0)
 
+        if params["bulletType"] == "Ballistic":
+            self.getBody().linearVelocity = b2Vec2(params["bulletSpeed"], params["bulletSpeed"])
+            self.setPosition(posX + 100, posY)
 
 class Gun:
     """
@@ -34,13 +38,13 @@ class Gun:
         # process: GameProcess
         self.__game = game
         self.__process = process
-        self.__params = params      # params = {"bulletSpeed"}
+        self.__params = params      # params = {"bulletSpeed", "bulletType"}
                                     # maybe add "deviation" and "angle"
         self.__bulletAnimation = bulletAnim
         self.__gunAnimation = gunAnim
         self.__bulletBody = bulletBodyTemplate
 
-    def spawnBullet(self):
+    def spawnBullet(self, posX, posY):
         self.__process.addObject(Bullet(self.__game, self.__process, self.__bulletAnimation,
-                                        self.__params['bulletSpeed'],
+                                        self.__params, posX, posY,
                                         self.__bulletBody.createBody(self.__process.getFactory())))

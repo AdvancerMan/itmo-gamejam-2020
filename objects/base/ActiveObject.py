@@ -3,7 +3,8 @@ import pyganim as pga
 from Box2D import *
 from game.Game import Game
 from objects.base.InGameObject import InGameObject
-from objects.guns.UsualGun import UsualGun
+from objects.guns.PlayerGuns import UsualGun
+from objects.guns.PlayerGuns import BallisticGun
 from util.FloatCmp import lessOrEquals
 from util.Rectangle import Rectangle
 from util.textures.AnimationPack import AnimationName, AnimationPack
@@ -17,7 +18,7 @@ class ActiveObject(InGameObject):
         self.__speed = speed
         self.__jumpPower = jumpPower
         self.__grounds = set()
-        self.__gun = UsualGun(game, process)
+        self.__gun = BallisticGun(game, process)
         self.__directedToRight = True
         self.__acting = False
 
@@ -63,7 +64,7 @@ class ActiveObject(InGameObject):
             self.getBody().linearVelocity = b2Vec2(self.getBody().linearVelocity.x, self.__jumpPower)
 
     def shoot(self):
-        self.__gun.spawnBullet()
+        self.__gun.spawnBullet(self.getPosition()[0], self.getPosition()[1])
 
     def isOnGround(self):
         return len(self.__grounds) > 0
