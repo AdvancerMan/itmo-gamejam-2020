@@ -18,8 +18,8 @@ class Player(ActiveObject):
     def preUpdate(self, delta: float):
         super().preUpdate(delta)
         for e in self.process.getEvents():
-            if e.type == pg.KEYDOWN or e.type == pg.KEYUP:
-                act = self.__actions.add if e.type == pg.KEYDOWN else self.__actions.discard
+            act = self.__actions.add if e.type in (pg.KEYDOWN, pg.MOUSEBUTTONDOWN) else self.__actions.discard
+            if e.type in (pg.KEYDOWN, pg.KEYUP):
                 if e.key == pg.K_d:
                     act("goRight")
                 elif e.key == pg.K_a:
@@ -28,6 +28,10 @@ class Player(ActiveObject):
                     act("jump")
                 elif e.key == pg.K_r:
                     act("shoot")
+            elif e.type in (pg.MOUSEBUTTONDOWN, pg.MOUSEBUTTONUP):
+                if e.button == pg.BUTTON_LEFT:
+                    act("shoot")
+
             if e.type == pg.KEYDOWN:
                 if e.key == pg.K_e:
                     self.changeGunRight()
