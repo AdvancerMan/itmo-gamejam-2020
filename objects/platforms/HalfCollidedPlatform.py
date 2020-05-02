@@ -14,7 +14,7 @@ class HalfCollidedPlatform(Platform):
 
     def beginContact(self, obj, contact: b2Contact):
         super().beginContact(obj, contact)
-        if obj.isAbove(self):
+        if not obj.isAbove(self):
             self.__notColliding.add(obj)
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):

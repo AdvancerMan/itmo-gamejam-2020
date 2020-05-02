@@ -27,7 +27,7 @@ class InGameObject:
         self.__animation = animation
         animation.scale(tuple(map(int, self.getAABB().size())))
 
-    def preUpdate(self):
+    def preUpdate(self, delta: float):
         pass
 
     def postUpdate(self):

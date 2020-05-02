@@ -2,6 +2,9 @@ from game.Game import Game
 import json
 from os.path import join
 
+from objects.enemy.objects.Enemy import Enemy
+from objects.enemy.objects.StupidEnemy import StupidEnemy
+from objects.friendly.Player import Player
 from objects.platforms.HalfCollidedPlatform import HalfCollidedPlatform
 from objects.platforms.SolidPlatform import SolidPlatform
 
@@ -17,11 +20,14 @@ class Builder:
         self.__game = game
         self.__objects = {
             "solid": SolidPlatform,
-            "halfCol": HalfCollidedPlatform
+            "halfCol": HalfCollidedPlatform,
+            "stupid": StupidEnemy
         }
 
-    def build(self, process, levelName: str):
+    def build(self, process, player: Player, levelName: str):
         for class_name, objs in loadLevel(levelName).items():
             Constructor = self.__objects[class_name]
             for kwargs in objs:
+                if issubclass(Constructor, Enemy):
+                    kwargs["player"] = player
                 process.addObject(Constructor(self.__game, process, **kwargs))
