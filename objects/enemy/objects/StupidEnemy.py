@@ -1,6 +1,6 @@
 from Box2D import *
 from game.Game import Game
-from objects.enemy.Enemy import Enemy
+from objects.enemy.objects.Enemy import Enemy
 from objects.friendly.Player import Player
 from util.textures.Textures import AnimationInfo
 
