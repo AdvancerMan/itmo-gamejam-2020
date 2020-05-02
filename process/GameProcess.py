@@ -3,6 +3,7 @@ import pygame as pg
 from config.Config import WINDOW_RESOLUTION
 from game.Game import Game
 from objects.base.InGameObject import InGameObject
+from objects.platforms.Platform import Platform
 from process.Process import Process
 from Box2D import *
 
@@ -14,6 +15,8 @@ from util.box2d.ContactListener import ContactListener
 
 
 class GameProcess(Process):
+    SAFE_RADIUS2 = 10000 * 10000
+
     def __init__(self, game: Game):
         self.__world = b2World((0, -350))
         self.__contactListener = ContactListener()
@@ -71,9 +74,17 @@ class GameProcess(Process):
 
         for obj in self.__objects:
             obj.postUpdate()
+            self.checkRadius(obj)
 
         self.__events = []
         self.centerCameraAtObj(self.__player)
+
+    def checkRadius(self, obj):
+        if b2Vec2(*obj.getPosition()).lengthSquared >= GameProcess.SAFE_RADIUS2:
+            if obj == self.__player:
+                obj.setPosition(0, 0)
+            else:
+                self.removeObject(obj)
 
     def draw(self, dst: pg.Surface):
         for obj in self.__objects:
