@@ -27,14 +27,17 @@ class Rectangle:
         # other: Rect
         self.x = min(self.x, other.x)
         self.y = min(self.y, other.y)
-        self.w = min(self.w, other.w)
-        self.h = min(self.h, other.h)
+        self.w = max(self.w, other.w)
+        self.h = max(self.h, other.h)
         return self
 
     def move(self, x, y):
         self.x += x
         self.y += y
         return self
+
+    def __str__(self):
+        return str((self.x, self.y, self.w, self.h))
 
 
 def rectFromTwoPoints(x1: float, y1: float, x2: float, y2: float) -> Rectangle:
