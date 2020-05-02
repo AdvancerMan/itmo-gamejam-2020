@@ -4,6 +4,7 @@ from game.Game import Game
 from objects.base.ActiveObject import ActiveObject
 from util.textures.Textures import AnimationPackInfo
 from objects.guns.PlayerGuns import *
+from config.Config import *
 
 
 class Player(ActiveObject):
@@ -15,8 +16,15 @@ class Player(ActiveObject):
                               200, 400, [UsualGun(game, process, self), BallisticGun(game, process, self)])
         self.__actions = set()
 
+    def angleUpdate(self):
+        self.shootAngle = 0
+        posMX, posMY = pg.mouse.get_pos()
+        self.shootAngle = b2Vec2(posMX - WINDOW_RESOLUTION[0] / 2, WINDOW_RESOLUTION[1] / 2 - posMY)
+        print(self.shootAngle)
+
     def preUpdate(self, delta: float):
         super().preUpdate(delta)
+        self.angleUpdate()
         for e in self.process.getEvents():
             if e.type == pg.KEYDOWN or e.type == pg.KEYUP:
                 act = self.__actions.add if e.type == pg.KEYDOWN else self.__actions.discard

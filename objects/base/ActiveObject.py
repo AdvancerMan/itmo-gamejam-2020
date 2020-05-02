@@ -3,8 +3,7 @@ import pyganim as pga
 from Box2D import *
 from game.Game import Game
 from objects.base.InGameObject import InGameObject
-from objects.guns.PlayerGuns import UsualGun
-from objects.guns.PlayerGuns import BallisticGun
+from objects.guns.PlayerGuns import *
 from util.FloatCmp import lessOrEquals
 from util.Rectangle import Rectangle
 from util.textures.AnimationPack import AnimationName, AnimationPack
@@ -22,6 +21,7 @@ class ActiveObject(InGameObject):
         self.__directedToRight = True
         self.__acting = False
         self.__lastShoot = 10   # more then any cooldown
+        self.shootAngle = b2Vec2(1, 0)  # shoot direction
 
     def updateAnimation(self):
         if self.getAnimation().isFinished():
