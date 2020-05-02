@@ -2,6 +2,18 @@ from Box2D import *
 from objects.base.InGameObject import toMeters
 
 
+class BodyTemplate:
+    def __init__(self, **kwargs):
+        assert "bodyType" in kwargs.keys()
+        kwargs["owner"] = None
+        self.__kwargs = kwargs
+
+    def createBody(self, factory):
+        # factory: BodyFactory
+        # Note: after creating you should set body owner (use setUserData())
+        return factory.createBody(**self.__kwargs)
+
+
 class BodyFactory:
     def __init__(self, world: b2World):
         self.__world = world
@@ -40,8 +52,16 @@ class BodyFactory:
         """
         return self.__world.CreateBody(userData=owner, type=bodyType, **kwargs)
 
-    def createRectangleBody(self, owner, bodyType: int, width: float, height: float) -> b2Body:
+    def __getRectangleBodyInfo(self, owner, bodyType: int, width: float, height: float) -> dict:
         # owner: InGameObject
         shape = b2PolygonShape()
         shape.SetAsBox(toMeters(width) / 2, toMeters(height) / 2)
-        return self.createBody(owner, bodyType, fixtures=b2FixtureDef(shape=shape))
+        return {"owner": owner, "bodyType": bodyType, "fixtures": b2FixtureDef(shape=shape)}
+
+    def createRectangleBodyTemplate(self, bodyType: int, width: float, height: float) -> BodyTemplate:
+        # owner: InGameObject
+        return BodyTemplate(**self.__getRectangleBodyInfo(None, bodyType, width, height))
+
+    def createRectangleBody(self, owner, bodyType: int, width: float, height: float) -> b2Body:
+        # owner: InGameObject
+        return self.createBody(**self.__getRectangleBodyInfo(owner, bodyType, width, height))
