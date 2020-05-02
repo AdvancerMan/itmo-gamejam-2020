@@ -48,7 +48,7 @@ class ActiveObject(InGameObject):
     def go(self, speed):
         if self.isOnGround():
             self.getAnimation().setAnimation(AnimationName.RUN)
-        self.getBody().ApplyForceToCenter(b2Vec2(speed, 0), True)
+        self.getBody().linearVelocity.x = speed
         self.__acting = True
 
     def goLeft(self):
