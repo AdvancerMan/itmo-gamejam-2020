@@ -1,7 +1,8 @@
 from game.Game import Game
-from objects.platforms.Platform import Platform
 import json
 from os.path import join
+
+from objects.platforms.SolidPlatform import SolidPlatform
 
 
 def loadLevel(levelName: str):   # name without .json
@@ -16,4 +17,4 @@ class Builder:
 
     def build(self, process, levelName: str):
         for plate in loadLevel(levelName)["platforms"]:
-            process.addObject(Platform(self.__game, process, plate["x"], plate["y"], plate["width"], plate["height"]))
+            process.addObject(SolidPlatform(self.__game, process, plate["x"], plate["y"], plate["width"], plate["height"]))
