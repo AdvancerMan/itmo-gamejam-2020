@@ -12,6 +12,7 @@ class UsualGun(Gun):
                      process.getFactory().createRectangleBodyTemplate(b2_kinematicBody, 10, 10),
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.USUALGUN_ANIMATION),
                      {"bulletSpeed": 800, "bulletType": "OneDirection"}, owner)
+        self.cooldown = 0.3
 
 
 class BallisticGun(Gun):
@@ -21,3 +22,4 @@ class BallisticGun(Gun):
                      process.getFactory().createRectangleBodyTemplate(b2_dynamicBody, 10, 10),
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.BALLISTICGUN_ANIMATION),
                      {"bulletSpeed": 800, "bulletType": "Ballistic"}, owner)
+        self.cooldown = 0.7

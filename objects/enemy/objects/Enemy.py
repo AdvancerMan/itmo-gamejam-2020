@@ -8,12 +8,13 @@ from util.textures.AnimationPack import AnimationPack
 class Enemy(ActiveObject):
     def __init__(self, game: Game, process, player: Player,
                  animation: AnimationPack, body: b2Body,
-                 speed: float, jumpPower: float):
+                 speed: float, jumpPower: float, guns: list):
         # process: GameProcess
-        ActiveObject.__init__(self, game, process, animation, body, speed, jumpPower)
+        ActiveObject.__init__(self, game, process, animation, body, speed, jumpPower, guns)
         self.__player = player
 
     def preUpdate(self, delta: float):
+        super().preUpdate(delta)
         self.sense(self.__player, self.process.getObjects())
         self.act(self.think())
 

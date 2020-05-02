@@ -21,6 +21,7 @@ class ActiveObject(InGameObject):
         self.guns = guns
         self.__directedToRight = True
         self.__acting = False
+        self.__lastShoot = 10   # more then any cooldown
 
     def updateAnimation(self):
         if self.getAnimation().isFinished():
@@ -37,6 +38,9 @@ class ActiveObject(InGameObject):
                 and not self.__acting:
             self.getAnimation().setAnimation(AnimationName.STAY)
         self.__acting = False
+
+    def preUpdate(self, delta: float):
+        self.__lastShoot += delta
 
     def postUpdate(self):
         self.updateAnimation()
@@ -64,13 +68,17 @@ class ActiveObject(InGameObject):
             self.getBody().linearVelocity = b2Vec2(self.getBody().linearVelocity.x, self.__jumpPower)
 
     def shoot(self):
-        self.guns[0].spawnBullet(self)
+        if self.__lastShoot > self.guns[0].cooldown:
+            self.guns[0].spawnBullet(self)
+            self.__lastShoot = 0
 
     def changeGunRight(self):
+        self.__lastShoot = 0
         for i in range(len(self.guns) - 1):
             self.guns[i], self.guns[i + 1] = self.guns[i + 1], self.guns[i]
 
     def changeGunLeft(self):
+        self.__lastShoot = 0
         for i in range(len(self.guns) - 1, 0, -1):
             self.guns[i], self.guns[i - 1] = self.guns[i - 1], self.guns[i]
 
