@@ -1,7 +1,12 @@
 import pygame as pg
+
+from config.Config import WINDOW_RESOLUTION
 from game.Game import Game
+from objects.base.InGameObject import InGameObject
 from process.Process import Process
 from Box2D import *
+
+from util.Rectangle import rectFromSize
 from util.box2d.BodyFactory import BodyFactory
 from objects.friendly.Player import Player
 from levels.LevelBuilder import Builder
@@ -11,14 +16,24 @@ class GameProcess(Process):
     def __init__(self, game: Game):
         self.__world = b2World((0, -350))
         self.__factory = BodyFactory(self.__world)
+
         self.__game = game
+        self.__events = []
         self.__justCreatedObjs = set()
         self.__objects = set()
+        self.__cameraRect = rectFromSize(0, -WINDOW_RESOLUTION[1], *WINDOW_RESOLUTION)
+
         self.__player = Player(game, self)
         self.addObject(self.__player)
-        self.__events = []
+
         self.__builder = Builder(game)
         self.__builder.build(self, "L1")
+
+    def centerCameraAt(self, x: float, y: float):
+        self.__cameraRect.centerAt(x, y)
+
+    def centerCameraAtObj(self, obj: InGameObject):
+        self.centerCameraAt(*obj.getPosition())
 
     def getFactory(self) -> BodyFactory:
         return self.__factory
@@ -43,7 +58,8 @@ class GameProcess(Process):
             obj.update()
         self.__world.Step(delta, 10, 10)
         self.__events = []
+        self.centerCameraAtObj(self.__player)
 
     def draw(self, dst: pg.Surface):
         for obj in self.__objects:
-            obj.draw(dst)
+            obj.draw(dst, self.__cameraRect)

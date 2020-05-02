@@ -29,9 +29,11 @@ class InGameObject:
     def update(self):
         pass
 
-    def draw(self, dst):
+    def draw(self, dst: pg.Surface, cameraRect: Rectangle):
         aabb = self.getAABB()
-        self.__animation.blit(dst, (aabb.x, -(aabb.y + aabb.h)))
+        if aabb.intersects(cameraRect):
+            aabb.move(*map(lambda x: -x, cameraRect.pos()))
+            self.__animation.blit(dst, (aabb.x, cameraRect.h - aabb.y - aabb.h))
 
     def getBody(self) -> b2Body:
         return self.__body
@@ -45,6 +47,7 @@ class InGameObject:
         aabb = rectFromTwoPoints(0, 0, 0, 0)
         for fixture in self.__body.fixtures:
             if not isinstance(fixture.shape, b2PolygonShape):
+                # TODO aabb for not polygon shapes
                 raise NotImplementedError("TODO")
             xs = list(map(lambda tpl: tpl[0], fixture.shape.vertices))
             ys = list(map(lambda tpl: tpl[1], fixture.shape.vertices))
