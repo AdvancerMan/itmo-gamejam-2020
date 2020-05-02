@@ -105,5 +105,8 @@ class ActiveObject(InGameObject):
             self.__directedToRight = toRight
             self.getAnimation().flip(True)
 
+    def changeDirection(self):
+        self.setDirection(not self.__directedToRight)
+
     def draw(self, dst: pg.Surface, cameraRect: Rectangle):
         InGameObject.draw(self, dst, cameraRect)

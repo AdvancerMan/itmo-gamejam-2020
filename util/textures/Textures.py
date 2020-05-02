@@ -53,3 +53,4 @@ class AnimationPackInfo(Enum):
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
     )
     STUPID_ENEMY_ANIMATION = PLAYER_ANIMATION
+    ANT_ANIMATION = PLAYER_ANIMATION
