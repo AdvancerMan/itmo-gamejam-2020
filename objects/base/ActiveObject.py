@@ -64,14 +64,14 @@ class ActiveObject(InGameObject):
             self.getBody().linearVelocity = b2Vec2(self.getBody().linearVelocity.x, self.__jumpPower)
 
     def shoot(self):
-        self.guns[0].spawnBullet(self.getPosition()[0], self.getPosition()[1])
+        self.guns[0].spawnBullet(self)
 
     def changeGunRight(self):
         for i in range(len(self.guns) - 1):
             self.guns[i], self.guns[i + 1] = self.guns[i + 1], self.guns[i]
 
     def changeGunLeft(self):
-        for i in range(len(self.guns) - 1, -1, -1):
+        for i in range(len(self.guns) - 1, 0, -1):
             self.guns[i], self.guns[i - 1] = self.guns[i - 1], self.guns[i]
 
     def isOnGround(self):

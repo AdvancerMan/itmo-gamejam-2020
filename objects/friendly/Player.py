@@ -12,7 +12,7 @@ class Player(ActiveObject):
         ActiveObject.__init__(self, game, process,
                               game.getTextureManager().getAnimationPack(AnimationPackInfo.PLAYER_ANIMATION),
                               process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100),
-                              200, 400, [UsualGun(game, process), BallisticGun(game, process)])
+                              200, 400, [UsualGun(game, process, self), BallisticGun(game, process, self)])
         self.__actions = set()
 
     def preUpdate(self):
