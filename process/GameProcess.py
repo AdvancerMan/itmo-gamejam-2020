@@ -22,7 +22,8 @@ class GameProcess(Process):
 
         self.__game = game
         self.__events = []
-        self.__justCreatedObjs = set()
+        self.__justCreatedObjects = set()
+        self.__removedObjects = set()
         self.__objects = set()
         self.__cameraRect = rectFromSize(0, -WINDOW_RESOLUTION[1], *WINDOW_RESOLUTION)
 
@@ -43,7 +44,10 @@ class GameProcess(Process):
 
     def addObject(self, obj):
         # obj: InGameObject
-        self.__justCreatedObjs.add(obj)
+        self.__justCreatedObjects.add(obj)
+
+    def removeObject(self, obj):
+        self.__removedObjects.add(obj)
 
     def processEvents(self, events: list):
         for e in events:
@@ -57,8 +61,8 @@ class GameProcess(Process):
     def update(self, delta: float):
         for obj in self.__objects:
             obj.update()
-        self.__objects = self.__objects.union(self.__justCreatedObjs)
-        self.__justCreatedObjs.clear()
+        self.__objects = self.__objects.union(self.__justCreatedObjects)
+        self.__justCreatedObjects.clear()
         self.__world.Step(delta, 10, 10)
         self.__events = []
         self.centerCameraAtObj(self.__player)
@@ -66,3 +70,10 @@ class GameProcess(Process):
     def draw(self, dst: pg.Surface):
         for obj in self.__objects:
             obj.draw(dst, self.__cameraRect)
+        self.__removeObjects()
+
+    def __removeObjects(self):
+        self.__objects.symmetric_difference_update(self.__removedObjects)
+        for object in self.__removedObjects:
+            object.kill()
+        self.__removedObjects.clear()
