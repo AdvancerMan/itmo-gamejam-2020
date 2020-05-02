@@ -11,15 +11,22 @@ class AnimationName(IntEnum):
     LANDING = auto()
 
 
+def breakAnimationLoops(animations: dict):
+    for name in (AnimationName.JUMP, AnimationName.LANDING):
+        if name in animations:
+            animations[name].loop = False
+
+
 class AnimationPack:
     def __init__(self, animations: dict):
         for name, anim in animations.items():
             assert isinstance(name, AnimationName)
             assert isinstance(anim, pga.PygAnimation)
+        breakAnimationLoops(animations)
         self.__animations = animations
-        self.__animation = next(iter(animations.values()))
-        self.__animation.play()
         self.__playingName = AnimationName.STAY
+        self.__animation = animations[self.__playingName]
+        self.__animation.play()
 
     def scale(self, size: tuple):
         for anim in self.__animations.values():
@@ -33,14 +40,17 @@ class AnimationPack:
             self.__animation.play()
 
     def blit(self, dst: pg.Surface, pos: tuple):
-        self.__animation.blit(dst, pos)
+        if self.isFinished():
+            dst.blit(self.__animation.getCurrentFrame(), pos)
+        else:
+            self.__animation.blit(dst, pos)
 
     def flip(self, xbool: bool, ybool: bool = False):
         for anim in self.__animations.values():
             anim.flip(xbool, ybool)
 
     def isFinished(self) -> bool:
-        return self.__animation.isFinished()
+        return self.__animation.state == pga.STOPPED
 
     def getAnimationName(self) -> AnimationName:
         return self.__playingName

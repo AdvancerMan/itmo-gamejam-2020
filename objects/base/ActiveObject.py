@@ -27,6 +27,10 @@ class ActiveObject(InGameObject):
                 self.getAnimation().setAnimation(AnimationName.FALL)
             elif self.getAnimation().getAnimationName() == AnimationName.LANDING:
                 self.getAnimation().setAnimation(AnimationName.STAY)
+
+        if self.getAnimation().getAnimationName() != AnimationName.JUMP and not self.isOnGround():
+            self.getAnimation().setAnimation(AnimationName.FALL)
+
         if self.getAnimation().getAnimationName() \
                 not in (AnimationName.JUMP, AnimationName.FALL, AnimationName.LANDING) \
                 and not self.__acting:
@@ -67,6 +71,8 @@ class ActiveObject(InGameObject):
     def beginContact(self, obj, contact: b2Contact):
         aabb = (self.getAABB(), obj.getAABB())
         if lessOrEquals(aabb[1].y + aabb[1].h, aabb[0].y):
+            if not self.isOnGround():
+                self.getAnimation().setAnimation(AnimationName.LANDING)
             self.__grounds.add(obj)
 
     def endContact(self, obj, contact: b2Contact):
