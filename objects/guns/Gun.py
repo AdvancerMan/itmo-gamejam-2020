@@ -12,10 +12,10 @@ class Bullet(InGameObject):
         if params["bulletType"] == "OneDirection":
             self.setPosition(posX + 100, posY)
             self.getBody().linearVelocity = b2Vec2(params["bulletSpeed"], 0.0)
-
         if params["bulletType"] == "Ballistic":
             self.getBody().linearVelocity = b2Vec2(params["bulletSpeed"], params["bulletSpeed"])
             self.setPosition(posX + 100, posY)
+
 
 class Gun:
     """
