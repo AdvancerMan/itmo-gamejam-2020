@@ -10,20 +10,28 @@ class Bullet(InGameObject):
                  params: dict, owner, body: b2Body):
         InGameObject.__init__(self, game, process, animation, body)
         self.__params = params
-        posX, posY = owner.getPosition()
-        direction = owner.shootAngle
+        self.__owner = owner
+        self.__hitOwner = False
+        posX, posY = self.__owner.getPosition()
+        direction = self.__owner.shootAngle
         direction.Normalize()
         if self.__params["bulletType"] == "OneDirection" or self.__params["bulletType"] == "Ballistic":
             self.setPosition(posX + (50 * direction).x, posY + (50 * direction).y)
-            self.getBody().linearVelocity = params["bulletSpeed"] * direction + owner.getBody().linearVelocity
+            self.getBody().linearVelocity = params["bulletSpeed"] * direction + self.__owner.getBody().linearVelocity
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
         contact.enabled = False
 
     def beginContact(self, obj, contact: b2Contact):
-        obj.takeDamage(self.__params["bulletPower"])
-        self.process.removeObject(self)
+        if obj == self.__owner and not self.__hitOwner:
+            pass
+        else:
+            obj.takeDamage(self.__params["bulletPower"])
+            self.process.removeObject(self)
 
+    def endContact(self, obj, contact: b2Contact):
+        if obj == self.__owner:
+            self.__hitOwner = True
 
 class Gun:
     """
