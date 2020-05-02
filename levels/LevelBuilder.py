@@ -4,7 +4,7 @@ import json
 from os.path import join
 
 
-def loadLevel(levelName: str) -> dict:   # name without .json
+def loadLevel(levelName: str):   # name without .json
     with open(join("levels", levelName + ".json")) as file:
         return json.load(file)
 
