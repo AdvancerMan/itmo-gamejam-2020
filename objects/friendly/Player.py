@@ -28,10 +28,9 @@ class Player(ActiveObject):
                 elif e.key == pg.K_r:
                     act("shoot")
             if e.type == pg.KEYDOWN:
-                act = self.__actions.add if e.type == pg.KEYDOWN else self.__actions.discard
                 if e.key == pg.K_e:
-                    act("changeGunRight")
+                    self.changeGunRight()
                 elif e.key == pg.K_q:
-                    act("changeGunLeft")
+                    self.changeGunLeft()
         for action in self.__actions:
             getattr(self, action)()
