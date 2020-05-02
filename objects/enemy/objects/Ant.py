@@ -18,5 +18,4 @@ class Ant(Enemy):
             self.changeDirection()
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
-        # TODO ant damage
-        obj.takeDamage(123)
+        obj.takeDamage(10)
