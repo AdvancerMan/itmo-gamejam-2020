@@ -3,6 +3,7 @@ from Box2D import *
 import pyganim as pga
 from game.Game import Game
 from config.Config import BOX2D_COEF
+from util.Rectangle import Rectangle, rectFromTwoPoints, rectFromSize
 
 
 def toPix(x: float) -> float:
@@ -22,15 +23,15 @@ class InGameObject:
         self.process = process
 
         self.__animation = animation
-        animation.scale(self.getAABB().size)
+        animation.scale(tuple(map(int, self.getAABB().size())))
         animation.play()
 
     def update(self):
         pass
 
     def draw(self, dst):
-        pos = self.getAABB().bottomleft
-        self.__animation.blit(dst, (pos[0], -pos[1]))
+        aabb = self.getAABB()
+        self.__animation.blit(dst, (aabb.x, -(aabb.y + aabb.h)))
 
     def getBody(self) -> b2Body:
         return self.__body
@@ -40,18 +41,15 @@ class InGameObject:
             angle = self.__body.angle
         self.__body.transform = b2Vec2(toMeters(x), toMeters(y)), angle
 
-    def getAABB(self):
-        aabb = pg.Rect(0, 0, 0, 0)
+    def getAABB(self) -> Rectangle:
+        aabb = rectFromTwoPoints(0, 0, 0, 0)
         for fixture in self.__body.fixtures:
             if not isinstance(fixture.shape, b2PolygonShape):
                 raise NotImplementedError("TODO")
             xs = list(map(lambda tpl: tpl[0], fixture.shape.vertices))
             ys = list(map(lambda tpl: tpl[1], fixture.shape.vertices))
-            x = min(*xs)
-            y = min(*ys)
-            aabb = aabb.union(pg.Rect(x, y, max(*xs) - x, max(*ys) - y))
-
-        return pg.Rect(*map(toPix, [aabb.x, aabb.y, aabb.w, aabb.h])).move(*self.getPosition())
+            aabb.union(rectFromTwoPoints(min(*xs), min(*ys), max(*xs), max(*ys)))
+        return rectFromSize(*map(toPix, [aabb.x, aabb.y, aabb.w, aabb.h])).move(*self.getPosition())
 
     def getPosition(self):
         return tuple(map(toPix, self.__body.position.tuple))
