@@ -10,11 +10,14 @@ from util.Rectangle import rectFromSize
 from util.box2d.BodyFactory import BodyFactory
 from objects.friendly.Player import Player
 from levels.LevelBuilder import Builder
+from util.box2d.ContactListener import ContactListener
 
 
 class GameProcess(Process):
     def __init__(self, game: Game):
         self.__world = b2World((0, -350))
+        self.__contactListener = ContactListener()
+        self.__world.contactListener = self.__contactListener
         self.__factory = BodyFactory(self.__world)
 
         self.__game = game
