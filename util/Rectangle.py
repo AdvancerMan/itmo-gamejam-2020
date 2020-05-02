@@ -1,0 +1,45 @@
+class Rectangle:
+    def __init__(self, x: float, y: float, width: float, height: float):
+        self.x = x
+        self.y = y
+        self.w = width
+        self.h = height
+
+    def size(self) -> tuple:
+        return self.w, self.h
+
+    def pos(self) -> tuple:
+        return self.x, self.y
+
+    def getX(self) -> float:
+        return self.x
+
+    def getY(self) -> float:
+        return self.y
+
+    def getWidth(self) -> float:
+        return self.w
+
+    def getHeight(self) -> float:
+        return self.h
+
+    def union(self, other):
+        # other: Rect
+        self.x = min(self.x, other.x)
+        self.y = min(self.y, other.y)
+        self.w = min(self.w, other.w)
+        self.h = min(self.h, other.h)
+        return self
+
+    def move(self, x, y):
+        self.x += x
+        self.y += y
+        return self
+
+
+def rectFromTwoPoints(x1: float, y1: float, x2: float, y2: float) -> Rectangle:
+    return Rectangle(x1, y1, x2 - x1, y2 - y1)
+
+
+def rectFromSize(x: float, y: float, width: float, height: float) -> Rectangle:
+    return Rectangle(x, y, width, height)
