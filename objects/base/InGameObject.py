@@ -17,6 +17,7 @@ class InGameObject:
     def __init__(self, game: Game, process, animation: pga.PygAnimation, body: b2Body):
         # process: GameProcess
         self.__body = body
+        body.userData = self
         self.game = game
         self.process = process
 

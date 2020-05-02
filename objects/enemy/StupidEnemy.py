@@ -10,5 +10,5 @@ class StupidEnemy(Enemy):
         # process: GameProcess
         Enemy.__init__(self, game, process, player,
                        game.getTextureManager().getAnimation(AnimationInfo.STUPID_ENEMY_ANIMATION),
-                       process.getFactory().createRectangleBody(self, b2_dynamicBody, 40, 100),
+                       process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100),
                        40, 80)

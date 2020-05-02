@@ -11,7 +11,7 @@ class Player(ActiveObject):
         # process: GameProcess
         ActiveObject.__init__(self, game, process,
                               game.getTextureManager().getAnimation(AnimationInfo.PLAYER_ANIMATION),
-                              process.getFactory().createRectangleBody(self, b2_dynamicBody, 40, 100),
+                              process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100),
                               200, 100)
         self.__actions = set()
 

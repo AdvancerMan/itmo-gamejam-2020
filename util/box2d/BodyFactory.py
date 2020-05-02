@@ -5,7 +5,6 @@ from objects.base.InGameObject import toMeters
 class BodyTemplate:
     def __init__(self, **kwargs):
         assert "bodyType" in kwargs.keys()
-        kwargs["owner"] = None
         self.__kwargs = kwargs
 
     def createBody(self, factory):
@@ -18,10 +17,8 @@ class BodyFactory:
     def __init__(self, world: b2World):
         self.__world = world
 
-    def createBody(self, owner, bodyType: int, **kwargs) -> b2Body:
+    def createBody(self, bodyType: int, **kwargs) -> b2Body:
         """
-        owner: InGameObject
-
         b2BodyType 	bodyType --- use b2_dynamicBody, b2_kinematicBody or b2_staticBody
         b2Vec2 	    position
         float 	    angle --- The world angle of the body in radians.
@@ -50,18 +47,15 @@ class BodyFactory:
             body.CreateFixturesFromShapes(shapes=[], shapeFixture=b2FixtureDef())
         copied from b2World.CreateBody.__doc__
         """
-        return self.__world.CreateBody(userData=owner, type=bodyType, **kwargs)
+        return self.__world.CreateBody(type=bodyType, **kwargs)
 
-    def __getRectangleBodyInfo(self, owner, bodyType: int, width: float, height: float) -> dict:
-        # owner: InGameObject
+    def __getRectangleBodyInfo(self, bodyType: int, width: float, height: float) -> dict:
         shape = b2PolygonShape()
         shape.SetAsBox(toMeters(width) / 2, toMeters(height) / 2)
-        return {"owner": owner, "bodyType": bodyType, "fixtures": b2FixtureDef(shape=shape)}
+        return {"bodyType": bodyType, "fixtures": b2FixtureDef(shape=shape)}
 
     def createRectangleBodyTemplate(self, bodyType: int, width: float, height: float) -> BodyTemplate:
-        # owner: InGameObject
-        return BodyTemplate(**self.__getRectangleBodyInfo(None, bodyType, width, height))
+        return BodyTemplate(**self.__getRectangleBodyInfo(bodyType, width, height))
 
-    def createRectangleBody(self, owner, bodyType: int, width: float, height: float) -> b2Body:
-        # owner: InGameObject
-        return self.createBody(**self.__getRectangleBodyInfo(owner, bodyType, width, height))
+    def createRectangleBody(self, bodyType: int, width: float, height: float) -> b2Body:
+        return self.createBody(**self.__getRectangleBodyInfo(bodyType, width, height))
