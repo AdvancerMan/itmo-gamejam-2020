@@ -34,20 +34,6 @@ class Bullet(InGameObject):
             self.__hitOwner = True
 
 class Gun:
-    """
-    :NOTE:
-    Gun shouldn't have body, body is a physical object
-    which is used to compute collisions.
-    Gun shouldn't collide with any objects.
-    (Probably that strange object on (0, 0) was gun body)
-
-    If you create body and reuse it in Bullet
-    you would get many objects on the same body
-    so you should use something like body template
-
-    Variables should be named in camelCase or i_dont_know_name_of_this_case
-    """
-
     def __init__(self, game: Game, process, bulletAnim: pga.PygAnimation,
                  bulletBodyTemplate: BodyTemplate,
                  gunAnim: pga.PygAnimation, params: dict, owner):
