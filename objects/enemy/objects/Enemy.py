@@ -13,7 +13,7 @@ class Enemy(ActiveObject):
         ActiveObject.__init__(self, game, process, animation, body, speed, jumpPower)
         self.__player = player
 
-    def preUpdate(self):
+    def preUpdate(self, delta: float):
         self.sense(self.__player, self.process.getObjects())
         self.act(self.think())
 

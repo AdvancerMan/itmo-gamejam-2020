@@ -63,7 +63,7 @@ class GameProcess(Process):
 
     def update(self, delta: float):
         for obj in self.__objects:
-            obj.preUpdate()
+            obj.preUpdate(delta)
 
         self.__objects = self.__objects.union(self.__justCreatedObjects)
         self.__justCreatedObjects.clear()
