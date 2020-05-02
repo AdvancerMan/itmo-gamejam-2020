@@ -31,7 +31,12 @@ class Rectangle:
         self.h = max(self.h, other.h)
         return self
 
-    def move(self, x, y):
+    def centerAt(self, x: float, y: float):
+        self.x = x - self.w / 2
+        self.y = y - self.h / 2
+        return self
+
+    def move(self, x: float, y: float):
         self.x += x
         self.y += y
         return self
