@@ -18,7 +18,7 @@ class Bullet(InGameObject):
             self.getBody().linearVelocity = params["bulletSpeed"] * direction
 
     def beginContact(self, obj, contact: b2Contact):
-        print(type(obj) is StupidEnemy)
+        obj.takeDamage(123)
 
 
 class Gun:

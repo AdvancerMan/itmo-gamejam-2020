@@ -72,6 +72,9 @@ class InGameObject:
     def getPosition(self):
         return tuple(map(toPix, self.__body.position.tuple))
 
+    def takeDamage(self, amount: float):
+        pass
+
     def beginContact(self, obj, contact: b2Contact):
         """
         WARNING: You cannot create/destroy Box2D entities inside this callback.
