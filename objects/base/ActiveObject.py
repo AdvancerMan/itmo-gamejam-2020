@@ -6,11 +6,11 @@ from objects.base.InGameObject import InGameObject
 from objects.guns.UsualGun import UsualGun
 from util.FloatCmp import lessOrEquals
 from util.Rectangle import Rectangle
-from util.textures.AnimationPack import AnimationName
+from util.textures.AnimationPack import AnimationName, AnimationPack
 
 
 class ActiveObject(InGameObject):
-    def __init__(self, game: Game, process, animation: pga.PygAnimation, body: b2Body,
+    def __init__(self, game: Game, process, animation: AnimationPack, body: b2Body,
                  speed: float, jumpPower: float):
         # process: GameProcess
         InGameObject.__init__(self, game, process, animation, body)
@@ -19,16 +19,28 @@ class ActiveObject(InGameObject):
         self.__grounds = set()
         self.__gun = UsualGun(game, process)
         self.__directedToRight = True
+        self.__acting = False
+
+    def updateAnimation(self):
+        if self.getAnimation().isFinished():
+            if self.getAnimation().getAnimationName() == AnimationName.JUMP:
+                self.getAnimation().setAnimation(AnimationName.FALL)
+            elif self.getAnimation().getAnimationName() == AnimationName.LANDING:
+                self.getAnimation().setAnimation(AnimationName.STAY)
+        if self.getAnimation().getAnimationName() \
+                not in (AnimationName.JUMP, AnimationName.FALL, AnimationName.LANDING) \
+                and not self.__acting:
+            self.getAnimation().setAnimation(AnimationName.STAY)
+        self.__acting = False
 
     def postUpdate(self):
-        if not self.isOnGround():
-            self.getAnimation().setAnimation(AnimationName.JUMP)
-        super().postUpdate()
+        self.updateAnimation()
 
     def go(self, speed):
         if self.isOnGround():
             self.getAnimation().setAnimation(AnimationName.RUN)
         self.getBody().ApplyForceToCenter(b2Vec2(speed, 0), True)
+        self.__acting = True
 
     def goLeft(self):
         self.setDirection(False)
@@ -62,9 +74,8 @@ class ActiveObject(InGameObject):
 
     def setDirection(self, toRight: bool):
         if toRight != self.__directedToRight:
+            self.__directedToRight = toRight
             self.getAnimation().flip(True)
-        self.__directedToRight = toRight
 
     def draw(self, dst: pg.Surface, cameraRect: Rectangle):
         InGameObject.draw(self, dst, cameraRect)
-
