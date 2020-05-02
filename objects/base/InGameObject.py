@@ -30,7 +30,7 @@ class InGameObject:
         pass
 
     def postUpdate(self):
-        self.__animation.update()
+        pass
 
     def getAnimation(self) -> AnimationPack:
         return self.__animation

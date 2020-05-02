@@ -11,7 +11,7 @@ class Player(ActiveObject):
         ActiveObject.__init__(self, game, process,
                               game.getTextureManager().getAnimationPack(AnimationPackInfo.PLAYER_ANIMATION),
                               process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100),
-                              200, 100)
+                              200, 400)
         self.__actions = set()
 
     def preUpdate(self):
