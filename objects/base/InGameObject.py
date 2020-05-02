@@ -56,7 +56,7 @@ class InGameObject:
 
     def isAbove(self, obj):
         objAABB = obj.getAABB()
-        return lessOrEquals(objAABB[1].y + objAABB[1].h, self.getAABB().y)
+        return lessOrEquals(objAABB.y + objAABB.h, self.getAABB().y)
 
     def getAABB(self) -> Rectangle:
         aabb = rectFromTwoPoints(0, 0, 0, 0)
