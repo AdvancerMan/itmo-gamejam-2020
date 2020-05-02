@@ -20,17 +20,23 @@ class AnimationPack:
         self.__animation.play()
         self.__playingName = None
         self.__setName = AnimationName.STAY
+        self.__set = False
 
     def update(self):
         if self.__playingName != self.__setName:
             self.__playingName = self.__setName
             self.__setAnimation(self.__setName)
+        elif not self.__set:
+            self.__playingName = self.__setName = AnimationName.STAY
+            self.__setAnimation(self.__setName)
+        self.__set = False
 
     def scale(self, size: tuple):
         for anim in self.__animations.values():
             anim.scale(size)
 
     def setAnimation(self, name: AnimationName):
+        self.__set = True
         self.__setName = name
 
     def __setAnimation(self, name: AnimationName):

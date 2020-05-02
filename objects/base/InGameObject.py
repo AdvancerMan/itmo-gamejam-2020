@@ -44,10 +44,14 @@ class InGameObject:
     def getBody(self) -> b2Body:
         return self.__body
 
-    def setPosition(self, x: float, y: float, angle: float = None):
+    def setTransform(self, x: float, y: float, angle: float = None):
         if angle is None:
             angle = self.__body.angle
         self.__body.transform = b2Vec2(toMeters(x), toMeters(y)), angle
+
+    def setPosition(self, x: float, y: float):
+        size = self.getAABB().size()
+        self.setTransform(x + size[0] / 2, y + size[1] / 2)
 
     def getAABB(self) -> Rectangle:
         aabb = rectFromTwoPoints(0, 0, 0, 0)
