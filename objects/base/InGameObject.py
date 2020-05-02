@@ -101,3 +101,6 @@ class InGameObject:
         copied from https://box2d.org/documentation/classb2_contact_listener.html
         """
         pass
+
+    def kill(self):
+        self.__body.world.DestroyBody(self.__body)
