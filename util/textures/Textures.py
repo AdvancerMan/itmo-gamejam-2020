@@ -33,7 +33,7 @@ class AnimationPackInfo(Enum):
     PLAYER_ANIMATION = _createAnimationPack(
         (AnimationName.RUN, 1, 4, [200] * 4, "pics", "Player", "Cosmopoc_walk.png"),
         (AnimationName.STAY, 1, 1, [100], "pics", "Player", "Cosmopoc_static.png"),
-        (AnimationName.JUMP, 1, 1, [100], "pics", "Player", "Cosmopoc_jump_1cut.png"),
+        (AnimationName.JUMP, 1, 1, [20], "pics", "Player", "Cosmopoc_jump_1cut.png"),
         (AnimationName.FALL, 1, 1, [100], "pics", "Player", "Cosmopoc_jump_2cut.png"),
         (AnimationName.LANDING, 1, 1, [100], "pics", "Player", "Cosmopoc_jump_3cut.png")
     )
