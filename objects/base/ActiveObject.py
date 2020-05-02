@@ -12,13 +12,13 @@ from util.textures.AnimationPack import AnimationName, AnimationPack
 
 class ActiveObject(InGameObject):
     def __init__(self, game: Game, process, animation: AnimationPack, body: b2Body,
-                 speed: float, jumpPower: float):
+                 speed: float, jumpPower: float, guns: list):
         # process: GameProcess
         InGameObject.__init__(self, game, process, animation, body)
         self.__speed = speed
         self.__jumpPower = jumpPower
         self.__grounds = set()
-        self.__gun = BallisticGun(game, process)
+        self.guns = guns
         self.__directedToRight = True
         self.__acting = False
 
@@ -64,7 +64,15 @@ class ActiveObject(InGameObject):
             self.getBody().linearVelocity = b2Vec2(self.getBody().linearVelocity.x, self.__jumpPower)
 
     def shoot(self):
-        self.__gun.spawnBullet(self.getPosition()[0], self.getPosition()[1])
+        self.guns[0].spawnBullet(self)
+
+    def changeGunRight(self):
+        for i in range(len(self.guns) - 1):
+            self.guns[i], self.guns[i + 1] = self.guns[i + 1], self.guns[i]
+
+    def changeGunLeft(self):
+        for i in range(len(self.guns) - 1, 0, -1):
+            self.guns[i], self.guns[i - 1] = self.guns[i - 1], self.guns[i]
 
     def isOnGround(self):
         return len(self.__grounds) > 0
