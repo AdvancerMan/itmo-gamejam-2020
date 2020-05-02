@@ -26,8 +26,14 @@ class InGameObject:
         self.__animation = animation
         animation.scale(tuple(map(int, self.getAABB().size())))
 
-    def update(self):
+    def preUpdate(self):
         pass
+
+    def postUpdate(self):
+        self.__animation.update()
+
+    def getAnimation(self) -> AnimationPack:
+        return self.__animation
 
     def draw(self, dst: pg.Surface, cameraRect: Rectangle):
         aabb = self.getAABB()

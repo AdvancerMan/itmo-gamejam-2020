@@ -60,10 +60,15 @@ class GameProcess(Process):
 
     def update(self, delta: float):
         for obj in self.__objects:
-            obj.update()
+            obj.preUpdate()
+
         self.__objects = self.__objects.union(self.__justCreatedObjects)
         self.__justCreatedObjects.clear()
         self.__world.Step(delta, 10, 10)
+
+        for obj in self.__objects:
+            obj.postUpdate()
+
         self.__events = []
         self.centerCameraAtObj(self.__player)
 
