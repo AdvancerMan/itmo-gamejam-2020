@@ -9,13 +9,11 @@ class Bullet(InGameObject):
     def __init__(self, game, process, animation: pga.PygAnimation,
                  params: dict, owner, body: b2Body):
         InGameObject.__init__(self, game, process, animation, body)
-        posX, posY = owner.getPosition()[0], owner.getPosition()[1]
-        if params["bulletType"] == "OneDirection":
+        posX, posY = owner.getPosition()
+        direction = owner.shootAngle
+        if params["bulletType"] == "OneDirection" or params["bulletType"] == "Ballistic":
             self.setPosition(posX + 100, posY)
-            self.getBody().linearVelocity = b2Vec2(params["bulletSpeed"], 0.0)
-        if params["bulletType"] == "Ballistic":
-            self.getBody().linearVelocity = b2Vec2(params["bulletSpeed"], params["bulletSpeed"])
-            self.setPosition(posX + 100, posY)
+            self.getBody().linearVelocity = params["bulletSpeed"] * direction
 
 
 class Gun:
