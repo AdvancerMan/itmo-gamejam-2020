@@ -20,6 +20,11 @@ class ActiveObject(InGameObject):
         self.__gun = UsualGun(game, process)
         self.__directedToRight = True
 
+    def postUpdate(self):
+        if not self.isOnGround():
+            self.getAnimation().setAnimation(AnimationName.JUMP)
+        super().postUpdate()
+
     def go(self, speed):
         if self.isOnGround():
             self.getAnimation().setAnimation(AnimationName.RUN)
