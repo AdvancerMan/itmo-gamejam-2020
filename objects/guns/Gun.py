@@ -3,6 +3,7 @@ from Box2D import *
 from game.Game import Game
 from objects.base.InGameObject import InGameObject
 from util.box2d.BodyFactory import BodyTemplate
+from objects.enemy.objects.StupidEnemy import StupidEnemy
 
 
 class Bullet(InGameObject):
@@ -15,6 +16,9 @@ class Bullet(InGameObject):
         if params["bulletType"] == "OneDirection" or params["bulletType"] == "Ballistic":
             self.setPosition(posX + (50 * direction).x, posY + (50 * direction).y)
             self.getBody().linearVelocity = params["bulletSpeed"] * direction
+
+    def beginContact(self, obj, contact: b2Contact):
+        print(type(obj) is StupidEnemy)
 
 
 class Gun:

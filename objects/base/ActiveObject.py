@@ -7,6 +7,7 @@ from objects.guns.PlayerGuns import *
 from util.FloatCmp import lessOrEquals
 from util.Rectangle import Rectangle
 from util.textures.AnimationPack import AnimationName, AnimationPack
+from config.Config import *
 
 
 class ActiveObject(InGameObject):
@@ -22,6 +23,7 @@ class ActiveObject(InGameObject):
         self.__acting = False
         self.__lastShoot = 10   # more then any cooldown
         self.shootAngle = b2Vec2(1, 0)  # shoot direction
+        self.hp = PLAYER_HP
 
     def updateAnimation(self):
         if self.getAnimation().isFinished():

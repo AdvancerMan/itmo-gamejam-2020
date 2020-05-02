@@ -22,5 +22,5 @@ class BallisticGun(Gun):
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.BALLISTICGUN_BULLET_ANIMATION),
                      createRectangleBodyTemplate(b2_dynamicBody, 10, 10),
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.BALLISTICGUN_ANIMATION),
-                     {"bulletSpeed": 800, "bulletType": "Ballistic"}, owner)
+                     {"bulletSpeed": 100, "bulletType": "Ballistic"}, owner)
         self.cooldown = 0.7
