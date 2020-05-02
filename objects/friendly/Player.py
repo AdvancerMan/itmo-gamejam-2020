@@ -13,7 +13,7 @@ class Player(ActiveObject):
         ActiveObject.__init__(self, game, process,
                               game.getTextureManager().getAnimationPack(AnimationPackInfo.PLAYER_ANIMATION),
                               process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100),
-                              70, 400, [UsualGun(game, process, self), BallisticGun(game, process, self)])
+                              20, 40, [UsualGun(game, process, self), BallisticGun(game, process, self)])
         self.__actions = set()
 
     def angleUpdate(self):

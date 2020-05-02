@@ -4,7 +4,7 @@ from Box2D import *
 from game.Game import Game
 from objects.base.InGameObject import InGameObject
 from objects.guns.PlayerGuns import *
-from util.FloatCmp import lessOrEquals
+from util.FloatCmp import lessOrEquals, less, equals
 from util.Rectangle import Rectangle
 from util.textures.AnimationPack import AnimationName, AnimationPack
 
@@ -19,7 +19,8 @@ class ActiveObject(InGameObject):
         self.__grounds = set()
         self.guns = guns
         self.__directedToRight = True
-        self.__acting = False
+        self.__xVel = 0
+        self.__acting = False  # used to make proper animation
         self.__lastShoot = 10   # more then any cooldown
         self.shootAngle = b2Vec2(1, 0)  # shoot direction
 
@@ -43,13 +44,16 @@ class ActiveObject(InGameObject):
         self.__lastShoot += delta
 
     def postUpdate(self):
+        self.getBody().ApplyLinearImpulse(b2Vec2((self.__xVel - self.getBody().linearVelocity.x) / 5, 0),
+                                          self.getBody().worldCenter, True)
+        self.__xVel = 0
         self.updateAnimation()
 
     def go(self, speed):
         if self.isOnGround():
             self.getAnimation().setAnimation(AnimationName.RUN)
-        self.getBody().linearVelocity.x = speed
         self.__acting = True
+        self.__xVel = speed
 
     def goLeft(self):
         self.setDirection(False)
