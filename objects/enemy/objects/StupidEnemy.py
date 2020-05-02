@@ -4,6 +4,7 @@ from objects.enemy.objects.Enemy import Enemy
 from objects.friendly.Player import Player
 from util.textures.Textures import AnimationPackInfo
 from objects.guns.PlayerGuns import *
+from config.Config import *
 
 class StupidEnemy(Enemy):
     def __init__(self, game: Game, process, player: Player, x: float, y: float):
@@ -12,6 +13,7 @@ class StupidEnemy(Enemy):
                        game.getTextureManager().getAnimationPack(AnimationPackInfo.STUPID_ENEMY_ANIMATION),
                        process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100), 0, 0, [UsualGun(game, process, self)])
         self.setPosition(x, y)
+        self.hp = STUPID_ENEMY_HP
 
     def think(self) -> set:
         return {"shoot"}
