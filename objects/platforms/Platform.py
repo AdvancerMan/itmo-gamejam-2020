@@ -6,9 +6,9 @@ from util.textures.Textures import AnimationPackInfo
 
 
 class Platform(InGameObject):
-    def __init__(self, game: Game, process, posX: int, posY: int):
+    def __init__(self, game: Game, process, x: float, y: float, width: float, height: float):
         # process: GameProcess
         InGameObject.__init__(self, game, process,
                               game.getTextureManager().getAnimationPack(AnimationPackInfo.PLATFORM_ANIMATION),
-                              process.getFactory().createRectangleBody(b2_staticBody, 100, 10))
-        self.setPosition(posX, posY, 0)
+                              process.getFactory().createRectangleBody(b2_staticBody, width, height))
+        self.setPosition(x, y)

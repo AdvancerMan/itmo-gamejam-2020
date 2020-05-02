@@ -38,7 +38,7 @@ class InGameObject:
     def getBody(self) -> b2Body:
         return self.__body
 
-    def setPosition(self, x: int, y: int, angle: float = None):
+    def setPosition(self, x: float, y: float, angle: float = None):
         if angle is None:
             angle = self.__body.angle
         self.__body.transform = b2Vec2(toMeters(x), toMeters(y)), angle

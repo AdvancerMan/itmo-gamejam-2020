@@ -16,4 +16,4 @@ class Builder:
 
     def build(self, process, levelName: str):
         for plate in loadLevel(levelName)["platforms"]:
-            process.addObject(Platform(self.__game, process, plate["posX"], plate["posY"]))
+            process.addObject(Platform(self.__game, process, plate["x"], plate["y"], plate["width"], plate["height"]))
