@@ -50,14 +50,16 @@ class AnimationPack:
         for anim in self.__animations.values():
             return anim.getCurrentFrame().get_size()
 
-    def setAnimation(self, name: AnimationName, restartAnimation: bool = False):
+    def setAnimation(self, name: AnimationName, restartAnimation: bool = False) -> bool:
         if self.__playingName != name or restartAnimation:
             if name not in self.__animations:
-                return
+                return False
             self.__animation.stop()
             self.__playingName = name
             self.__animation = self.__animations[name]
             self.__animation.play()
+            return True
+        return False
 
     def blit(self, dst: pg.Surface, pos: tuple):
         if self.isFinished():

@@ -33,6 +33,7 @@ def biggerNull(x: float):
 class Explode(InGameObject):
     def __init__(self, game, process, animation, body: b2Body, pos: tuple, params: dict):
         InGameObject.__init__(self, game, process, animation, body)
+        self.setTransform(pos[0], pos[1])
         self.setPosition(pos[0], pos[1])
         self.__process = process
         self.__game = game
@@ -41,7 +42,7 @@ class Explode(InGameObject):
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
         contact.enabled = False
-        obj.takeDamage(self.__params["ExplodeDamage"])
+        obj.takeDamage(self.__params["ExplodeDamage"], True)
 
     def preUpdate(self, delta: float):
         self.__life += delta
@@ -117,7 +118,8 @@ class Gun:
         self.__currAngle = 0
 
     def spawnBullet(self):
-        self.__gunAnimation.setAnimation(AnimationName.SHOOT, True)
+        if not self.__gunAnimation.setAnimation(AnimationName.SHOOT, True):
+            self.__spawnBullet()
 
     def __spawnBullet(self):
         self.__process.addObject(Bullet(self.__game, self.__process, self.__bulletAnimation,
@@ -132,17 +134,17 @@ class Gun:
     def draw(self, dst: pg.Surface, pos):
         self.__gunAnimation.scale((70, 30))
         posOld = self.__gunAnimation.getSize()
-        angle = getAngle(self.__owner.shootAngle)
+        angle, rightHalf = getAngle(self.__owner.shootAngle)
         if self.__params["bulletType"] == "TwoDirection":
-            angle = (0, angle[1])
-        self.__gunAnimation.rotozoom(angle[0], 1)
-        self.__gunAnimation.flip(not angle[1])
+            angle = 0
+        self.__gunAnimation.rotate(angle)
+        self.__gunAnimation.flip(not rightHalf)
         posNew = self.__gunAnimation.getSize()
-        posX = -(posNew[0] - posOld[0] * ((angle[1] - 1/2)*2 * cos(angle[0] / 180 * pi))) / 2
-        if angle[0] > 0:
-            posY = -posNew[1] + posOld[1] * cos(angle[0] / 180 * pi) / 2
+        posX = -(posNew[0] - posOld[0] * ((rightHalf * 2 - 1) * cos(angle / 180 * pi))) / 2
+        if angle > 0:
+            posY = -posNew[1] + posOld[1] * cos(angle / 180 * pi) / 2
         else:
-            posY = -posOld[1] * cos(angle[0] / 180 * pi) / 2
+            posY = -posOld[1] * cos(angle / 180 * pi) / 2
         ownerSize = self.__owner.getAABB()
         self.__gunAnimation.blit(dst, (pos[0] + posX + ownerSize.w / 2, pos[1] + posY + ownerSize.h / 2))
         self.__gunAnimation.clearTransforms()

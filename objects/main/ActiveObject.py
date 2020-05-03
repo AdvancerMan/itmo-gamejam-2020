@@ -28,6 +28,8 @@ class ActiveObject(InGameObject):
         self.__hp = 1.0
         self.__maxHp = 1.0
         self._healthBar = HealthBar(game)
+        self.__invulnerabilityTime = 0.1
+        self.__sinceLastHit = self.__invulnerabilityTime
 
     def resetHp(self, maxHp: float):
         self.__maxHp = maxHp
@@ -54,6 +56,7 @@ class ActiveObject(InGameObject):
     def preUpdate(self, delta: float):
         self.angleUpdate()
         self.__lastShoot += delta
+        self.__sinceLastHit += delta
 
     def postUpdate(self):
         self.getBody().ApplyLinearImpulse(b2Vec2((self.__xVel - self.getBody().linearVelocity.x) / 5, 0),
@@ -88,11 +91,12 @@ class ActiveObject(InGameObject):
             self.guns[0].spawnBullet()
             self.__lastShoot = 0
 
-    def takeDamage(self, amount: float):
-        # TODO invulnerability after taking damage
-        self.__hp -= amount       # gameprocess, removeobject
-        if self.__hp <= 0:
-            self.process.removeObject(self)
+    def takeDamage(self, amount: float, ignoreInvulnerability: bool = False):
+        if ignoreInvulnerability or self.__sinceLastHit >= self.__invulnerabilityTime:
+            self.__sinceLastHit = 0
+            self.__hp -= amount       # gameprocess, removeobject
+            if self.__hp <= 0:
+                self.process.removeObject(self)
 
     def changeGunRight(self):
         self.__lastShoot = 0
