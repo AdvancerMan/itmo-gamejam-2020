@@ -9,6 +9,7 @@ class Bullet(InGameObject):
     def __init__(self, game, process, animation: pga.PygAnimation,
                  params: dict, owner, body: b2Body):
         InGameObject.__init__(self, game, process, animation, body)
+        self.getBody().bullet = True
         self.__params = params
         self.__owner = owner
         self.__hitOwner = False

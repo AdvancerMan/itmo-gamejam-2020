@@ -10,7 +10,7 @@ class UsualGun(Gun):
     def __init__(self, game: Game, process, owner):
         Gun.__init__(self, game, process,
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.USUALGUN_BULLET_ANIMATION),
-                     createRectangleBodyTemplate(b2_kinematicBody, 10, 10),
+                     createRectangleBodyTemplate(b2_dynamicBody, 10, 10, gravityScale=0),
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.USUALGUN_ANIMATION),
                      {"bulletSpeed": 80, "bulletType": "OneDirection", "bulletPower": 5}, owner)
         self.cooldown = 0.3

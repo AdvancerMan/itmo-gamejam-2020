@@ -22,4 +22,5 @@ class Ant(Enemy):
             self.changeDirection()
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
-        obj.takeDamage(10)
+        if isinstance(obj, Player):
+            obj.takeDamage(10)
