@@ -32,7 +32,8 @@ class PoisonGun(Gun):
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.POISONGUN_BULLET_ANIMATION),
                      createRectangleBodyTemplate(b2_dynamicBody, 10, 10),
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.POISONGUN_ANIMATION),
-                     {"bulletSpeed": 40, "bulletType": "BallisticExplode", "bulletPower": 20}, owner)
+                     {"bulletSpeed": 40, "bulletType": "BallisticExplode", "bulletPower": 20,
+                      "ExplodeTime": 5.0, "ExplodeDamage": 0.2}, owner)
         self.cooldown = 0.7
 
 

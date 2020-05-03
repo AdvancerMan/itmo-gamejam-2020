@@ -31,13 +31,24 @@ def biggerNull(x: float):
 
 
 class Explode(InGameObject):
-    def __init__(self, game, process, animation, body: b2Body, pos: tuple):
+    def __init__(self, game, process, animation, body: b2Body, pos: tuple, params: dict):
         InGameObject.__init__(self, game, process, animation, body)
         self.setPosition(pos[0], pos[1])
+        self.__process = process
+        self.__game = game
+        self.__params = params
+        self.__life = 0
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
         contact.enabled = False
-        obj.takeDamage(0.1)
+        obj.takeDamage(self.__params["ExplodeDamage"])
+
+    def preUpdate(self, delta: float):
+        self.__life += delta
+
+    def postUpdate(self):
+        if self.__params["ExplodeTime"] < self.__life:
+            self.process.removeObject(self)
 
     def isLand(self) -> bool:
         return False
@@ -64,8 +75,7 @@ class Bullet(InGameObject):
         self.getBody().linearVelocity = params["bulletSpeed"] * direction + self.__owner.getBody().linearVelocity
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
-        if self.__params["bulletType"] != "BallisticExplode":
-            contact.enabled = False
+        contact.enabled = False
 
     def beginContact(self, obj, contact: b2Contact):
         if obj == self.__owner and not self.__hitOwner or type(obj) == Explode or type(obj) == Bullet:
@@ -87,7 +97,7 @@ class Bullet(InGameObject):
                                              self.__game.getTextureManager().getAnimationPack(
                                                  AnimationPackInfo.POISONEXPLODE_ANIMATION),
                                              self.__process.getFactory().createRectangleBody(b2_dynamicBody, 50, 50, gravityScale=0),
-                                             self.getPosition()))
+                                             self.getPosition(), self.__params))
             self.process.removeObject(self)
 
 
