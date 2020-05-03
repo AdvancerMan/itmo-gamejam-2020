@@ -51,7 +51,7 @@ class Base:
         direction = self.__movingTo - b2Vec2(*self.__rect.getCenter())
         length = direction.length
         if equals(length, 0) and len(self.__path) != 0:
-            self.__movingTo = self.__path.pop()
+            self.__setPoint(self.__path.pop())
         if not equals(length, 0):
             self.__pos += direction / length * self.__speed * min(1, length / self.__speed)
         self.__rect.setPos(*self.__pos.tuple)
@@ -89,8 +89,15 @@ class Base:
             self.__lowerPlatform.draw(dst, cameraRect)
             self.__upperPlatform.draw(dst, cameraRect)
 
+    def __setPoint(self, point: tuple):
+        self.__movingTo = b2Vec2(point[:2])
+        if len(point) == 3:
+            self.__speed = point[2]
+        else:
+            self.__speed = BASE_SPEED
+
     def setPath(self, path: list):
         # path: list of tuples of 2 float --- points that base will be sent to
-        self.__path = list(map(b2Vec2, reversed(path)))
+        self.__path = list(reversed(path))
         if len(self.__path) > 0:
-            self.__movingTo = self.__path.pop()
+            self.__setPoint(self.__path.pop())
