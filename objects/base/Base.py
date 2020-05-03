@@ -14,7 +14,7 @@ class BasePlatform(HalfCollidedPlatform):
     def __init__(self, game: Game, process, x: float, y: float):
         HalfCollidedPlatform.__init__(self, game, process, x, y, 212, 30,
                                       AnimationPack({AnimationName.STAY:
-                                                         pga.PygAnimation([(pg.Surface((20, 20), pg.SRCALPHA), 100)])
+                                                     pga.PygAnimation([(pg.Surface((20, 20), pg.SRCALPHA), 100)])
                                                      }))
 
     def hide(self):
@@ -75,13 +75,13 @@ class Base:
         self.__lowerPlatform.postUpdate()
         self.__upperPlatform.postUpdate()
 
-    def getDrawPos(self, cameraRect: Rectangle, x: int, y: int) -> tuple:
+    def __getDrawPos(self, cameraRect: Rectangle, x: int, y: int) -> tuple:
         x, y = iterSum(map(lambda x: -x, cameraRect.pos()), (x, y))
         return x, cameraRect.h - y
 
     def draw(self, dst: pg.Surface, cameraRect: Rectangle):
         if cameraRect.intersects(self.__rect):
-            pos = self.getDrawPos(cameraRect, *self.__rect.pos())
+            pos = self.__getDrawPos(cameraRect, *self.__rect.pos())
             pos = (pos[0], pos[1] - self.__light.get_size()[1])
             self.__animation.blit(dst, pos)
             if self.__turnedOn:
@@ -91,4 +91,6 @@ class Base:
 
     def setPath(self, path: list):
         # path: list of tuples of 2 float --- points that base will be sent to
-        self.__path = map(b2Vec2, reversed(path))
+        self.__path = list(map(b2Vec2, reversed(path)))
+        if len(self.__path) > 0:
+            self.__movingTo = self.__path.pop()

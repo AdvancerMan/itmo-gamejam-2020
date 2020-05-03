@@ -43,7 +43,7 @@ class GameProcess(Process):
         self.__base = Base(game, self, 200, 200, self.__player)
 
         self.__builder = Builder(game)
-        self.__builder.build(self, self.__player, "L1")
+        self.__builder.build(self, self.__player, self.__base, "L1")
 
     def centerCameraAt(self, x: float, y: float):
         self.__cameraRect.centerAt(x, y)
