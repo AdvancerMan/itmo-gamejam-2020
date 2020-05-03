@@ -38,9 +38,11 @@ class Explode(InGameObject):
         self.__game = game
         self.__params = params
         self.__life = 0
+        self.__body = body
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
-        contact.enabled = False
+        if self.__params["bulletType"] != "Gravity":
+            contact.enabled = False
         obj.takeDamage(self.__params["ExplodeDamage"])
 
     def preUpdate(self, delta: float):
