@@ -34,6 +34,8 @@ class ActiveObject(InGameObject):
         self.__hp = maxHp
 
     def updateAnimation(self):
+        if len(self.guns) > 0:
+            self.guns[0].postUpdate()
         if self.getAnimation().isFinished():
             if self.getAnimation().getAnimationName() == AnimationName.JUMP:
                 self.getAnimation().setAnimation(AnimationName.FALL)
@@ -106,7 +108,7 @@ class ActiveObject(InGameObject):
         return len(self.__grounds) > 0
 
     def beginContact(self, obj, contact: b2Contact):
-        if self.isAbove(obj):
+        if self.isAbove(obj) and obj.isLand():
             if not self.isOnGround():
                 self.getAnimation().setAnimation(AnimationName.LANDING)
             self.__grounds.add(obj)
@@ -133,7 +135,8 @@ class ActiveObject(InGameObject):
 
     def _draw(self, dst: pg.Surface, aabb: Rectangle, pos: tuple):
         super()._draw(dst, aabb, pos)
-        self.guns[0].draw(dst, pos)
+        if len(self.guns) > 0:
+            self.guns[0].draw(dst, pos)
         size = aabb.size()
         pos = (pos[0] + size[0] / 2 - self._healthBar.getWidth() / 2, pos[1] - self._healthBar.getWidth())
         self._healthBar.draw(dst, pos, self.__hp, self.__maxHp)

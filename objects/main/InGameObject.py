@@ -84,6 +84,9 @@ class InGameObject:
     def takeDamage(self, amount: float):
         pass
 
+    def isLand(self) -> bool:
+        return True
+
     def beginContact(self, obj, contact: b2Contact):
         """
         WARNING: You cannot create/destroy Box2D entities inside this callback.
