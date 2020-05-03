@@ -32,6 +32,26 @@ class AnimationPack:
         for anim in self.__animations.values():
             anim.scale(size)
 
+    def rotate(self, angle: float):
+        for anim in self.__animations.values():
+            anim.rotate(angle)
+
+    def rotozoom(self, angle, scale):
+        for anim in self.__animations.values():
+            anim.rotozoom(angle, scale)
+
+    def flip(self, xbool, ybool):
+        for anim in self.__animations.values():
+            anim.flip(xbool, ybool)
+
+    def clearTransforms(self):
+        for anim in self.__animations.values():
+            anim.clearTransforms()
+
+    def getSize(self):
+        for anim in self.__animations.values():
+            return anim.getCurrentFrame().get_size()
+
     def setAnimation(self, name: AnimationName):
         if self.__playingName != name:
             self.__animation.stop()
