@@ -33,11 +33,11 @@ def biggerNull(x: float):
 class Explode(InGameObject):
     def __init__(self, game, process, animation, body: b2Body, pos: tuple):
         InGameObject.__init__(self, game, process, animation, body)
-        self.setPosition(pos[0], pos[1])
+        self.setTransform(pos[0], pos[1])
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
         contact.enabled = False
-        obj.takeDamage(0.1)
+        obj.takeDamage(0.1, True)
 
     def isLand(self) -> bool:
         return False
