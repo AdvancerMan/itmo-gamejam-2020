@@ -106,7 +106,7 @@ class ActiveObject(InGameObject):
         return len(self.__grounds) > 0
 
     def beginContact(self, obj, contact: b2Contact):
-        if self.isAbove(obj):
+        if self.isAbove(obj) and obj.isLand():
             if not self.isOnGround():
                 self.getAnimation().setAnimation(AnimationName.LANDING)
             self.__grounds.add(obj)

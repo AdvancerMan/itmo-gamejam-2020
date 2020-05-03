@@ -39,6 +39,9 @@ class Explode(InGameObject):
         contact.enabled = False
         obj.takeDamage(0.1)
 
+    def isLand(self) -> bool:
+        return False
+
 
 class Bullet(InGameObject):
     def __init__(self, game, process, animation,
