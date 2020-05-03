@@ -22,6 +22,16 @@ def _createAnimationPack(*nameAndAnimationInfoArgs) -> dict:
 
 
 class TextureInfo(Enum):
+    HEALTH_BAR = _createPic("pics", "Bar", "Hp.png")
+    HEALTH_BAR_LOWER = _createPic("pics", "Bar", "Bar.png")
+    HEALTH_BAR_UPPER = _createPic("pics", "Bar", "Cap.png")
+    GUNS_BACKGROUND = _createPic("pics", "Interface", "Gun_interface.png")
+    DETALIZED_GUN1 = _createPic("health.png")
+    DETALIZED_GUN2 = _createPic("health.png")
+    DETALIZED_GUN3 = _createPic("health.png")
+    GUN1 = _createPic("health.png")
+    GUN2 = _createPic("health.png")
+    GUN3 = _createPic("health.png")
     BACKGROUND = _createPic("background.png")
 
 

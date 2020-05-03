@@ -4,6 +4,7 @@ from util.Logger import log
 from util.textures.AnimationPack import AnimationPack
 from util.textures.Textures import TextureInfo, AnimationInfo, AnimationPackInfo
 from traceback import format_exc
+from os.path import join
 
 
 class TextureManager:
@@ -41,3 +42,7 @@ class TextureManager:
                 texture[0].fill((128, 0, 128))  # purple
             self.__textures[path] = texture
         return list(map(lambda txt: txt.copy(), texture))
+
+    def getNumbers(self):
+        path = join("pics", "Interface", "0123456789.png")
+        return self.__getTexture(path, lambda:pga.getImagesFromSpriteSheet(path, rows=1, cols=10, rects=[]))

@@ -2,6 +2,7 @@ import pygame as pg
 import pyganim as pga
 from Box2D import *
 from game.Game import Game
+from gui.HealthBar import HealthBar
 from objects.base.InGameObject import InGameObject
 from objects.guns.PlayerGuns import *
 from util.FloatCmp import lessOrEquals, less, equals
@@ -25,6 +26,9 @@ class ActiveObject(InGameObject):
         self.__lastShoot = 10   # more then any cooldown
         self.shootAngle = b2Vec2(1, 0)  # shoot direction
         self.hp = 1.0
+        # TODO set maxHp is needed
+        self.maxHp = 1.0
+        self._healthBar = HealthBar(game)
 
     def updateAnimation(self):
         if self.getAnimation().isFinished():
@@ -80,6 +84,7 @@ class ActiveObject(InGameObject):
             self.__lastShoot = 0
 
     def takeDamage(self, amount: float):
+        # TODO invulnerability after taking damage
         self.hp -= amount       # gameprocess, removeobject
         if self.hp <= 0:
             self.process.removeObject(self)
@@ -123,5 +128,8 @@ class ActiveObject(InGameObject):
     def changeDirection(self):
         self.setDirection(not self.__directedToRight)
 
-    def draw(self, dst: pg.Surface, cameraRect: Rectangle):
-        InGameObject.draw(self, dst, cameraRect)
+    def _draw(self, dst: pg.Surface, aabb: Rectangle, pos: tuple):
+        super()._draw(dst, aabb, pos)
+        size = aabb.size()
+        pos = (pos[0] + size[0] / 2 - self._healthBar.getWidth() / 2, pos[1] - self._healthBar.getWidth())
+        self._healthBar.draw(dst, pos, self.hp, self.maxHp)
