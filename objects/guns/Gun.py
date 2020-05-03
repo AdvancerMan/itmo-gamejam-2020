@@ -90,5 +90,6 @@ class Gun:
             posY = -posNew[1] + posOld[1] * cos(angle[0] / 180 * pi) / 2
         else:
             posY = -posOld[1] * cos(angle[0] / 180 * pi) / 2
+        print(self.__owner.getPosition())
         self.__gunAnimation.blit(dst, (WINDOW_RESOLUTION[0] / 2 - posX, WINDOW_RESOLUTION[1] / 2 + posY))
         self.__gunAnimation.clearTransforms()
