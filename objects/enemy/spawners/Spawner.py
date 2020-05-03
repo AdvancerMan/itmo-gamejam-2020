@@ -10,22 +10,24 @@ from util.textures.Textures import AnimationPackInfo
 
 
 class Spawner(InGameObject):
-    SPAWNER_INFO = {
-        StupidEnemy: (AnimationPackInfo.STUPID_ENEMY_ANIMATION, createRectangleBodyTemplate(b2_dynamicBody, 40, 100)),
-        Ant: (AnimationPackInfo.ANT_ANIMATION, createRectangleBodyTemplate(b2_dynamicBody, 20, 10))
-    }
-
     def __init__(self, game: Game, process, player: Player,
                  animation: AnimationPack, body: b2Body, MobConstructor, **kwargs):
         # process: GameProcess
         InGameObject.__init__(self, game, process, animation, body)
-        self.__kwargs = kwargs.update({"game": game, "process": process, "player": player})
+        kwargs.update({"game": game, "process": process, "player": player})
+        self.__kwargs = kwargs
         self.__Constructor = MobConstructor
+        self.__cooldown = 2
+        self.__sinceLastSpawn = self.__cooldown
+
+    def preUpdate(self, delta: float):
+        self.__sinceLastSpawn += delta
+        if self.__sinceLastSpawn >= self.__cooldown:
+            self.__sinceLastSpawn = 0
+            self.spawn()
 
     def spawn(self):
-        self.__Constructor(animation=Spawner.SPAWNER_INFO[self.__Constructor][0],
-                           body=Spawner.SPAWNER_INFO[self.__Constructor][1],
-                           **self.__kwargs)
+        self.process.addObject(self.__Constructor(**self.__kwargs))
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
         contact.enabled = False
