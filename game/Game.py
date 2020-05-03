@@ -8,12 +8,16 @@ class Game:
     def __init__(self):
         self.__processesStack = []
         self.__popped = False
+        self.__replaced = None
         self.__screen = None
         self.__running = False
         self.__textureManager = TextureManager()
 
     def getTextureManager(self) -> TextureManager:
         return self.__textureManager
+
+    def replaceProcess(self, process: Process):
+        self.__replaced = process
 
     def addProcess(self, process: Process):
         self.__processesStack.append(process)
@@ -22,9 +26,16 @@ class Game:
         self.__popped = True
 
     def __popProcess(self):
+        if self.__replaced is not None:
+            self.__popped = True
+
         if self.__popped:
             self.__popped = False
             self.__processesStack.pop()
+
+        if self.__replaced is not None:
+            self.__processesStack.append(self.__replaced)
+            self.__replaced = None
 
     def __init(self):
         self.__screen = pg.display.set_mode(WINDOW_RESOLUTION)

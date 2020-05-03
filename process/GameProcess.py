@@ -65,6 +65,8 @@ class GameProcess(Process):
         return self.__events
 
     def update(self, delta: float):
+        if self.__player.isKilled():
+            self.__game.replaceProcess(GameProcess(self.__game))
         for obj in self.__objects:
             obj.preUpdate(delta)
 

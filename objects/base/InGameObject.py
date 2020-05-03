@@ -20,6 +20,7 @@ class InGameObject:
         assert isinstance(animation, AnimationPack)
         # process: GameProcess
         self.__body = body
+        self.__killed = False
         body.userData = self
         self.game = game
         self.process = process
@@ -119,5 +120,9 @@ class InGameObject:
         """
         pass
 
+    def isKilled(self) -> bool:
+        return self.__killed
+
     def kill(self):
+        self.__killed = True
         self.__body.world.DestroyBody(self.__body)
