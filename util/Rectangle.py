@@ -23,6 +23,11 @@ class Rectangle:
     def getHeight(self) -> float:
         return self.h
 
+    def setPos(self, x: float, y: float):
+        self.x = x
+        self.y = y
+        return self
+
     def union(self, other):
         # other: Rect
         self.x = min(self.x, other.x)
@@ -30,6 +35,9 @@ class Rectangle:
         self.w = max(self.w, other.w)
         self.h = max(self.h, other.h)
         return self
+
+    def getCenter(self) -> tuple:
+        return self.x + self.w / 2, self.y + self.h / 2
 
     def centerAt(self, x: float, y: float):
         self.x = x - self.w / 2
