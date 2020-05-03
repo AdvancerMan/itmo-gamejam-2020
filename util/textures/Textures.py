@@ -31,14 +31,14 @@ class AnimationInfo(Enum):
 
 class AnimationPackInfo(Enum):
     PLAYER_ANIMATION = _createAnimationPack(
-        (AnimationName.RUN, 1, 4, [200] * 4, "pics", "Player", "Cosmopoc_walk.png"),
-        (AnimationName.STAY, 1, 1, [100], "pics", "Player", "Cosmopoc_static.png"),
-        (AnimationName.JUMP, 1, 1, [20], "pics", "Player", "Cosmopoc_jump_1cut.png"),
-        (AnimationName.FALL, 1, 1, [100], "pics", "Player", "Cosmopoc_jump_2cut.png"),
-        (AnimationName.LANDING, 1, 1, [100], "pics", "Player", "Cosmopoc_jump_3cut.png")
+        (AnimationName.RUN, 1, 4, [200] * 4, "pics", "player", "run.png"),
+        (AnimationName.STAY, 1, 1, [100], "pics", "player", "stay.png"),
+        (AnimationName.JUMP, 1, 1, [20], "pics", "player", "jump.png"),
+        (AnimationName.FALL, 1, 1, [100], "pics", "player", "fall.png"),
+        (AnimationName.LANDING, 1, 1, [100], "pics", "player", "land.png")
     )
     PLATFORM_ANIMATION = _createAnimationPack(
-        (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
+        (AnimationName.STAY, 1, 1, [100], "pics", "platforms", "halfColl.png")
     )
     USUALGUN_BULLET_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
