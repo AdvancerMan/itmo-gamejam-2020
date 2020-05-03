@@ -21,14 +21,15 @@ class StupidEnemy(Enemy):
         self._playerToRight = player.getPosition()[0] >= self.getPosition()[0]
 
     def think(self) -> set:
-        result = {"shoot"}
-        if self._playerToRight != self.isDirectedToRight():
-            result.add("changeDirection")
-        return result
+        return {"shoot"}
 
 
 class StupidEnemyStaying(StupidEnemy):
-    pass
+    def think(self) -> set:
+        result = super().think()
+        if self._playerToRight != self.isDirectedToRight():
+            result.add("changeDirection")
+        return result
 
 
 class StupidEnemyRunningTo(StupidEnemy):
