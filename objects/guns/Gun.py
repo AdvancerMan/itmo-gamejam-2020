@@ -95,8 +95,7 @@ class Bullet(InGameObject):
     def postUpdate(self):
         if self.__dead:
             self.__process.addObject(Explode(self.__game, self.__process,
-                                             self.__game.getTextureManager().getAnimationPack(
-                                                 AnimationPackInfo.POISONEXPLODE_ANIMATION),
+                                             self.__params["ExplodeAnimation"],
                                              self.__process.getFactory().createRectangleBody(b2_dynamicBody, 50, 50, gravityScale=0),
                                              self.getPosition(), self.__params))    # as explode animation put poisonexplode
             self.process.removeObject(self)
