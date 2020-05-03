@@ -77,6 +77,12 @@ class AnimationPack:
     def getAnimationName(self) -> AnimationName:
         return self.__playingName
 
+    def getCopy(self):
+        copied = {}
+        for name, anim in self.__animations.items():
+            copied[name] = anim.getCopy()
+        return AnimationPack(copied)
+
 
 def _createPic(*picPath: str) -> str:
     return join(*picPath)
