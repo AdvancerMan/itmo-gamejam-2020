@@ -1,14 +1,16 @@
 import pygame as pg
 from Box2D import *
 from game.Game import Game
+from gui.GunsList import GunsList
 from objects.base.ActiveObject import ActiveObject
+from util.Rectangle import Rectangle
 from util.textures.Textures import AnimationPackInfo
 from objects.guns.PlayerGuns import *
 from config.Config import *
 
 
 class Player(ActiveObject):
-    def __init__(self, game: Game, process):
+    def __init__(self, game: Game, process, guiGuns: GunsList):
         # process: GameProcess
         ActiveObject.__init__(self, game, process,
                               game.getTextureManager().getAnimationPack(AnimationPackInfo.PLAYER_ANIMATION),
@@ -17,6 +19,7 @@ class Player(ActiveObject):
         self.__actions = set()
         self.hp = PLAYER_HP
         self.maxHp = PLAYER_HP
+        self.__guiGuns = guiGuns
 
     def angleUpdate(self):
         self.shootAngle = 0
@@ -47,3 +50,7 @@ class Player(ActiveObject):
                     self.changeGunLeft()
         for action in self.__actions:
             getattr(self, action)()
+
+    def draw(self, dst: pg.Surface, cameraRect: Rectangle):
+        super().draw(dst, cameraRect)
+        self.__guiGuns.draw(dst, 0) # TODO ammoRemaining

@@ -2,6 +2,7 @@ import pygame as pg
 
 from config.Config import WINDOW_RESOLUTION
 from game.Game import Game
+from gui.GunsList import GunsList
 from objects.base.InGameObject import InGameObject
 from objects.platforms.Platform import Platform
 from process.Process import Process
@@ -30,7 +31,7 @@ class GameProcess(Process):
         self.__objects = set()
         self.__cameraRect = rectFromSize(0, -WINDOW_RESOLUTION[1], *WINDOW_RESOLUTION)
 
-        self.__player = Player(game, self)
+        self.__player = Player(game, self, GunsList(game, (100, 100)))
         self.addObject(self.__player)
 
         self.__builder = Builder(game)

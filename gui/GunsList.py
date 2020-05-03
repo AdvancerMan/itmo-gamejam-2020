@@ -7,7 +7,7 @@ from util.textures.Textures import TextureInfo
 
 class GunsList:
     def __init__(self, game: Game, pos: tuple):
-        self.__background = pg.Surface()
+        self.__background = game.getTextureManager().getTexture(TextureInfo.GUNS_BACKGROUND)
         self.__pos = pos
         self.__guns = [game.getTextureManager().getTexture(info)
                        for info in (TextureInfo.GUN1,
@@ -30,6 +30,7 @@ class GunsList:
         self.__i = self.__getI(-1)
 
     def draw(self, dst: pg.Surface, ammoRemaining: int):
+        # TODO bug in positioning
         dst.blit(self.__background, self.__pos)
         dst.blit(self.__guns[self.__getI(-1)], iterSum(self.__pos, (0, 21)))
         dst.blit(self.__detGuns[self.__i], iterSum(self.__pos, (19, 16)))
