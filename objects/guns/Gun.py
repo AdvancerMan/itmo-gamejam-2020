@@ -33,6 +33,7 @@ def biggerNull(x: float):
 class Explode(InGameObject):
     def __init__(self, game, process, animation, body: b2Body, pos: tuple, params: dict):
         InGameObject.__init__(self, game, process, animation, body)
+        self.setTransform(pos[0], pos[1])
         self.setPosition(pos[0], pos[1])
         self.__process = process
         self.__game = game
