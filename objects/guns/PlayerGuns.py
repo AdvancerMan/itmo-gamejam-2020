@@ -33,7 +33,7 @@ class PoisonGun(Gun):
                      createRectangleBodyTemplate(b2_dynamicBody, 10, 10),
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.POISONGUN_ANIMATION),
                      {"bulletSpeed": 40, "bulletType": "BallisticExplode", "bulletPower": 20,
-                      "ExplodeTime": 5.0, "ExplodeDamage": 0.2,
+                      "ExplodeTime": 5.0, "ExplodeDamage": 0.2, "ExplodeSize": 100,
                       "ExplodeAnimation": game.getTextureManager().getAnimationPack(AnimationPackInfo.POISONEXPLODE_ANIMATION)},
                      owner)
         self.cooldown = 0.7
@@ -46,7 +46,7 @@ class PowerGun(Gun):
                      createRectangleBodyTemplate(b2_dynamicBody, 30, 30, gravityScale=0),
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.POWERGUN_ANIMATION),
                      {"bulletSpeed": 80, "bulletType": "TwoDirectionExplode", "bulletPower": 30,
-                      "ExplodeTime": 0.4, "ExplodeDamage": 2,
+                      "ExplodeTime": 0.4, "ExplodeDamage": 2, "ExplodeSize": 65,
                       "ExplodeAnimation": game.getTextureManager().getAnimationPack(AnimationPackInfo.POWER_EXPLODE_BULLET_ANIMATION)},
                      owner)
         self.cooldown = 1
@@ -59,7 +59,7 @@ class GravityGun(Gun):
                      createRectangleBodyTemplate(b2_dynamicBody, 1, 1, gravityScale=0),
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.GRAVITYGUN_ANIMATION),
                      {"bulletSpeed": 80, "bulletType": "Gravity", "bulletPower": 0,
-                      "ExplodeTime": 0.2, "ExplodeDamage": 0,
+                      "ExplodeTime": 0.2, "ExplodeDamage": 0, "ExplodeSize": 150,
                       "ExplodeAnimation": game.getTextureManager().getAnimationPack(AnimationPackInfo.GRAVITY_EXPLODE_BULLET_ANIMATION)},
                      owner)
         self.cooldown = 0.5
