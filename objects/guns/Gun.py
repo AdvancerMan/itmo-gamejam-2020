@@ -138,7 +138,7 @@ class Gun:
         self.__gunAnimation.scale((70, 30))
         oldW, oldH = self.__gunAnimation.getSize()
         angle, rightHalf = getAngle(self.__owner.shootAngle)
-        if self.__params["bulletType"] == "TwoDirection":
+        if self.__params["bulletType"] == "TwoDirectionExplode":
             angle = 0
         self.__gunAnimation.rotate(angle)
         self.__gunAnimation.flip(not rightHalf)
