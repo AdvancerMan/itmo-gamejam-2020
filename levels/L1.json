@@ -50,5 +50,17 @@
       "x": 500,
       "y": 500
     }
+  ],
+  "stupidRunningTo": [
+    {
+      "x": 500,
+      "y": 500
+    }
+  ],
+  "stupidRunningFrom": [
+    {
+      "x": 500,
+      "y": 500
+    }
   ]
 }

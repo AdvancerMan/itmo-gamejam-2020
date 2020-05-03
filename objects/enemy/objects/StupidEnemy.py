@@ -12,7 +12,7 @@ class StupidEnemy(Enemy):
         # process: GameProcess
         Enemy.__init__(self, game, process, player,
                        game.getTextureManager().getAnimationPack(AnimationPackInfo.STUPID_ENEMY_ANIMATION),
-                       process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100), 0, 0, [UsualGun(game, process, self)])
+                       process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100), 15, 40, [UsualGun(game, process, self)])
         self.setPosition(x, y)
         self.hp = STUPID_ENEMY_HP
         self._playerToRight = False
@@ -43,7 +43,7 @@ class StupidEnemyRunningTo(StupidEnemy):
 
 class StupidEnemyRunningFrom(StupidEnemy):
     def angleUpdate(self):
-        if self.__directedToRight:
+        if self.isDirectedToRight():
             self.shootAngle = b2Vec2(-1, 0)
         else:
             self.shootAngle = b2Vec2(1, 0)
