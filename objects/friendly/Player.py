@@ -2,7 +2,7 @@ import pygame as pg
 from Box2D import *
 from game.Game import Game
 from gui.GunsList import GunsList
-from objects.base.ActiveObject import ActiveObject
+from objects.main.ActiveObject import ActiveObject
 from util.Rectangle import Rectangle
 from util.textures.Textures import AnimationPackInfo
 from objects.guns.PlayerGuns import *
@@ -17,8 +17,7 @@ class Player(ActiveObject):
                               process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100),
                               20, 40, [UsualGun(game, process, self), BallisticGun(game, process, self)])
         self.__actions = set()
-        self.hp = PLAYER_HP
-        self.maxHp = PLAYER_HP
+        self.resetHp(PLAYER_HP)
         self.__guiGuns = guiGuns
 
     def angleUpdate(self):
