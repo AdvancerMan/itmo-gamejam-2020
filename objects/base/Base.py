@@ -7,8 +7,7 @@ from objects.friendly.Player import Player
 from objects.platforms.HalfCollidedPlatform import HalfCollidedPlatform
 from util.FloatCmp import equals
 from util.Rectangle import Rectangle, rectFromSize, iterSum
-from util.textures.AnimationPack import AnimationPack, AnimationName
-from util.textures.Textures import AnimationInfo, TextureInfo
+from util.textures.Textures import AnimationInfo, TextureInfo, AnimationPack, AnimationName
 
 
 class BasePlatform(HalfCollidedPlatform):
