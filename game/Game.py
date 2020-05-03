@@ -1,6 +1,6 @@
 import pygame as pg
 from process.Process import Process
-from config.Config import *
+from config.Config import WINDOW_RESOLUTION, BACKGROUND_COLOR
 from util.textures.TextureManager import TextureManager
 
 
