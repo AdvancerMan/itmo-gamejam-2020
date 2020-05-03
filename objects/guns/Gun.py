@@ -34,10 +34,10 @@ class Explode(InGameObject):
     def __init__(self, game, process, animation, body: b2Body, pos: tuple):
         InGameObject.__init__(self, game, process, animation, body)
         self.setPosition(pos[0], pos[1])
-    '''
+
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
-        obj.takeDamage(10)
-        '''
+        contact.enabled = False
+        obj.takeDamage(0.1)
 
 
 class Bullet(InGameObject):
@@ -64,7 +64,7 @@ class Bullet(InGameObject):
             contact.enabled = False
 
     def beginContact(self, obj, contact: b2Contact):
-        if obj == self.__owner and not self.__hitOwner:
+        if obj == self.__owner and not self.__hitOwner or type(obj) == Explode:
             pass
         else:
             obj.takeDamage(self.__params["bulletPower"])
@@ -85,6 +85,7 @@ class Bullet(InGameObject):
                                              self.__process.getFactory().createRectangleBody(b2_dynamicBody, 50, 50, gravityScale=0),
                                              self.getPosition()))
             self.process.removeObject(self)
+
 
 class Gun:
     def __init__(self, game: Game, process, bulletAnim: pga.PygAnimation,
