@@ -34,14 +34,15 @@ class Explode(InGameObject):
     def __init__(self, game, process, animation, body: b2Body, pos: tuple, params: dict):
         InGameObject.__init__(self, game, process, animation, body)
         self.setTransform(pos[0], pos[1])
-        self.setPosition(pos[0], pos[1])
         self.__process = process
         self.__game = game
         self.__params = params
         self.__life = 0
+        self.__body = body
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
-        contact.enabled = False
+        if self.__params["bulletType"] != "Gravity":
+            contact.enabled = False
         obj.takeDamage(self.__params["ExplodeDamage"], True)
 
     def preUpdate(self, delta: float):
@@ -68,7 +69,7 @@ class Bullet(InGameObject):
         self.__dead = False
         posX, posY = self.__owner.getPosition()
         direction = self.__owner.shootAngle
-        if self.__params["bulletType"] == "TwoDirection":
+        if self.__params["bulletType"] == "TwoDirectionExplode":
             direction = b2Vec2(direction.x, 0)
         direction.Normalize()
         posY -= self.getAABB().h / 2
@@ -83,7 +84,9 @@ class Bullet(InGameObject):
             pass
         else:
             obj.takeDamage(self.__params["bulletPower"])
-            if self.__params["bulletType"] == "BallisticExplode":
+            if self.__params["bulletType"] == "BallisticExplode" or \
+                    self.__params["bulletType"] == "TwoDirectionExplode" or \
+                    self.__params["bulletType"] == "Gravity":
                 self.__dead = True
             else:
                 self.process.removeObject(self)
@@ -95,8 +98,7 @@ class Bullet(InGameObject):
     def postUpdate(self):
         if self.__dead:
             self.__process.addObject(Explode(self.__game, self.__process,
-                                             self.__game.getTextureManager().getAnimationPack(
-                                                 AnimationPackInfo.POISONEXPLODE_ANIMATION),
+                                             self.__params["ExplodeAnimation"],
                                              self.__process.getFactory().createRectangleBody(b2_dynamicBody, 50, 50, gravityScale=0),
                                              self.getPosition(), self.__params))
             self.process.removeObject(self)
@@ -116,15 +118,20 @@ class Gun:
         self.__gunAnimation = gunAnim
         self.__bulletBody = bulletBodyTemplate
         self.__currAngle = 0
+        self.__directedToRight = True
 
     def spawnBullet(self):
         if not self.__gunAnimation.setAnimation(AnimationName.SHOOT, True):
             self.__spawnBullet()
 
     def __spawnBullet(self):
-        self.__process.addObject(Bullet(self.__game, self.__process, self.__bulletAnimation,
-                                        self.__params, self.__owner,
-                                        self.__bulletBody.createBody(self.__process.getFactory())))
+        animation = self.__bulletAnimation.getCopy()
+        if not self.__directedToRight:
+            animation.flip(True)
+        bullet = Bullet(self.__game, self.__process, animation,
+                        self.__params, self.__owner,
+                        self.__bulletBody.createBody(self.__process.getFactory()))
+        self.__process.addObject(bullet)
 
     def postUpdate(self):
         if self.__gunAnimation.isFinished():
@@ -134,19 +141,20 @@ class Gun:
     def draw(self, dst: pg.Surface, pos: tuple):
         self.__gunAnimation.scale((70, 30))
         oldW, oldH = self.__gunAnimation.getSize()
-        angle, rightHalf = getAngle(self.__owner.shootAngle)
-        if self.__params["bulletType"] == "TwoDirection":
+        angle, self.__directedToRight = getAngle(self.__owner.shootAngle)
+        if self.__params["bulletType"] == "TwoDirectionExplode":
             angle = 0
         self.__gunAnimation.rotate(angle)
-        self.__gunAnimation.flip(not rightHalf)
+        self.__gunAnimation.flip(not self.__directedToRight)
 
         newW, newH = self.__gunAnimation.getSize()
-        x = (newW - oldW * (1 if rightHalf else -1) * cos(angle / 180 * pi)) / 2
+        x = (newW - oldW * (1 if self.__directedToRight else -1) * cos(angle / 180 * pi)) / 2
         y = oldH * cos(angle / 180 * pi) / 2
         y = newH - y if angle > 0 else y
 
         ownerW, ownerH = self.__owner.getAABB().size()
-        x += 6 - ownerW if rightHalf else -6
+        x += 11 - ownerW if self.__directedToRight else -11
+        y += 8
 
         self.__gunAnimation.blit(dst, (pos[0] - x, pos[1] - y + ownerH / 2))
         self.__gunAnimation.clearTransforms()
