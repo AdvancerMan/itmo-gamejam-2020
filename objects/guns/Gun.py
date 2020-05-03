@@ -123,17 +123,17 @@ class Gun:
     def draw(self, dst: pg.Surface, pos):
         self.__gunAnimation.scale((70, 30))
         posOld = self.__gunAnimation.getSize()
-        angle = getAngle(self.__owner.shootAngle)
+        angle, rightHalf = getAngle(self.__owner.shootAngle)
         if self.__params["bulletType"] == "TwoDirection":
-            angle = (0, angle[1])
-        self.__gunAnimation.rotozoom(angle[0], 1)
-        self.__gunAnimation.flip(not angle[1])
+            angle = 0
+        self.__gunAnimation.rotate(angle)
+        self.__gunAnimation.flip(not rightHalf)
         posNew = self.__gunAnimation.getSize()
-        posX = -(posNew[0] - posOld[0] * ((angle[1] - 1/2)*2 * cos(angle[0] / 180 * pi))) / 2
-        if angle[0] > 0:
-            posY = -posNew[1] + posOld[1] * cos(angle[0] / 180 * pi) / 2
+        posX = -(posNew[0] - posOld[0] * ((rightHalf * 2 - 1) * cos(angle / 180 * pi))) / 2
+        if angle > 0:
+            posY = -posNew[1] + posOld[1] * cos(angle / 180 * pi) / 2
         else:
-            posY = -posOld[1] * cos(angle[0] / 180 * pi) / 2
+            posY = -posOld[1] * cos(angle / 180 * pi) / 2
         ownerSize = self.__owner.getAABB()
         self.__gunAnimation.blit(dst, (pos[0] + posX + ownerSize.w / 2, pos[1] + posY + ownerSize.h / 2))
         self.__gunAnimation.clearTransforms()
