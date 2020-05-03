@@ -13,7 +13,7 @@ from util.textures.Textures import AnimationInfo, TextureInfo
 
 class BasePlatform(HalfCollidedPlatform):
     def __init__(self, game: Game, process, x: float, y: float):
-        HalfCollidedPlatform.__init__(self, game, process, x, y, 212, 18,
+        HalfCollidedPlatform.__init__(self, game, process, x, y, 212, 30,
                                       AnimationPack({AnimationName.STAY:
                                                          pga.PygAnimation([(pg.Surface((20, 20), pg.SRCALPHA), 100)])
                                                      }))
