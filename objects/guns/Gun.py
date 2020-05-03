@@ -101,7 +101,7 @@ class Bullet(InGameObject):
             self.__process.addObject(Explode(self.__game, self.__process,
                                              self.__params["ExplodeAnimation"],
                                              self.__process.getFactory().createRectangleBody(b2_dynamicBody, 50, 50, gravityScale=0),
-                                             self.getPosition(), self.__params))    # as explode animation put poisonexplode
+                                             self.getPosition(), self.__params))
             self.process.removeObject(self)
 
 
@@ -121,7 +121,8 @@ class Gun:
         self.__currAngle = 0
 
     def spawnBullet(self):
-        self.__gunAnimation.setAnimation(AnimationName.SHOOT, True)
+        if not self.__gunAnimation.setAnimation(AnimationName.SHOOT, True):
+            self.__spawnBullet()
 
     def __spawnBullet(self):
         self.__process.addObject(Bullet(self.__game, self.__process, self.__bulletAnimation,
@@ -133,20 +134,22 @@ class Gun:
             self.__spawnBullet()
             self.__gunAnimation.setAnimation(AnimationName.STAY)
 
-    def draw(self, dst: pg.Surface, pos):
+    def draw(self, dst: pg.Surface, pos: tuple):
         self.__gunAnimation.scale((70, 30))
-        posOld = self.__gunAnimation.getSize()
-        angle = getAngle(self.__owner.shootAngle)
-        if self.__params["bulletType"] == "TwoDirectionExplode":
-            angle = (0, angle[1])
-        self.__gunAnimation.rotozoom(angle[0], 1)
-        self.__gunAnimation.flip(not angle[1])
-        posNew = self.__gunAnimation.getSize()
-        posX = -(posNew[0] - posOld[0] * ((angle[1] - 1/2)*2 * cos(angle[0] / 180 * pi))) / 2
-        if angle[0] > 0:
-            posY = -posNew[1] + posOld[1] * cos(angle[0] / 180 * pi) / 2
-        else:
-            posY = -posOld[1] * cos(angle[0] / 180 * pi) / 2
-        ownerSize = self.__owner.getAABB()
-        self.__gunAnimation.blit(dst, (pos[0] + posX + ownerSize.w / 2, pos[1] + posY + ownerSize.h / 2))
+        oldW, oldH = self.__gunAnimation.getSize()
+        angle, rightHalf = getAngle(self.__owner.shootAngle)
+        if self.__params["bulletType"] == "TwoDirection":
+            angle = 0
+        self.__gunAnimation.rotate(angle)
+        self.__gunAnimation.flip(not rightHalf)
+
+        newW, newH = self.__gunAnimation.getSize()
+        x = (newW - oldW * (1 if rightHalf else -1) * cos(angle / 180 * pi)) / 2
+        y = oldH * cos(angle / 180 * pi) / 2
+        y = newH - y if angle > 0 else y
+
+        ownerW, ownerH = self.__owner.getAABB().size()
+        x += 6 - ownerW if rightHalf else -6
+
+        self.__gunAnimation.blit(dst, (pos[0] - x, pos[1] - y + ownerH / 2))
         self.__gunAnimation.clearTransforms()

@@ -81,7 +81,7 @@ class InGameObject:
     def getPosition(self):
         return tuple(map(toPix, self.__body.position.tuple))
 
-    def takeDamage(self, amount: float):
+    def takeDamage(self, amount: float, ignoreInvulnerability: bool = False):
         pass
 
     def isLand(self) -> bool:
