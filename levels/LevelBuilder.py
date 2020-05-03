@@ -2,6 +2,7 @@ from game.Game import Game
 import json
 from os.path import join
 
+from objects.base.Base import Base
 from objects.enemy.objects.Ant import Ant
 from objects.enemy.objects.Enemy import Enemy
 from objects.enemy.objects.StupidEnemy import StupidEnemy, StupidEnemyStaying, StupidEnemyRunningTo, \
@@ -32,8 +33,11 @@ class Builder:
             "anthill": Anthill
         }
 
-    def build(self, process, player: Player, levelName: str):
+    def build(self, process, player: Player, base: Base, levelName: str):
         for class_name, objs in loadLevel(levelName).items():
+            if class_name == "base":
+                base.setPath(objs)
+                continue
             Constructor = self.__objects[class_name]
             for args in objs:
                 if isinstance(args, dict):
