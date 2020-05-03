@@ -15,10 +15,6 @@ class StupidEnemy(Enemy):
                        process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100), 15, 40, [UsualGun(game, process, self)])
         self.setPosition(x, y)
         self.hp = STUPID_ENEMY_HP
-        self._playerToRight = False
-
-    def sense(self, player: Player, objects: set):
-        self._playerToRight = player.getPosition()[0] >= self.getPosition()[0]
 
     def think(self) -> set:
         return {"shoot"}

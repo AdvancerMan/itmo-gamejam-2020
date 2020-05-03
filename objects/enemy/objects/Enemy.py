@@ -12,6 +12,7 @@ class Enemy(ActiveObject):
         # process: GameProcess
         ActiveObject.__init__(self, game, process, animation, body, speed, jumpPower, guns)
         self.__player = player
+        self._playerToRight = False
 
     def preUpdate(self, delta: float):
         super().preUpdate(delta)
@@ -19,7 +20,7 @@ class Enemy(ActiveObject):
         self.act(self.think())
 
     def sense(self, player: Player, objects: set):
-        pass
+        self._playerToRight = player.getPosition()[0] >= self.getPosition()[0]
 
     def think(self) -> set:
         return set()

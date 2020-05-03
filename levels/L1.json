@@ -7,6 +7,18 @@
       "height": 200
     },
     {
+      "x": -1000,
+      "y": -250,
+      "width": 1000,
+      "height": 100
+    },
+    {
+      "x": -2000,
+      "y": -250,
+      "width": 1000,
+      "height": 100
+    },
+    {
       "x": 500,
       "y": -250,
       "width": 500,
@@ -45,19 +57,7 @@
       "height": 30
     }
   ],
-  "stupidStaying": [
-    {
-      "x": 500,
-      "y": 500
-    }
-  ],
-  "stupidRunningTo": [
-    {
-      "x": 500,
-      "y": 500
-    }
-  ],
-  "stupidRunningFrom": [
+  "ant": [
     {
       "x": 500,
       "y": 500
