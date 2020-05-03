@@ -15,7 +15,7 @@ class Player(ActiveObject):
         ActiveObject.__init__(self, game, process,
                               game.getTextureManager().getAnimationPack(AnimationPackInfo.PLAYER_ANIMATION),
                               process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100),
-                              20, 40, [PoisonGun(game, process, self), UsualGun(game, process, self), BallisticGun(game, process, self)])
+                              20, 40, [PoisonGun(game, process, self), PowerGun(game, process, self), BallisticGun(game, process, self)])
         self.__actions = set()
         self.resetHp(PLAYER_HP)
         self.__guiGuns = guiGuns

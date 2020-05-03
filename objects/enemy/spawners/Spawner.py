@@ -1,12 +1,8 @@
 from Box2D import *
 from game.Game import Game
 from objects.main.InGameObject import InGameObject
-from objects.enemy.objects.Ant import Ant
-from objects.enemy.objects.StupidEnemy import StupidEnemy
 from objects.friendly.Player import Player
-from util.box2d.BodyFactory import createRectangleBodyTemplate
-from util.textures.AnimationPack import AnimationPack
-from util.textures.Textures import AnimationPackInfo
+from util.textures.Textures import AnimationPack
 
 
 class Spawner(InGameObject):
