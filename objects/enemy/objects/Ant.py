@@ -26,4 +26,4 @@ class Ant(Enemy):
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
         if isinstance(obj, Player):
-            obj.takeDamage(10)
+            obj.takeDamage(3)
