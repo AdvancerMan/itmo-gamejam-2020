@@ -23,10 +23,7 @@ class AnimationPack:
         for name, anim in animations.items():
             assert isinstance(name, AnimationName)
             assert isinstance(anim, pga.PygAnimation)
-        self.__animations = dict.fromkeys((i for i in dir(AnimationName) if i[0] != "_"),
-                                          animations[AnimationName.STAY].getCopy())
-        self.__animations = dict()
-        self.__animations.update(animations)
+        self.__animations = animations
         breakAnimationLoops(self.__animations)
         self.__playingName = AnimationName.STAY
         self.__animation = animations[self.__playingName]
