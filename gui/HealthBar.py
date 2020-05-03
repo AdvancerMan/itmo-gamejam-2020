@@ -22,6 +22,6 @@ class HealthBar:
         result.blit(self.__upper, (0, 0))
         return result
 
-    def draw(self, src: pg.Surface, cameraRect: Rectangle, pos: tuple, health: float, maxHealth: float):
+    def draw(self, dst: pg.Surface, cameraRect: Rectangle, pos: tuple, health: float, maxHealth: float):
         if self.__rect.intersects(cameraRect):
-            src.blit(self.getTexture(health, maxHealth), pos)
+            dst.blit(self.getTexture(health, maxHealth), pos)
