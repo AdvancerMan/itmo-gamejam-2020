@@ -131,20 +131,22 @@ class Gun:
             self.__spawnBullet()
             self.__gunAnimation.setAnimation(AnimationName.STAY)
 
-    def draw(self, dst: pg.Surface, pos):
+    def draw(self, dst: pg.Surface, pos: tuple):
         self.__gunAnimation.scale((70, 30))
-        posOld = self.__gunAnimation.getSize()
+        oldW, oldH = self.__gunAnimation.getSize()
         angle, rightHalf = getAngle(self.__owner.shootAngle)
         if self.__params["bulletType"] == "TwoDirection":
             angle = 0
         self.__gunAnimation.rotate(angle)
         self.__gunAnimation.flip(not rightHalf)
-        posNew = self.__gunAnimation.getSize()
-        posX = -(posNew[0] - posOld[0] * ((rightHalf * 2 - 1) * cos(angle / 180 * pi))) / 2
-        if angle > 0:
-            posY = -posNew[1] + posOld[1] * cos(angle / 180 * pi) / 2
-        else:
-            posY = -posOld[1] * cos(angle / 180 * pi) / 2
-        ownerSize = self.__owner.getAABB()
-        self.__gunAnimation.blit(dst, (pos[0] + posX + ownerSize.w / 2, pos[1] + posY + ownerSize.h / 2))
+
+        newW, newH = self.__gunAnimation.getSize()
+        x = (newW - oldW * (1 if rightHalf else -1) * cos(angle / 180 * pi)) / 2
+        y = oldH * cos(angle / 180 * pi) / 2
+        y = newH - y if angle > 0 else y
+
+        ownerW, ownerH = self.__owner.getAABB().size()
+        x += 6 - ownerW if rightHalf else -6
+
+        self.__gunAnimation.blit(dst, (pos[0] - x, pos[1] - y + ownerH / 2))
         self.__gunAnimation.clearTransforms()
