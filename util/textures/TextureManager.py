@@ -15,12 +15,10 @@ class TextureManager:
         animations = {}
         for name, animationInfo in animationInfos.items():
             animations[name] = self.__getAnimation(*animationInfo)
-        return AnimationPack(self, animations)
+        return AnimationPack(animations)
 
     def getAnimation(self, animationInfo: AnimationInfo) -> pga.PygAnimation:
-        return self.__getAnimation(*animationInfo.value) \
-            if animationInfo != AnimationInfo.TRANSPARENT \
-            else pga.PygAnimation([(self.getTexture(TextureInfo.TRANSPARENT), 100)])
+        return self.__getAnimation(*animationInfo.value)
 
     def __getAnimation(self, path: str, loadTexture, duration: list) -> pga.PygAnimation:
         textures = self.__getTexture(path, loadTexture)
@@ -31,9 +29,7 @@ class TextureManager:
     def getTexture(self, textureInfo: TextureInfo) -> pg.Surface:
         return self.__getTexture(
             textureInfo.value,
-            lambda: [pg.Surface((20, 20), pg.SRCALPHA)
-                     if textureInfo == TextureInfo.TRANSPARENT
-                     else pg.image.load(textureInfo.value)]
+            lambda: [pg.image.load(textureInfo.value)]
         )[0]
 
     def __getTexture(self, path: str, loadTexture) -> list:  # list of pg.Surface:

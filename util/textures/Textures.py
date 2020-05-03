@@ -19,12 +19,13 @@ def breakAnimationLoops(animations: dict):
 
 
 class AnimationPack:
-    def __init__(self, textureManager, animations: dict):
+    def __init__(self, animations: dict):
         for name, anim in animations.items():
             assert isinstance(name, AnimationName)
             assert isinstance(anim, pga.PygAnimation)
         self.__animations = dict.fromkeys((i for i in dir(AnimationName) if i[0] != "_"),
-                                          textureManager.getAnimation(AnimationInfo.TRANSPARENT))
+                                          animations[AnimationName.STAY].getCopy())
+        self.__animations = dict()
         self.__animations.update(animations)
         breakAnimationLoops(self.__animations)
         self.__playingName = AnimationName.STAY
@@ -84,13 +85,7 @@ def _createPic(*picPath: str) -> str:
 def _createAnimation(rows: int, columns: int, framesDuration: list, *picsPath: str):  # -> (str, function, list<int>)
     assert rows * columns == len(framesDuration)
     picsPath = _createPic(*picsPath)
-    if picsPath == "transparent":
-        def f():
-            return [pg.Surface((20, 20), pg.SRCALPHA)]
-    else:
-        def f():
-            return pga.getImagesFromSpriteSheet(picsPath, rows=rows, cols=columns, rects=[])
-    return picsPath, f, framesDuration
+    return picsPath, lambda: pga.getImagesFromSpriteSheet(picsPath, rows=rows, cols=columns, rects=[]), framesDuration
 
 
 def _createAnimationPack(*nameAndAnimationInfoArgs) -> dict:
@@ -101,7 +96,6 @@ def _createAnimationPack(*nameAndAnimationInfoArgs) -> dict:
 
 
 class TextureInfo(Enum):
-    TRANSPARENT = "TRANSPARENT"
     HEALTH_BAR = _createPic("pics", "Bar", "Hp.png")
     HEALTH_BAR_LOWER = _createPic("pics", "Bar", "Bar.png")
     HEALTH_BAR_UPPER = _createPic("pics", "Bar", "Cap.png")
@@ -117,7 +111,6 @@ class TextureInfo(Enum):
 
 
 class AnimationInfo(Enum):
-    TRANSPARENT = "TRANSPARENT"
     BASE_ANIMATION = _createAnimation(1, 2, [100] * 2, "pics", "base", "base.png")
     FRIEND_ANIMATION = _createAnimation(2, 3, [100] * 6, "pics", "friend.png")
 
