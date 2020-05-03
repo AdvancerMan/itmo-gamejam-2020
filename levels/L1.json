@@ -51,5 +51,11 @@
       "width":  500,
       "height": 30
     }
+  ],
+  "stupidStaying": [
+    {
+      "x": 100,
+      "y": 100
+    }
   ]
 }
