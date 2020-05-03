@@ -25,6 +25,7 @@ class Player(ActiveObject):
         self.shootAngle = 0
         posMX, posMY = pg.mouse.get_pos()
         self.shootAngle = b2Vec2(posMX - WINDOW_RESOLUTION[0] / 2, WINDOW_RESOLUTION[1] / 2 - posMY)
+        self.setDirection(self.shootAngle.x > 0)
 
     def preUpdate(self, delta: float):
         super().preUpdate(delta)
@@ -62,3 +63,9 @@ class Player(ActiveObject):
     def changeGunRight(self):
         super().changeGunRight()
         self.__guiGuns.switchRight()
+
+    def goLeft(self):
+        self.go(-self.getSpeed())
+
+    def goRight(self):
+        self.go(self.getSpeed())

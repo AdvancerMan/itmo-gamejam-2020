@@ -133,3 +133,6 @@ class ActiveObject(InGameObject):
         size = aabb.size()
         pos = (pos[0] + size[0] / 2 - self._healthBar.getWidth() / 2, pos[1] - self._healthBar.getWidth())
         self._healthBar.draw(dst, pos, self.hp, self.maxHp)
+
+    def getSpeed(self) -> float:
+        return self.__speed
