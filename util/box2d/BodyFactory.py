@@ -20,6 +20,17 @@ def _getRectangleBodyInfo(bodyType: int, width: float, height: float, **kwargs) 
     return kwargs
 
 
+def _getCircleBodyInfo(bodyType: int, radius: float, **kwargs) -> dict:
+    shape = b2CircleShape()
+    shape.radius = toMeters(radius)
+    kwargs.update({"bodyType": bodyType, "fixtures": b2FixtureDef(friction=0, shape=shape)})
+    return kwargs
+
+
+def createCircleBodyTemplate(bodyType: int, radius: float, **kwargs) -> BodyTemplate:
+    return BodyTemplate(**_getRectangleBodyInfo(bodyType, radius, **kwargs))
+
+
 def createRectangleBodyTemplate(bodyType: int, width: float, height: float, **kwargs) -> BodyTemplate:
     return BodyTemplate(**_getRectangleBodyInfo(bodyType, width, height, **kwargs))
 
@@ -62,3 +73,6 @@ class BodyFactory:
 
     def createRectangleBody(self, bodyType: int, width: float, height: float, **kwargs) -> b2Body:
         return self.createBody(**_getRectangleBodyInfo(bodyType, width, height, **kwargs))
+
+    def createCircleBody(self, bodyType: int, radius: float, **kwargs) -> b2Body:
+        return self.createBody(**_getCircleBodyInfo(bodyType, radius, **kwargs))
