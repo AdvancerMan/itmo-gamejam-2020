@@ -78,17 +78,19 @@ class Gun:
                                         self.__params, owner,
                                         self.__bulletBody.createBody(self.__process.getFactory())))
 
-    def draw(self, dst: pg.Surface):
+    def draw(self, dst: pg.Surface, pos):
         self.__gunAnimation.scale((70, 30))
         posOld = self.__gunAnimation.getSize()
         angle = getAngle(self.__owner.shootAngle)
         self.__gunAnimation.rotozoom(angle[0], 1)
         self.__gunAnimation.flip(not angle[1], 0)
         posNew = self.__gunAnimation.getSize()
-        posX = (posNew[0] - posOld[0] * ((angle[1] - 1/2)*2 * cos(angle[0] / 180 * pi))) / 2
+        posX = -(posNew[0] - posOld[0] * ((angle[1] - 1/2)*2 * cos(angle[0] / 180 * pi))) / 2
         if biggerNull(angle[0]):
             posY = -posNew[1] + posOld[1] * cos(angle[0] / 180 * pi) / 2
         else:
             posY = -posOld[1] * cos(angle[0] / 180 * pi) / 2
-        self.__gunAnimation.blit(dst, (WINDOW_RESOLUTION[0] / 2 - posX, WINDOW_RESOLUTION[1] / 2 + posY))
+        ownerSize = self.__owner.getAABB()
+        # print(ownerSize.h)
+        self.__gunAnimation.blit(dst, (pos[0] + posX + ownerSize.w / 2, pos[1] + posY + ownerSize.h / 2))
         self.__gunAnimation.clearTransforms()
