@@ -1,4 +1,6 @@
 from Box2D import *
+
+from config.Config import ANT_HP
 from game.Game import Game
 from objects.enemy.objects.Enemy import Enemy, b2Contact, b2Manifold
 from objects.friendly.Player import Player
@@ -12,6 +14,7 @@ class Ant(Enemy):
                        game.getTextureManager().getAnimationPack(AnimationPackInfo.ANT_ANIMATION),
                        process.getFactory().createRectangleBody(b2_dynamicBody, 20, 10), 10, 0, [])
         self.setPosition(x, y)
+        self.resetHp(ANT_HP)
 
     def think(self) -> set:
         return {"goRight" if self._playerToRight else "goLeft"}
