@@ -6,6 +6,7 @@ from util.textures.Textures import AnimationPackInfo
 from objects.guns.PlayerGuns import *
 from config.Config import *
 
+
 class StupidEnemy(Enemy):
     def __init__(self, game: Game, process, player: Player, x: float, y: float):
         # process: GameProcess
@@ -14,6 +15,43 @@ class StupidEnemy(Enemy):
                        process.getFactory().createRectangleBody(b2_dynamicBody, 40, 100), 0, 0, [UsualGun(game, process, self)])
         self.setPosition(x, y)
         self.hp = STUPID_ENEMY_HP
+        self._playerToRight = False
+
+    def sense(self, player: Player, objects: set):
+        self._playerToRight = player.getPosition()[0] >= self.getPosition()[0]
 
     def think(self) -> set:
-        return {"shoot"}
+        result = {"shoot"}
+        if self._playerToRight != self.isDirectedToRight():
+            result.add("changeDirection")
+        return result
+
+
+class StupidEnemyStaying(StupidEnemy):
+    pass
+
+
+class StupidEnemyRunningTo(StupidEnemy):
+    def think(self) -> set:
+        result = super().think()
+        if self._playerToRight:
+            result.add("goRight")
+        else:
+            result.add("goLeft")
+        return result
+
+
+class StupidEnemyRunningFrom(StupidEnemy):
+    def angleUpdate(self):
+        if self.__directedToRight:
+            self.shootAngle = b2Vec2(-1, 0)
+        else:
+            self.shootAngle = b2Vec2(1, 0)
+
+    def think(self) -> set:
+        result = super().think()
+        if not self._playerToRight:
+            result.add("goRight")
+        else:
+            result.add("goLeft")
+        return result

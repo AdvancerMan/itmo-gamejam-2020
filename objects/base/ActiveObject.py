@@ -43,6 +43,7 @@ class ActiveObject(InGameObject):
         self.__acting = False
 
     def preUpdate(self, delta: float):
+        self.angleUpdate()
         self.__lastShoot += delta
 
     def postUpdate(self):
@@ -109,6 +110,15 @@ class ActiveObject(InGameObject):
         if toRight != self.__directedToRight:
             self.__directedToRight = toRight
             self.getAnimation().flip(True)
+
+    def isDirectedToRight(self) -> bool:
+        return self.__directedToRight
+
+    def angleUpdate(self):
+        if self.__directedToRight:
+            self.shootAngle = b2Vec2(1, 0)
+        else:
+            self.shootAngle = b2Vec2(-1, 0)
 
     def changeDirection(self):
         self.setDirection(not self.__directedToRight)

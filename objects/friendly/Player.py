@@ -24,7 +24,6 @@ class Player(ActiveObject):
 
     def preUpdate(self, delta: float):
         super().preUpdate(delta)
-        self.angleUpdate()
         for e in self.process.getEvents():
             act = self.__actions.add if e.type in (pg.KEYDOWN, pg.MOUSEBUTTONDOWN) else self.__actions.discard
             if e.type in (pg.KEYDOWN, pg.KEYUP):

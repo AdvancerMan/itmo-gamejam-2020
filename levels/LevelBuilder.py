@@ -3,7 +3,8 @@ import json
 from os.path import join
 
 from objects.enemy.objects.Enemy import Enemy
-from objects.enemy.objects.StupidEnemy import StupidEnemy
+from objects.enemy.objects.StupidEnemy import StupidEnemy, StupidEnemyStaying, StupidEnemyRunningTo, \
+    StupidEnemyRunningFrom
 from objects.friendly.Player import Player
 from objects.platforms.HalfCollidedPlatform import HalfCollidedPlatform
 from objects.platforms.SolidPlatform import SolidPlatform
@@ -21,7 +22,9 @@ class Builder:
         self.__objects = {
             "solid": SolidPlatform,
             "halfCol": HalfCollidedPlatform,
-            "stupid": StupidEnemy
+            "stupidStaying": StupidEnemyStaying,
+            "stupidRunningTo": StupidEnemyRunningTo,
+            "stupidRunningFrom": StupidEnemyRunningFrom
         }
 
     def build(self, process, player: Player, levelName: str):
