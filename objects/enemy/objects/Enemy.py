@@ -2,7 +2,7 @@ from Box2D import *
 from game.Game import Game
 from objects.main.ActiveObject import ActiveObject
 from objects.friendly.Player import Player
-from util.textures.AnimationPack import AnimationPack
+from util.textures.Textures import AnimationPack
 
 
 class Enemy(ActiveObject):
