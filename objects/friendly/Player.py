@@ -2,7 +2,7 @@ import pygame as pg
 from Box2D import *
 from game.Game import Game
 from gui.GunsList import GunsList
-from objects.base.ActiveObject import ActiveObject
+from objects.main.ActiveObject import ActiveObject
 from util.Rectangle import Rectangle
 from util.textures.Textures import AnimationPackInfo
 from objects.guns.PlayerGuns import *

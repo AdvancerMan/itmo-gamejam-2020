@@ -3,7 +3,7 @@ import pygame as pg
 from config.Config import WINDOW_RESOLUTION
 from game.Game import Game
 from gui.GunsList import GunsList
-from objects.base.InGameObject import InGameObject
+from objects.main.InGameObject import InGameObject
 from objects.platforms.Platform import Platform
 from process.Process import Process
 from Box2D import *

@@ -3,7 +3,7 @@ import pyganim as pga
 from Box2D import *
 from game.Game import Game
 from gui.HealthBar import HealthBar
-from objects.base.InGameObject import InGameObject
+from objects.main.InGameObject import InGameObject
 from objects.guns.PlayerGuns import *
 from util.FloatCmp import lessOrEquals, less, equals
 from util.Rectangle import Rectangle

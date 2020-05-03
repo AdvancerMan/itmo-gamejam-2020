@@ -1,5 +1,5 @@
 from Box2D import *
-from objects.base.InGameObject import toMeters
+from objects.main.InGameObject import toMeters
 
 
 class BodyTemplate:
