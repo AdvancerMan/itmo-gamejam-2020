@@ -35,7 +35,13 @@ class Builder:
     def build(self, process, player: Player, levelName: str):
         for class_name, objs in loadLevel(levelName).items():
             Constructor = self.__objects[class_name]
-            for kwargs in objs:
-                if issubclass(Constructor, (Enemy, Spawner)):
-                    kwargs["player"] = player
-                process.addObject(Constructor(self.__game, process, **kwargs))
+            for args in objs:
+                if isinstance(args, dict):
+                    if issubclass(Constructor, (Enemy, Spawner)):
+                        args["player"] = player
+                    process.addObject(Constructor(self.__game, process, **args))
+                else:
+                    if issubclass(Constructor, (Enemy, Spawner)):
+                        process.addObject(Constructor(self.__game, process, player, *args))
+                    else:
+                        process.addObject(Constructor(self.__game, process, *args))
