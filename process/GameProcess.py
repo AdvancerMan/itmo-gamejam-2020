@@ -3,7 +3,8 @@ import pygame as pg
 from config.Config import WINDOW_RESOLUTION
 from game.Game import Game
 from gui.GunsList import GunsList
-from objects.base.InGameObject import InGameObject
+from objects.base.Base import Base
+from objects.main.InGameObject import InGameObject
 from objects.platforms.Platform import Platform
 from process.Process import Process
 from Box2D import *
@@ -39,6 +40,7 @@ class GameProcess(Process):
 
         self.__player = Player(game, self, GunsList(game, (20, 20)))
         self.addObject(self.__player)
+        self.__base = Base(game, self, 200, 200, self.__player)
 
         self.__builder = Builder(game)
         self.__builder.build(self, self.__player, "L1")
@@ -76,6 +78,7 @@ class GameProcess(Process):
             self.__game.replaceProcess(GameProcess(self.__game))
         for obj in self.__objects:
             obj.preUpdate(delta)
+        self.__base.preUpdate(delta)
 
         self.__objects = self.__objects.union(self.__justCreatedObjects)
         self.__justCreatedObjects.clear()
@@ -84,6 +87,7 @@ class GameProcess(Process):
         for obj in self.__objects:
             obj.postUpdate()
             self.checkRadius(obj)
+        self.__base.postUpdate()
 
         self.__events = []
         self.centerCameraAtObj(self.__player)
@@ -97,7 +101,7 @@ class GameProcess(Process):
 
     def draw(self, dst: pg.Surface):
         backgroundW = self.__background.get_size()[0]
-        backgroundX = self.__cameraRect.x // backgroundW * backgroundW - self.__cameraRect.x
+        backgroundX = self.__cameraRect.x // 10 // backgroundW * backgroundW - self.__cameraRect.x // 10
         if backgroundX < 0:
             backgroundX += backgroundW
 
@@ -106,6 +110,7 @@ class GameProcess(Process):
 
         for obj in self.__objects:
             obj.draw(dst, self.__cameraRect)
+        self.__base.draw(dst, self.__cameraRect)
         self.__removeObjects()
 
     def __removeObjects(self):

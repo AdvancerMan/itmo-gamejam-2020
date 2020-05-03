@@ -33,9 +33,11 @@ class TextureInfo(Enum):
     GUN2 = _createPic("pics", "Guns", "Mini_poison_gun.png")
     GUN3 = _createPic("pics", "Guns", "Mini_power_gun.png")
     BACKGROUND = _createPic("pics", "background.png")
+    LIGHT_BASE = _createPic("pics", "base", "light.png")
 
 
 class AnimationInfo(Enum):
+    BASE_ANIMATION = _createAnimation(1, 2, [100] * 2, "pics", "base", "base.png")
     FRIEND_ANIMATION = _createAnimation(2, 3, [100] * 6, "pics", "friend.png")
 
 

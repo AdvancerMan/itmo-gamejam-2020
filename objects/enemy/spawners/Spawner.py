@@ -1,6 +1,6 @@
 from Box2D import *
 from game.Game import Game
-from objects.base.InGameObject import InGameObject
+from objects.main.InGameObject import InGameObject
 from objects.enemy.objects.Ant import Ant
 from objects.enemy.objects.StupidEnemy import StupidEnemy
 from objects.friendly.Player import Player

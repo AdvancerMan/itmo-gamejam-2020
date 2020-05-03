@@ -1,6 +1,6 @@
 from Box2D import *
 from game.Game import Game
-from objects.base.InGameObject import InGameObject
+from objects.main.InGameObject import InGameObject
 from util.textures.AnimationPack import AnimationPack
 
 
