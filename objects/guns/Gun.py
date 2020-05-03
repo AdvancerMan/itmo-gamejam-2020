@@ -6,21 +6,21 @@ from objects.main.InGameObject import InGameObject
 from util.box2d.BodyFactory import BodyTemplate
 from config.Config import *
 from math import *
-from util.textures.Textures import AnimationPackInfo
+from util.textures.Textures import AnimationPackInfo, AnimationPack, AnimationName
 
 
 def getAngle(vector: b2Vec2):  # in degrees (-90; 90), direction 1 or 0
     if vector.length == 0:
-        return (1, True)
+        return 1, True
     vector.Normalize()
     phi1 = acos(vector.x)
     phi1 *= 360 / (2 * pi)
     phi2 = asin(vector.y)
     phi2 *= 360 / (2 * pi)
     if phi1 > 90:
-        return (phi2, False)
+        return phi2, False
     else:
-        return (phi2, True)
+        return phi2, True
 
 
 def biggerNull(x: float):
@@ -92,9 +92,9 @@ class Bullet(InGameObject):
 
 
 class Gun:
-    def __init__(self, game: Game, process, bulletAnim: pga.PygAnimation,
+    def __init__(self, game: Game, process, bulletAnim: AnimationPack,
                  bulletBodyTemplate: BodyTemplate,
-                 gunAnim, params: dict, owner):
+                 gunAnim: AnimationPack, params: dict, owner):
         # process: GameProcess
         self.__owner = owner
         self.__game = game
@@ -105,12 +105,19 @@ class Gun:
         self.__gunAnimation = gunAnim
         self.__bulletBody = bulletBodyTemplate
         self.__currAngle = 0
-        # self.__gunAnimation.scale((50, 15))
 
-    def spawnBullet(self, owner):
+    def spawnBullet(self):
+        self.__gunAnimation.setAnimation(AnimationName.SHOOT, True)
+
+    def __spawnBullet(self):
         self.__process.addObject(Bullet(self.__game, self.__process, self.__bulletAnimation,
-                                        self.__params, owner,
+                                        self.__params, self.__owner,
                                         self.__bulletBody.createBody(self.__process.getFactory())))
+
+    def postUpdate(self):
+        if self.__gunAnimation.isFinished():
+            self.__spawnBullet()
+            self.__gunAnimation.setAnimation(AnimationName.STAY)
 
     def draw(self, dst: pg.Surface, pos):
         self.__gunAnimation.scale((70, 30))
@@ -119,10 +126,10 @@ class Gun:
         if self.__params["bulletType"] == "TwoDirection":
             angle = (0, angle[1])
         self.__gunAnimation.rotozoom(angle[0], 1)
-        self.__gunAnimation.flip(not angle[1], 0)
+        self.__gunAnimation.flip(not angle[1])
         posNew = self.__gunAnimation.getSize()
         posX = -(posNew[0] - posOld[0] * ((angle[1] - 1/2)*2 * cos(angle[0] / 180 * pi))) / 2
-        if biggerNull(angle[0]):
+        if angle[0] > 0:
             posY = -posNew[1] + posOld[1] * cos(angle[0] / 180 * pi) / 2
         else:
             posY = -posOld[1] * cos(angle[0] / 180 * pi) / 2

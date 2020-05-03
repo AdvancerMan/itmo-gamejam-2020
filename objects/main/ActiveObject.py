@@ -34,6 +34,8 @@ class ActiveObject(InGameObject):
         self.__hp = maxHp
 
     def updateAnimation(self):
+        if len(self.guns) > 0:
+            self.guns[0].postUpdate()
         if self.getAnimation().isFinished():
             if self.getAnimation().getAnimationName() == AnimationName.JUMP:
                 self.getAnimation().setAnimation(AnimationName.FALL)
@@ -83,7 +85,7 @@ class ActiveObject(InGameObject):
 
     def shoot(self):
         if self.__lastShoot > self.guns[0].cooldown:
-            self.guns[0].spawnBullet(self)
+            self.guns[0].spawnBullet()
             self.__lastShoot = 0
 
     def takeDamage(self, amount: float):

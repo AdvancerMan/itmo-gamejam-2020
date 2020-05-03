@@ -10,10 +10,11 @@ class AnimationName(IntEnum):
     JUMP = auto()
     FALL = auto()
     LANDING = auto()
+    SHOOT = auto()
 
 
 def breakAnimationLoops(animations: dict):
-    for name in (AnimationName.JUMP, AnimationName.LANDING):
+    for name in (AnimationName.JUMP, AnimationName.LANDING, AnimationName.SHOOT):
         if name in animations:
             animations[name].loop = False
 
@@ -49,8 +50,8 @@ class AnimationPack:
         for anim in self.__animations.values():
             return anim.getCurrentFrame().get_size()
 
-    def setAnimation(self, name: AnimationName):
-        if self.__playingName != name:
+    def setAnimation(self, name: AnimationName, restartAnimation: bool = False):
+        if self.__playingName != name or restartAnimation:
             if name not in self.__animations:
                 return
             self.__animation.stop()
@@ -142,13 +143,15 @@ class AnimationPackInfo(Enum):
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
     )
     POISONGUN_ANIMATION = _createAnimationPack(
-        (AnimationName.STAY, 1, 1, [100], "pics", "Guns", "Big_gravity_gun.png")
+        (AnimationName.STAY, 1, 1, [100], "pics", "Guns", "poison_gun_static.png"),
+        (AnimationName.SHOOT, 1, 6, [30] * 6, "pics", "Guns", "poison_gun_animation.png")
     )
     POISONEXPLODE_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
     )
     POWERGUN_ANIMATION = _createAnimationPack(
-        (AnimationName.STAY, 1, 1, [100], "pics", "Guns", "Big_power_gun.png")
+        (AnimationName.STAY, 1, 1, [100], "pics", "Guns", "power_gun_static.png"),
+        (AnimationName.SHOOT, 1, 6, [30] * 6, "pics", "Guns", "power_gun_animation.png")
     )
     POWERGUN_BULLET_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
