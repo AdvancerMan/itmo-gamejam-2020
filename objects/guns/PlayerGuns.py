@@ -56,10 +56,10 @@ class GravityGun(Gun):
     def __init__(self, game: Game, process, owner):
         Gun.__init__(self, game, process,
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.GRAVITYGUN_BULLET_ANIMATION),
-                     createRectangleBodyTemplate(b2_dynamicBody, 100, 100, gravityScale=0),
+                     createRectangleBodyTemplate(b2_dynamicBody, 30, 30, gravityScale=0),
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.GRAVITYGUN_ANIMATION),
                      {"bulletSpeed": 80, "bulletType": "Gravity", "bulletPower": 0,
-                      "ExplodeTime": 0.8, "ExplodeDamage": 0,
+                      "ExplodeTime": 0.2, "ExplodeDamage": 0,
                       "ExplodeAnimation": game.getTextureManager().getAnimationPack(AnimationPackInfo.GRAVITY_EXPLODE_BULLET_ANIMATION)},
                      owner)
         self.cooldown = 0.5
