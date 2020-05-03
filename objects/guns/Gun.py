@@ -38,9 +38,11 @@ class Explode(InGameObject):
         self.__game = game
         self.__params = params
         self.__life = 0
+        self.__body = body
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
-        contact.enabled = False
+        if self.__params["bulletType"] != "Gravity":
+            contact.enabled = False
         obj.takeDamage(self.__params["ExplodeDamage"], True)
 
     def preUpdate(self, delta: float):
@@ -67,7 +69,7 @@ class Bullet(InGameObject):
         self.__dead = False
         posX, posY = self.__owner.getPosition()
         direction = self.__owner.shootAngle
-        if self.__params["bulletType"] == "TwoDirection":
+        if self.__params["bulletType"] == "TwoDirectionExplode":
             direction = b2Vec2(direction.x, 0)
         direction.Normalize()
         posY -= self.getAABB().h / 2
@@ -82,7 +84,9 @@ class Bullet(InGameObject):
             pass
         else:
             obj.takeDamage(self.__params["bulletPower"])
-            if self.__params["bulletType"] == "BallisticExplode":
+            if self.__params["bulletType"] == "BallisticExplode" or \
+                    self.__params["bulletType"] == "TwoDirectionExplode" or \
+                    self.__params["bulletType"] == "Gravity":
                 self.__dead = True
             else:
                 self.process.removeObject(self)
@@ -94,8 +98,7 @@ class Bullet(InGameObject):
     def postUpdate(self):
         if self.__dead:
             self.__process.addObject(Explode(self.__game, self.__process,
-                                             self.__game.getTextureManager().getAnimationPack(
-                                                 AnimationPackInfo.POISONEXPLODE_ANIMATION),
+                                             self.__params["ExplodeAnimation"],
                                              self.__process.getFactory().createRectangleBody(b2_dynamicBody, 50, 50, gravityScale=0),
                                              self.getPosition(), self.__params))
             self.process.removeObject(self)
@@ -139,7 +142,7 @@ class Gun:
         self.__gunAnimation.scale((70, 30))
         oldW, oldH = self.__gunAnimation.getSize()
         angle, self.__directedToRight = getAngle(self.__owner.shootAngle)
-        if self.__params["bulletType"] == "TwoDirection":
+        if self.__params["bulletType"] == "TwoDirectionExplode":
             angle = 0
         self.__gunAnimation.rotate(angle)
         self.__gunAnimation.flip(not self.__directedToRight)

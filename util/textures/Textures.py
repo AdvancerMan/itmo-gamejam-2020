@@ -167,6 +167,16 @@ class AnimationPackInfo(Enum):
     POWER_EXPLODE_BULLET_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 6, [100] * 6, "pics", "Bullet", "power_bullet_bang.png")
     )
+    GRAVITYGUN_ANIMATION = _createAnimationPack(
+        (AnimationName.STAY, 1, 1, [100], "pics", "Guns", "gravity_gun_static.png"),
+        (AnimationName.SHOOT, 1, 4, [30] * 4, "pics", "Guns", "gravity_gun_animation.png")
+    )
+    GRAVITYGUN_BULLET_ANIMATION = _createAnimationPack(
+        (AnimationName.STAY, 1, 1, [100], "pics", "Bullet", "gravity_bullet.png")
+    )
+    GRAVITY_EXPLODE_BULLET_ANIMATION = _createAnimationPack(
+        (AnimationName.STAY, 1, 4, [200] * 4, "pics", "Bullet", "Gravity_bullet_bang.png")
+    )
     ANT_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 7, [100] * 7, "pics", "enemy", "Ant.png"),
         (AnimationName.RUN, 1, 7, [100] * 7, "pics", "enemy", "Ant.png")
