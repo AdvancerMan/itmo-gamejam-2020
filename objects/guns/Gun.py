@@ -82,8 +82,9 @@ class Bullet(InGameObject):
             pass
         else:
             obj.takeDamage(self.__params["bulletPower"])
-            if self.__params["bulletType"] == "BallisticExplode" \
-                    or self.__params["bulletType"] == "TwoDirectionExplode":
+            if self.__params["bulletType"] == "BallisticExplode" or \
+                    self.__params["bulletType"] == "TwoDirectionExplode" or \
+                    self.__params["bulletType"] == "Gravity":
                 self.__dead = True
             else:
                 self.process.removeObject(self)
