@@ -140,21 +140,24 @@ class AnimationPackInfo(Enum):
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
     )
     POISONGUN_BULLET_ANIMATION = _createAnimationPack(
-        (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
+        (AnimationName.STAY, 1, 1, [100], "pics", "Bullet", "poison_bullet.png")
     )
     POISONGUN_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 1, [100], "pics", "Guns", "poison_gun_static.png"),
         (AnimationName.SHOOT, 1, 6, [30] * 6, "pics", "Guns", "poison_gun_animation.png")
     )
     POISONEXPLODE_ANIMATION = _createAnimationPack(
-        (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
+        (AnimationName.STAY, 1, 1, [100], "pics", "Bullet", "poison_bullet_bang.png")
     )
     POWERGUN_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 1, [100], "pics", "Guns", "power_gun_static.png"),
         (AnimationName.SHOOT, 1, 6, [30] * 6, "pics", "Guns", "power_gun_animation.png")
     )
     POWERGUN_BULLET_ANIMATION = _createAnimationPack(
-        (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
+        (AnimationName.STAY, 1, 2, [100] * 2, "pics", "Bullet", "power_bullet.png")
+    )
+    POWER_EXPLODE_BULLET_ANIMATION = _createAnimationPack(
+        (AnimationName.STAY, 1, 6, [100] * 6, "pics", "Bullet", "power_bullet_bang.png")
     )
     ANT_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 7, [100] * 7, "pics", "enemy", "Ant.png"),
