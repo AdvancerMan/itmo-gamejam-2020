@@ -67,7 +67,7 @@ class Bullet(InGameObject):
         self.__dead = False
         posX, posY = self.__owner.getPosition()
         direction = self.__owner.shootAngle
-        if self.__params["bulletType"] == "TwoDirection":
+        if self.__params["bulletType"] == "TwoDirectionExplode":
             direction = b2Vec2(direction.x, 0)
         direction.Normalize()
         posY -= self.getAABB().h / 2
@@ -82,7 +82,8 @@ class Bullet(InGameObject):
             pass
         else:
             obj.takeDamage(self.__params["bulletPower"])
-            if self.__params["bulletType"] == "BallisticExplode":
+            if self.__params["bulletType"] == "BallisticExplode" \
+                    or self.__params["bulletType"] == "TwoDirectionExplode":
                 self.__dead = True
             else:
                 self.process.removeObject(self)
@@ -97,7 +98,7 @@ class Bullet(InGameObject):
                                              self.__game.getTextureManager().getAnimationPack(
                                                  AnimationPackInfo.POISONEXPLODE_ANIMATION),
                                              self.__process.getFactory().createRectangleBody(b2_dynamicBody, 50, 50, gravityScale=0),
-                                             self.getPosition(), self.__params))
+                                             self.getPosition(), self.__params))    # as explode animation put poisonexplode
             self.process.removeObject(self)
 
 
@@ -133,7 +134,7 @@ class Gun:
         self.__gunAnimation.scale((70, 30))
         posOld = self.__gunAnimation.getSize()
         angle = getAngle(self.__owner.shootAngle)
-        if self.__params["bulletType"] == "TwoDirection":
+        if self.__params["bulletType"] == "TwoDirectionExplode":
             angle = (0, angle[1])
         self.__gunAnimation.rotozoom(angle[0], 1)
         self.__gunAnimation.flip(not angle[1])
