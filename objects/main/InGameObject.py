@@ -40,6 +40,8 @@ class InGameObject:
         self.__animation.blit(dst, pos)
 
     def draw(self, dst: pg.Surface, cameraRect: Rectangle):
+        if not self.__body.active:
+            return
         aabb = self.getAABB()
         if aabb.intersects(cameraRect):
             camPos = cameraRect.pos()
