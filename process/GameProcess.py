@@ -13,6 +13,7 @@ from util.box2d.BodyFactory import BodyFactory
 from objects.friendly.Player import Player
 from levels.LevelBuilder import Builder
 from util.box2d.ContactListener import ContactListener
+from util.textures.Textures import TextureInfo
 
 
 class GameProcess(Process):
@@ -23,6 +24,11 @@ class GameProcess(Process):
         self.__contactListener = ContactListener()
         self.__world.contactListener = self.__contactListener
         self.__factory = BodyFactory(self.__world)
+        self.__background = pg.transform.scale(
+            game.getTextureManager()
+                .getTexture(TextureInfo.BACKGROUND),
+            WINDOW_RESOLUTION
+        )
 
         self.__game = game
         self.__events = []
@@ -90,6 +96,14 @@ class GameProcess(Process):
                 self.removeObject(obj)
 
     def draw(self, dst: pg.Surface):
+        backgroundW = self.__background.get_size()[0]
+        backgroundX = self.__cameraRect.x // backgroundW * backgroundW - self.__cameraRect.x
+        if backgroundX < 0:
+            backgroundX += backgroundW
+
+        dst.blit(self.__background, (backgroundX, 0))
+        dst.blit(self.__background, (backgroundX - backgroundW, 0))
+
         for obj in self.__objects:
             obj.draw(dst, self.__cameraRect)
         self.__removeObjects()

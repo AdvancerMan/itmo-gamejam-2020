@@ -32,7 +32,7 @@ class TextureInfo(Enum):
     GUN1 = _createPic("pics", "Guns", "Mini_gravity_gun.png")
     GUN2 = _createPic("pics", "Guns", "Mini_poison_gun.png")
     GUN3 = _createPic("pics", "Guns", "Mini_power_gun.png")
-    BACKGROUND = _createPic("background.png")
+    BACKGROUND = _createPic("pics", "background.png")
 
 
 class AnimationInfo(Enum):
@@ -47,8 +47,11 @@ class AnimationPackInfo(Enum):
         (AnimationName.FALL, 1, 1, [100], "pics", "player", "fall.png"),
         (AnimationName.LANDING, 1, 1, [100], "pics", "player", "land.png")
     )
-    PLATFORM_ANIMATION = _createAnimationPack(
+    HALF_COL_PLATFORM_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 1, [100], "pics", "platforms", "halfColl.png")
+    )
+    PLATFORM_ANIMATION = _createAnimationPack(
+        (AnimationName.STAY, 1, 1, [100], "pics", "platforms", "Platform.png")
     )
     USUALGUN_BULLET_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
