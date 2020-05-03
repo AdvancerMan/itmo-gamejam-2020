@@ -76,6 +76,12 @@ class AnimationPackInfo(Enum):
     POISONEXPLODE_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
     )
+    POWERGUN_ANIMATION = _createAnimationPack(
+        (AnimationName.STAY, 1, 1, [100], "pics", "Guns", "Big_power_gun.png")
+    )
+    POWERGUN_BULLET_ANIMATION = _createAnimationPack(
+        (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
+    )
     STUPID_ENEMY_ANIMATION = PLAYER_ANIMATION
     ANT_ANIMATION = PLAYER_ANIMATION
     ANTHILL_ANIMATION = PLAYER_ANIMATION

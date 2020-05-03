@@ -53,11 +53,12 @@ class Bullet(InGameObject):
         self.__dead = False
         posX, posY = self.__owner.getPosition()
         direction = self.__owner.shootAngle
+        if self.__params["bulletType"] == "TwoDirection":
+            direction = b2Vec2(direction.x, 0)
         direction.Normalize()
-        if self.__params["bulletType"] == "OneDirection" or self.__params["bulletType"] == "Ballistic"\
-                or self.__params["bulletType"] == "BallisticExplode":
-            self.setPosition(posX + (50 * direction).x, posY + (50 * direction).y)
-            self.getBody().linearVelocity = params["bulletSpeed"] * direction + self.__owner.getBody().linearVelocity
+        posY -= self.getAABB().h / 2
+        self.setPosition(posX + (30 * direction).x, posY + (30 * direction).y)
+        self.getBody().linearVelocity = params["bulletSpeed"] * direction + self.__owner.getBody().linearVelocity
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
         if self.__params["bulletType"] != "BallisticExplode":
@@ -112,6 +113,8 @@ class Gun:
         self.__gunAnimation.scale((70, 30))
         posOld = self.__gunAnimation.getSize()
         angle = getAngle(self.__owner.shootAngle)
+        if self.__params["bulletType"] == "TwoDirection":
+            angle = (0, angle[1])
         self.__gunAnimation.rotozoom(angle[0], 1)
         self.__gunAnimation.flip(not angle[1], 0)
         posNew = self.__gunAnimation.getSize()
