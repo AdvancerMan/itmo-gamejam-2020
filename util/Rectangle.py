@@ -60,3 +60,7 @@ def rectFromSize(x: float, y: float, width: float, height: float) -> Rectangle:
 
 def intersects(s1: float, f1: float, s2: float, f2: float) -> bool:
     return max(s1, s2) <= min(f1, f2)
+
+
+def iterSum(*iters) -> tuple:
+    return tuple(map(sum, zip(*iters)))
