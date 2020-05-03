@@ -107,7 +107,8 @@ class Gun:
         self.__currAngle = 0
 
     def spawnBullet(self):
-        self.__gunAnimation.setAnimation(AnimationName.SHOOT, True)
+        if not self.__gunAnimation.setAnimation(AnimationName.SHOOT, True):
+            self.__spawnBullet()
 
     def __spawnBullet(self):
         self.__process.addObject(Bullet(self.__game, self.__process, self.__bulletAnimation,
