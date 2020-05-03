@@ -83,7 +83,7 @@ class ActiveObject(InGameObject):
 
     def shoot(self):
         if self.__lastShoot > self.guns[0].cooldown:
-            self.guns[0].spawnBullet(self)
+            self.guns[0].spawnBullet()
             self.__lastShoot = 0
 
     def takeDamage(self, amount: float):

@@ -10,6 +10,7 @@ class AnimationName(IntEnum):
     JUMP = auto()
     FALL = auto()
     LANDING = auto()
+    SHOOT = auto()
 
 
 def breakAnimationLoops(animations: dict):
@@ -145,7 +146,7 @@ class AnimationPackInfo(Enum):
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
     )
     POISONGUN_ANIMATION = _createAnimationPack(
-        (AnimationName.STAY, 1, 1, [100], "pics", "Guns", "Big_gravity_gun.png")
+        (AnimationName.STAY, 1, 1, [100], "pics", "Guns", "Big_poison_gun.png")
     )
     POISONEXPLODE_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")

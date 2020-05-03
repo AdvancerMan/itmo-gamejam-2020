@@ -65,7 +65,7 @@ class Bullet(InGameObject):
             contact.enabled = False
 
     def beginContact(self, obj, contact: b2Contact):
-        if obj == self.__owner and not self.__hitOwner or type(obj) == Explode:
+        if obj == self.__owner and not self.__hitOwner or type(obj) == Explode or type(obj) == Bullet:
             pass
         else:
             obj.takeDamage(self.__params["bulletPower"])
@@ -104,9 +104,9 @@ class Gun:
         self.__currAngle = 0
         # self.__gunAnimation.scale((50, 15))
 
-    def spawnBullet(self, owner):
+    def spawnBullet(self):
         self.__process.addObject(Bullet(self.__game, self.__process, self.__bulletAnimation,
-                                        self.__params, owner,
+                                        self.__params, self.__owner,
                                         self.__bulletBody.createBody(self.__process.getFactory())))
 
     def draw(self, dst: pg.Surface, pos):
