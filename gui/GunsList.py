@@ -30,13 +30,12 @@ class GunsList:
         self.__i = self.__getI(-1)
 
     def draw(self, dst: pg.Surface, ammoRemaining: int):
-        # TODO bug in positioning
         dst.blit(self.__background, self.__pos)
-        dst.blit(self.__guns[self.__getI(-1)], iterSum(self.__pos, (0, 21)))
-        dst.blit(self.__detGuns[self.__i], iterSum(self.__pos, (19, 16)))
-        dst.blit(self.__guns[self.__getI(1)], iterSum(self.__pos, (52, 21)))
+        dst.blit(self.__guns[self.__getI(-1)], iterSum(self.__pos, (0, 7)))
+        dst.blit(self.__detGuns[self.__i], iterSum(self.__pos, (19, 2)))
+        dst.blit(self.__guns[self.__getI(1)], iterSum(self.__pos, (52, 7)))
         if ammoRemaining < 10:
-            dst.blit(self.__numbers[ammoRemaining // 10], iterSum(self.__pos, (28, 2)))
-            dst.blit(self.__numbers[ammoRemaining % 10], iterSum(self.__pos, (35, 2)))
+            dst.blit(self.__numbers[ammoRemaining], iterSum(self.__pos, (32, 28)))
         else:
-            dst.blit(self.__numbers[ammoRemaining], iterSum(self.__pos, (32, 2)))
+            dst.blit(self.__numbers[ammoRemaining // 10], iterSum(self.__pos, (28, 28)))
+            dst.blit(self.__numbers[ammoRemaining % 10], iterSum(self.__pos, (35, 28)))

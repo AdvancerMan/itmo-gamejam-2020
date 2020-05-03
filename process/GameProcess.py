@@ -31,7 +31,7 @@ class GameProcess(Process):
         self.__objects = set()
         self.__cameraRect = rectFromSize(0, -WINDOW_RESOLUTION[1], *WINDOW_RESOLUTION)
 
-        self.__player = Player(game, self, GunsList(game, (100, 100)))
+        self.__player = Player(game, self, GunsList(game, (20, 20)))
         self.addObject(self.__player)
 
         self.__builder = Builder(game)
