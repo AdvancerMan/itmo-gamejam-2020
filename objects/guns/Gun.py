@@ -41,9 +41,17 @@ class Explode(InGameObject):
         self.__body = body
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
-        if self.__params["bulletType"] != "Gravity":
-            contact.enabled = False
+        contact.enabled = False
         obj.takeDamage(self.__params["ExplodeDamage"], True)
+        if self.__params["bulletType"] == "Gravity":
+            posObjX, posObjY = obj.getPosition()
+            posOwnX, posOwnY = self.getPosition()
+            impulse = b2Vec2(posObjX - posOwnX, 0)
+            impulse.Normalize()
+            impulse.y = 0.8
+            impulse *= 20
+            point = b2Vec2(0, 0)
+            obj.getBody().ApplyLinearImpulse(impulse, point, False)
 
     def preUpdate(self, delta: float):
         self.__life += delta
@@ -73,6 +81,7 @@ class Bullet(InGameObject):
             direction = b2Vec2(direction.x, 0)
         direction.Normalize()
         posY -= self.getAABB().h / 2
+        posX -= 3
         self.setPosition(posX + (30 * direction).x, posY + (30 * direction).y)
         self.getBody().linearVelocity = params["bulletSpeed"] * direction + self.__owner.getBody().linearVelocity
 
@@ -99,7 +108,7 @@ class Bullet(InGameObject):
         if self.__dead:
             self.__process.addObject(Explode(self.__game, self.__process,
                                              self.__params["ExplodeAnimation"],
-                                             self.__process.getFactory().createRectangleBody(b2_dynamicBody, 50, 50, gravityScale=0),
+                                             self.__process.getFactory().createRectangleBody(b2_staticBody, 50, 50, gravityScale=0),
                                              self.getPosition(), self.__params))
             self.process.removeObject(self)
 

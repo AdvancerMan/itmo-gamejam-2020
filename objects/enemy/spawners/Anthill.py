@@ -8,7 +8,7 @@ from util.textures.Textures import AnimationPackInfo
 
 class Anthill(Spawner):
     def __init__(self, game: Game, process, player: Player, x: float, y: float):
-        Spawner.__init__(self, game, process, player,
+        Spawner.__init__(self, game, process, player, 100,
                          game.getTextureManager().getAnimationPack(AnimationPackInfo.ANTHILL_ANIMATION),
                          process.getFactory().createRectangleBody(b2_staticBody, 40, 50),
                          Ant, x=x + 20, y=y + 25)
