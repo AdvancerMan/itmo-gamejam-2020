@@ -97,7 +97,7 @@ class GameProcess(Process):
 
     def draw(self, dst: pg.Surface):
         backgroundW = self.__background.get_size()[0]
-        backgroundX = self.__cameraRect.x // backgroundW * backgroundW - self.__cameraRect.x
+        backgroundX = self.__cameraRect.x // 10 // backgroundW * backgroundW - self.__cameraRect.x // 10
         if backgroundX < 0:
             backgroundX += backgroundW
 
