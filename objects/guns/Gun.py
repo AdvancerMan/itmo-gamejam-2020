@@ -6,6 +6,7 @@ from objects.main.InGameObject import InGameObject
 from util.box2d.BodyFactory import BodyTemplate
 from config.Config import *
 from math import *
+from util.textures.Textures import AnimationPackInfo
 
 
 def getAngle(vector: b2Vec2):  # in degrees (-90; 90), direction 1 or 0
@@ -28,23 +29,37 @@ def biggerNull(x: float):
     else:
         return 0
 
+
+class Explode(InGameObject):
+    def __init__(self, game, process, animation, body: b2Body):
+        InGameObject.__init__(self, game, process, animation, body)
+    '''
+    def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
+        obj.takeDamage(10)
+        '''
+
+
 class Bullet(InGameObject):
-    def __init__(self, game, process, animation: pga.PygAnimation,
+    def __init__(self, game, process, animation,
                  params: dict, owner, body: b2Body):
         InGameObject.__init__(self, game, process, animation, body)
         self.getBody().bullet = True
+        self.__process = process
+        self.__game = game
         self.__params = params
         self.__owner = owner
         self.__hitOwner = False
         posX, posY = self.__owner.getPosition()
         direction = self.__owner.shootAngle
         direction.Normalize()
-        if self.__params["bulletType"] == "OneDirection" or self.__params["bulletType"] == "Ballistic":
+        if self.__params["bulletType"] == "OneDirection" or self.__params["bulletType"] == "Ballistic"\
+                or self.__params["bulletType"] == "BallisticExplode":
             self.setPosition(posX + (50 * direction).x, posY + (50 * direction).y)
             self.getBody().linearVelocity = params["bulletSpeed"] * direction + self.__owner.getBody().linearVelocity
 
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
-        contact.enabled = False
+        if self.__params["bulletType"] != "BallisticExplode":
+            contact.enabled = False
 
     def beginContact(self, obj, contact: b2Contact):
         if obj == self.__owner and not self.__hitOwner:
@@ -52,6 +67,10 @@ class Bullet(InGameObject):
         else:
             obj.takeDamage(self.__params["bulletPower"])
             self.process.removeObject(self)
+            if self.__params["bulletType"] == "BallisticExplode":
+                self.__process.addObject(Explode(self.__game, self.__process,
+                                                 self.__game.getTextureManager().getAnimationPack(AnimationPackInfo.POISONEXPLODE_ANIMATION),
+                                                 self.__process.getFactory().createRectangleBody(b2_dynamicBody, 50, 50, gravityScale=0)))
 
     def endContact(self, obj, contact: b2Contact):
         if obj == self.__owner:
@@ -91,6 +110,5 @@ class Gun:
         else:
             posY = -posOld[1] * cos(angle[0] / 180 * pi) / 2
         ownerSize = self.__owner.getAABB()
-        # print(ownerSize.h)
         self.__gunAnimation.blit(dst, (pos[0] + posX + ownerSize.w / 2, pos[1] + posY + ownerSize.h / 2))
         self.__gunAnimation.clearTransforms()
