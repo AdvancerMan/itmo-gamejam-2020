@@ -22,6 +22,9 @@ def _createAnimationPack(*nameAndAnimationInfoArgs) -> dict:
 
 
 class TextureInfo(Enum):
+    HEALTH_BAR = _createPic("health.png")
+    HEALTH_BAR_LOWER = _createPic("health.png")
+    HEALTH_BAR_UPPER = _createPic("health.png")
     BACKGROUND = _createPic("background.png")
 
 
