@@ -36,11 +36,14 @@ class InGameObject:
     def getAnimation(self) -> AnimationPack:
         return self.__animation
 
+    def _draw(self, dst: pg.Surface, aabb: Rectangle, pos: tuple):
+        self.__animation.blit(dst, pos)
+
     def draw(self, dst: pg.Surface, cameraRect: Rectangle):
         aabb = self.getAABB()
         if aabb.intersects(cameraRect):
-            aabb.move(*map(lambda x: -x, cameraRect.pos()))
-            self.__animation.blit(dst, (aabb.x, cameraRect.h - aabb.y - aabb.h))
+            camPos = cameraRect.pos()
+            self._draw(dst, aabb, (aabb.x - camPos[0], cameraRect.h - aabb.y - aabb.h + camPos[1]))
 
     def getBody(self) -> b2Body:
         return self.__body

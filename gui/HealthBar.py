@@ -11,7 +11,7 @@ class HealthBar:
         self.__bar = game.getTextureManager().getTexture(TextureInfo.HEALTH_BAR)
         self.__rect = rectFromSize(0, 0, *self.__lower.get_size())
 
-    def getTexture(self, health: float, maxHealth: float) -> pg.Surface:
+    def __getTexture(self, health: float, maxHealth: float) -> pg.Surface:
         result = self.__lower.copy()
         transparent = pg.Surface(self.__bar.get_size(), pg.SRCALPHA)
 
@@ -22,6 +22,11 @@ class HealthBar:
         result.blit(self.__upper, (0, 0))
         return result
 
-    def draw(self, dst: pg.Surface, cameraRect: Rectangle, pos: tuple, health: float, maxHealth: float):
-        if self.__rect.intersects(cameraRect):
-            dst.blit(self.getTexture(health, maxHealth), pos)
+    def getWidth(self) -> float:
+        return self.__lower.get_size()[0]
+
+    def getHeight(self) -> float:
+        return self.__lower.get_size()[1]
+
+    def draw(self, dst: pg.Surface, pos: tuple, health: float, maxHealth: float):
+        dst.blit(self.__getTexture(health, maxHealth), pos)
