@@ -1,9 +1,32 @@
 import pyganim as pga
+import pygame as pg
 from Box2D import *
 from game.Game import Game
 from objects.main.InGameObject import InGameObject
 from util.box2d.BodyFactory import BodyTemplate
+from config.Config import *
+from math import *
 
+
+def getAngle(vector: b2Vec2):  # in degrees (-90; 90), direction 1 or 0
+    if vector.length == 0:
+        return (1, True)
+    vector.Normalize()
+    phi1 = acos(vector.x)
+    phi1 *= 360 / (2 * pi)
+    phi2 = asin(vector.y)
+    phi2 *= 360 / (2 * pi)
+    if phi1 > 90:
+        return (phi2, False)
+    else:
+        return (phi2, True)
+
+
+def biggerNull(x: float):
+    if x > 0:
+        return 1
+    else:
+        return 0
 
 class Bullet(InGameObject):
     def __init__(self, game, process, animation: pga.PygAnimation,
@@ -37,7 +60,7 @@ class Bullet(InGameObject):
 class Gun:
     def __init__(self, game: Game, process, bulletAnim: pga.PygAnimation,
                  bulletBodyTemplate: BodyTemplate,
-                 gunAnim: pga.PygAnimation, params: dict, owner):
+                 gunAnim, params: dict, owner):
         # process: GameProcess
         self.__owner = owner
         self.__game = game
@@ -47,8 +70,25 @@ class Gun:
         self.__bulletAnimation = bulletAnim
         self.__gunAnimation = gunAnim
         self.__bulletBody = bulletBodyTemplate
+        self.__currAngle = 0
+        # self.__gunAnimation.scale((50, 15))
 
     def spawnBullet(self, owner):
         self.__process.addObject(Bullet(self.__game, self.__process, self.__bulletAnimation,
                                         self.__params, owner,
                                         self.__bulletBody.createBody(self.__process.getFactory())))
+
+    def draw(self, dst: pg.Surface):
+        self.__gunAnimation.scale((70, 30))
+        posOld = self.__gunAnimation.getSize()
+        angle = getAngle(self.__owner.shootAngle)
+        self.__gunAnimation.rotozoom(angle[0], 1)
+        self.__gunAnimation.flip(not angle[1], 0)
+        posNew = self.__gunAnimation.getSize()
+        posX = (posNew[0] - posOld[0] * ((angle[1] - 1/2)*2 * cos(angle[0] / 180 * pi))) / 2
+        if biggerNull(angle[0]):
+            posY = -posNew[1] + posOld[1] * cos(angle[0] / 180 * pi) / 2
+        else:
+            posY = -posOld[1] * cos(angle[0] / 180 * pi) / 2
+        self.__gunAnimation.blit(dst, (WINDOW_RESOLUTION[0] / 2 - posX, WINDOW_RESOLUTION[1] / 2 + posY))
+        self.__gunAnimation.clearTransforms()

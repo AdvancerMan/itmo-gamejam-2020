@@ -59,7 +59,7 @@ class AnimationPackInfo(Enum):
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
     )
     USUALGUN_ANIMATION = _createAnimationPack(
-        (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
+        (AnimationName.STAY, 1, 1, [100], "pics", "hand.png")
     )
     BALLISTICGUN_BULLET_ANIMATION = _createAnimationPack(
         (AnimationName.STAY, 1, 1, [100], "pics", "friend.png")
