@@ -76,18 +76,18 @@ class GameProcess(Process):
     def update(self, delta: float):
         if self.__player.isKilled():
             self.__game.replaceProcess(GameProcess(self.__game))
+        self.__base.preUpdate(delta)
         for obj in self.__objects:
             obj.preUpdate(delta)
-        self.__base.preUpdate(delta)
 
         self.__objects = self.__objects.union(self.__justCreatedObjects)
         self.__justCreatedObjects.clear()
         self.__world.Step(delta, 10, 10)
 
+        self.__base.postUpdate()
         for obj in self.__objects:
             obj.postUpdate()
             self.checkRadius(obj)
-        self.__base.postUpdate()
 
         self.__events = []
         self.centerCameraAtObj(self.__player)
@@ -108,9 +108,9 @@ class GameProcess(Process):
         dst.blit(self.__background, (backgroundX, 0))
         dst.blit(self.__background, (backgroundX - backgroundW, 0))
 
+        self.__base.draw(dst, self.__cameraRect)
         for obj in self.__objects:
             obj.draw(dst, self.__cameraRect)
-        self.__base.draw(dst, self.__cameraRect)
         self.__removeObjects()
 
     def __removeObjects(self):

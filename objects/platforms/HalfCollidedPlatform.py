@@ -5,11 +5,11 @@ from util.textures.Textures import AnimationPackInfo
 
 
 class HalfCollidedPlatform(Platform):
-    def __init__(self, game: Game, process, x: float, y: float, width: float, height: float):
+    def __init__(self, game: Game, process, x: float, y: float, width: float, height: float, animationPack=None):
         # process: GameProcess
-        Platform.__init__(self, game, process,
-                          game.getTextureManager().getAnimationPack(AnimationPackInfo.HALF_COL_PLATFORM_ANIMATION),
-                          x, y, width, height)
+        if animationPack is None:
+            animationPack = game.getTextureManager().getAnimationPack(AnimationPackInfo.HALF_COL_PLATFORM_ANIMATION)
+        Platform.__init__(self, game, process, animationPack, x, y, width, height)
         self._notColliding = set()
 
     def beginContact(self, obj, contact: b2Contact):
