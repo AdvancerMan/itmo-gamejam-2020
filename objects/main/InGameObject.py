@@ -4,7 +4,7 @@ from game.Game import Game
 from config.Config import BOX2D_COEF
 from util.FloatCmp import lessOrEquals
 from util.Rectangle import Rectangle, rectFromTwoPoints, rectFromSize
-from util.textures.AnimationPack import AnimationPack
+from util.textures.Textures import AnimationPack
 
 
 def toPix(x: float) -> float:

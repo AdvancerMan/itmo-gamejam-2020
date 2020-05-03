@@ -1,7 +1,7 @@
 from Box2D import *
 from game.Game import Game
 from objects.main.InGameObject import InGameObject
-from util.textures.AnimationPack import AnimationPack
+from util.textures.Textures import AnimationPack
 
 
 class Platform(InGameObject):

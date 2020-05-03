@@ -7,7 +7,7 @@ from objects.main.InGameObject import InGameObject
 from objects.guns.PlayerGuns import *
 from util.FloatCmp import lessOrEquals, less, equals
 from util.Rectangle import Rectangle
-from util.textures.AnimationPack import AnimationName, AnimationPack
+from util.textures.Textures import AnimationName, AnimationPack
 from config.Config import *
 
 
