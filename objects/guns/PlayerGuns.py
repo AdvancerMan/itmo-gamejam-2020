@@ -24,3 +24,13 @@ class BallisticGun(Gun):
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.BALLISTICGUN_ANIMATION),
                      {"bulletSpeed": 40, "bulletType": "Ballistic", "bulletPower": 20}, owner)
         self.cooldown = 0.7
+
+
+class PoisonGun(Gun):
+    def __init__(self, game: Game, process, owner):
+        Gun.__init__(self, game, process,
+                     game.getTextureManager().getAnimationPack(AnimationPackInfo.POISONGUN_BULLET_ANIMATION),
+                     createRectangleBodyTemplate(b2_dynamicBody, 10, 10),
+                     game.getTextureManager().getAnimationPack(AnimationPackInfo.POISONGUN_ANIMATION),
+                     {"bulletSpeed": 40, "bulletType": "BallisticExplode", "bulletPower": 20}, owner)
+        self.cooldown = 0.7
