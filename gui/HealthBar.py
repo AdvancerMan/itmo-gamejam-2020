@@ -18,7 +18,7 @@ class HealthBar:
         x = (health / maxHealth - 1) * self.__bar.get_size()[0]
         transparent.blit(self.__bar, (x, 0))
 
-        result.blit(transparent, (0, 0))
+        result.blit(transparent, (3, 0))
         result.blit(self.__upper, (0, 0))
         return result
 

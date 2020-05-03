@@ -16,6 +16,7 @@ class Player(ActiveObject):
                               20, 40, [UsualGun(game, process, self), BallisticGun(game, process, self)])
         self.__actions = set()
         self.hp = PLAYER_HP
+        self.maxHp = PLAYER_HP
 
     def angleUpdate(self):
         self.shootAngle = 0
