@@ -39,7 +39,7 @@ class Game:
 
     def __init(self):
         self.__screen = pg.display.set_mode(WINDOW_RESOLUTION)
-        pg.display.set_caption("Hello world!")
+        pg.display.set_caption("Anime-Gang Bess")
         self.__running = True
 
     def stop(self):
