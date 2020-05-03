@@ -66,12 +66,16 @@ class InGameObject:
     def getAABB(self) -> Rectangle:
         aabb = rectFromTwoPoints(0, 0, 0, 0)
         for fixture in self.__body.fixtures:
-            if not isinstance(fixture.shape, b2PolygonShape):
-                # TODO aabb for not polygon shapes
-                raise NotImplementedError("TODO")
-            xs = list(map(lambda tpl: tpl[0], fixture.shape.vertices))
-            ys = list(map(lambda tpl: tpl[1], fixture.shape.vertices))
-            aabb.union(rectFromTwoPoints(min(*xs), min(*ys), max(*xs), max(*ys)))
+            if isinstance(fixture.shape, b2PolygonShape):
+                xs = list(map(lambda tpl: tpl[0], fixture.shape.vertices))
+                ys = list(map(lambda tpl: tpl[1], fixture.shape.vertices))
+                aabb.union(rectFromTwoPoints(min(*xs), min(*ys), max(*xs), max(*ys)))
+            elif isinstance(fixture.shape, b2CircleShape):
+                r = fixture.shape.radius
+                pos = fixture.shape.pos - b2Vec2(r, r)
+                aabb.union(rectFromSize(*pos, 2 * r, 2 * r))
+            else:
+                raise NotImplementedError("Now game supports only polygon and circle shapes")
         return rectFromSize(*map(toPix, [aabb.x, aabb.y, aabb.w, aabb.h])).move(*self.getPosition())
 
     def getPosition(self):
