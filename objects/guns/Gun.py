@@ -31,8 +31,9 @@ def biggerNull(x: float):
 
 
 class Explode(InGameObject):
-    def __init__(self, game, process, animation, body: b2Body):
+    def __init__(self, game, process, animation, body: b2Body, pos: tuple):
         InGameObject.__init__(self, game, process, animation, body)
+        self.setPosition(pos[0], pos[1])
     '''
     def preSolve(self, obj, contact: b2Contact, oldManifold: b2Manifold):
         obj.takeDamage(10)
@@ -49,6 +50,7 @@ class Bullet(InGameObject):
         self.__params = params
         self.__owner = owner
         self.__hitOwner = False
+        self.__dead = False
         posX, posY = self.__owner.getPosition()
         direction = self.__owner.shootAngle
         direction.Normalize()
@@ -66,15 +68,23 @@ class Bullet(InGameObject):
             pass
         else:
             obj.takeDamage(self.__params["bulletPower"])
-            self.process.removeObject(self)
             if self.__params["bulletType"] == "BallisticExplode":
-                self.__process.addObject(Explode(self.__game, self.__process,
-                                                 self.__game.getTextureManager().getAnimationPack(AnimationPackInfo.POISONEXPLODE_ANIMATION),
-                                                 self.__process.getFactory().createRectangleBody(b2_dynamicBody, 50, 50, gravityScale=0)))
+                self.__dead = True
+            else:
+                self.process.removeObject(self)
 
     def endContact(self, obj, contact: b2Contact):
         if obj == self.__owner:
             self.__hitOwner = True
+
+    def postUpdate(self):
+        if self.__dead:
+            self.__process.addObject(Explode(self.__game, self.__process,
+                                             self.__game.getTextureManager().getAnimationPack(
+                                                 AnimationPackInfo.POISONEXPLODE_ANIMATION),
+                                             self.__process.getFactory().createRectangleBody(b2_dynamicBody, 50, 50, gravityScale=0),
+                                             self.getPosition()))
+            self.process.removeObject(self)
 
 class Gun:
     def __init__(self, game: Game, process, bulletAnim: pga.PygAnimation,
