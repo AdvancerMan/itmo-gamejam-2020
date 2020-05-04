@@ -117,7 +117,7 @@ class Bullet(InGameObject):
 class Gun:
     def __init__(self, game: Game, process, bulletAnim: AnimationPack,
                  bulletBodyTemplate: BodyTemplate,
-                 gunAnim: AnimationPack, params: dict, owner):
+                 gunAnim: AnimationPack, params: dict, owner, maxAmmo: int):
         # process: GameProcess
         self.__owner = owner
         self.__game = game
@@ -129,9 +129,21 @@ class Gun:
         self.__bulletBody = bulletBodyTemplate
         self.__currAngle = 0
         self.__directedToRight = True
+        self.__ammoRemaining = maxAmmo
+        self.__maxAmmo = maxAmmo
+
+    def getRemainingAmmo(self) -> int:
+        return self.__ammoRemaining
+
+    def resetRemainingAmmo(self):
+        self.__ammoRemaining = self.__maxAmmo
+
+    def incrementAmmo(self):
+        if self.__ammoRemaining < self.__maxAmmo:
+            self.__ammoRemaining += 1
 
     def spawnBullet(self):
-        if not self.__gunAnimation.setAnimation(AnimationName.SHOOT, True):
+        if self.__ammoRemaining > 0 and not self.__gunAnimation.setAnimation(AnimationName.SHOOT, True):
             self.__spawnBullet()
 
     def __spawnBullet(self):
@@ -142,6 +154,7 @@ class Gun:
                         self.__params, self.__owner,
                         self.__bulletBody.createBody(self.__process.getFactory()))
         self.__process.addObject(bullet)
+        self.__ammoRemaining -= 1
 
     def postUpdate(self):
         if self.__gunAnimation.isFinished():

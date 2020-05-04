@@ -53,7 +53,7 @@ class Player(ActiveObject):
 
     def draw(self, dst: pg.Surface, cameraRect: Rectangle):
         super().draw(dst, cameraRect)
-        self.__guiGuns.draw(dst, 0) # TODO ammoRemaining
+        self.__guiGuns.draw(dst, self.guns[0].getRemainingAmmo())
 
     def changeGunLeft(self):
         super().changeGunLeft()
