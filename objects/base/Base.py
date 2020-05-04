@@ -2,7 +2,7 @@ import pygame as pg
 import pyganim as pga
 from Box2D import *
 from game.Game import Game
-from config.Config import BASE_SPEED, HEAL_COOLDOWN, AMMO_COOLDOWN
+from config.Config import BASE_SPEED, HEAL_COOLDOWN, AMMO_COOLDOWN, BASE_DISAPPEAR_TIME, BASE_APPEAR_TIME
 from objects.friendly.Player import Player
 from objects.platforms.HalfCollidedPlatform import HalfCollidedPlatform
 from util.FloatCmp import equals
@@ -31,6 +31,7 @@ class Base:
         self.__animation.scale2x()
         self.__animation.play()
         self.__light = pg.transform.scale2x(game.getTextureManager().getTexture(TextureInfo.LIGHT_BASE))
+        self.__badBase = pg.transform.scale2x(game.getTextureManager().getTexture(TextureInfo.BAD_BASE))
         self.__turnedOn = False
         self.__player = player
         self.__rect = rectFromSize(x, y, *self.__light.get_size())
@@ -44,6 +45,10 @@ class Base:
         self.__sinceLastHeal = self.__healCooldown
         self.__ammoCooldown = AMMO_COOLDOWN
         self.__sinceLastAmmo = self.__ammoCooldown
+
+        self.__sinceLastDisappear = 0
+        self.__disappearMoment = BASE_DISAPPEAR_TIME
+        self.__appearMoment = self.__disappearMoment + BASE_APPEAR_TIME
 
         self.__lowerPlatform = BasePlatform(game, process, x, y)
         self.__upperPlatform = BasePlatform(game, process, x,
@@ -70,6 +75,7 @@ class Base:
 
     def preUpdate(self, delta: float):
         self.updatePosition(delta)
+        self.__sinceLastDisappear += delta
         self.__sinceLastAmmo += delta
         self.__sinceLastHeal += delta
         if self.__player.getAABB().intersects(self.__rect):
@@ -79,7 +85,15 @@ class Base:
         self.preUpdatePlatforms(delta)
 
     def postUpdate(self):
-        if self.__turnedOn:
+        if self.__sinceLastDisappear > self.__disappearMoment:
+            if self.__sinceLastDisappear > self.__appearMoment:
+                self.__lowerPlatform.getBody().active = True
+                self.__upperPlatform.getBody().active = True
+                self.__sinceLastDisappear = 0
+            else:
+                self.__lowerPlatform.getBody().active = False
+                self.__upperPlatform.getBody().active = False
+        elif self.__turnedOn:
             if self.__healCooldown <= self.__sinceLastHeal:
                 self.__player.heal(1)
                 self.__sinceLastHeal = 0
@@ -98,7 +112,9 @@ class Base:
             pos = self.__getDrawPos(cameraRect, *self.__rect.pos())
             pos = (pos[0], pos[1] - self.__light.get_size()[1])
             self.__animation.blit(dst, pos)
-            if self.__turnedOn:
+            if self.__sinceLastDisappear > self.__disappearMoment:
+                dst.blit(self.__badBase, pos)
+            elif self.__turnedOn:
                 dst.blit(self.__light, pos)
             self.__lowerPlatform.draw(dst, cameraRect)
             self.__upperPlatform.draw(dst, cameraRect)

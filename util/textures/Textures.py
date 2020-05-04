@@ -114,6 +114,7 @@ class TextureInfo(Enum):
     GUN3 = _createPic("pics", "Guns", "Mini_gravity_gun.png")
     BACKGROUND = _createPic("pics", "background.png")
     LIGHT_BASE = _createPic("pics", "base", "light.png")
+    BAD_BASE = _createPic("pics", "base", "light.png")
 
 
 class AnimationInfo(Enum):
