@@ -1,3 +1,5 @@
+from random import randint
+
 from Box2D import *
 from game.Game import Game
 from objects.enemy.objects.Enemy import Enemy
@@ -13,10 +15,19 @@ class StupidEnemy(Enemy):
         Enemy.__init__(self, game, process, player, animation, body, 8, 40, [gun])
         self.setPosition(x, y)
         self.hp = self.resetHp(STUPID_ENEMY_HP)
+        self.__sinceShoot = 1000
+        self.__cooldown = 10
+
+    def preUpdate(self, delta: float):
+        self.__sinceShoot += delta
+        super().preUpdate(delta)
 
     def think(self) -> set:
-        return {"shoot"}
-
+        if self.__sinceShoot > self.__cooldown:
+            self.__sinceShoot = 0
+            self.__cooldown = randint(7, 150) / 100
+            return {"shoot"}
+        return set()
 
 class StupidEnemyStaying(StupidEnemy):
     def __init__(self, game: Game, process, player: Player, x: float, y: float):

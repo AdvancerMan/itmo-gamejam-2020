@@ -1,7 +1,7 @@
 import pyganim as pga
 from Box2D import *
 from game.Game import Game
-from objects.guns.Gun import Gun
+from objects.guns.Gun import Gun, GRAVI_AMMO, POWER_AMMO, POISON_AMMO
 from util.box2d.BodyFactory import createRectangleBodyTemplate
 from util.textures.Textures import AnimationInfo, AnimationPackInfo
 
@@ -13,7 +13,7 @@ class BigEnemyGun(Gun):
                      createRectangleBodyTemplate(b2_dynamicBody, 40, 40, gravityScale=0),
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.BIG_ENEMY_GUN_ANIMATION),
                      {"bulletSpeed": 80, "bulletType": "AllDirection", "bulletPower": 5}, owner, "BigEnemy", 1000_000)
-        self.cooldown = 0.3
+        self.cooldown = 0
 
 
 class EnemyGun(Gun):
@@ -23,7 +23,7 @@ class EnemyGun(Gun):
                      createRectangleBodyTemplate(b2_dynamicBody, 30, 30, gravityScale=0),
                      game.getTextureManager().getAnimationPack(AnimationPackInfo.ENEMY_GUN_ANIMATION),
                      {"bulletSpeed": 80, "bulletType": "AllDirection", "bulletPower": 5}, owner, "Enemy", 1000_000)
-        self.cooldown = 0.3
+        self.cooldown = 0
 
 
 class UsualGun(Gun):
@@ -55,7 +55,7 @@ class PoisonGun(Gun):
                      {"bulletSpeed": 40, "bulletType": "BallisticExplode", "bulletPower": 20,
                       "ExplodeTime": 5.0, "ExplodeDamage": 0.2, "ExplodeSize": 110,
                       "ExplodeAnimation": game.getTextureManager().getAnimationPack(AnimationPackInfo.POISONEXPLODE_ANIMATION)},
-                     owner, "Player", 40)
+                     owner, "Player", POISON_AMMO)
         self.cooldown = 0.7
 
 
@@ -68,7 +68,7 @@ class PowerGun(Gun):
                      {"bulletSpeed": 80, "bulletType": "TwoDirectionExplode", "bulletPower": 30,
                       "ExplodeTime": 0.4, "ExplodeDamage": 2, "ExplodeSize": 65,
                       "ExplodeAnimation": game.getTextureManager().getAnimationPack(AnimationPackInfo.POWER_EXPLODE_BULLET_ANIMATION)},
-                     owner, "Player", 20)
+                     owner, "Player", POWER_AMMO)
         self.cooldown = 1
 
 
@@ -81,5 +81,5 @@ class GravityGun(Gun):
                      {"bulletSpeed": 80, "bulletType": "Gravity", "bulletPower": 0,
                       "ExplodeTime": 0.2, "ExplodeDamage": 0, "ExplodeSize": 150,
                       "ExplodeAnimation": game.getTextureManager().getAnimationPack(AnimationPackInfo.GRAVITY_EXPLODE_BULLET_ANIMATION)},
-                     owner, "Player", 10)
+                     owner, "Player", GRAVI_AMMO)
         self.cooldown = 0.5
