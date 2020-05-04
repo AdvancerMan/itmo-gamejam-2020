@@ -117,8 +117,9 @@ class Bullet(InGameObject):
 class Gun:
     def __init__(self, game: Game, process, bulletAnim: AnimationPack,
                  bulletBodyTemplate: BodyTemplate,
-                 gunAnim: AnimationPack, params: dict, owner, maxAmmo: int):
+                 gunAnim: AnimationPack, params: dict, owner, ownerType, maxAmmo: int):
         # process: GameProcess
+        self.__ownerType = ownerType
         self.__owner = owner
         self.__game = game
         self.__process = process
@@ -162,7 +163,12 @@ class Gun:
             self.__gunAnimation.setAnimation(AnimationName.STAY)
 
     def draw(self, dst: pg.Surface, pos: tuple):
-        self.__gunAnimation.scale((70, 30))
+        if self.__ownerType == "Player":
+            self.__gunAnimation.scale((70, 30))
+        elif self.__ownerType == "BigEnemy":
+            self.__gunAnimation.scale((106, 96))
+        else:
+            self.__gunAnimation.scale((63, 81))
         oldW, oldH = self.__gunAnimation.getSize()
         angle, self.__directedToRight = getAngle(self.__owner.shootAngle)
         if self.__params["bulletType"] == "TwoDirectionExplode":
@@ -176,8 +182,15 @@ class Gun:
         y = newH - y if angle > 0 else y
 
         ownerW, ownerH = self.__owner.getAABB().size()
-        x += 11 - ownerW if self.__directedToRight else -11
-        y += 8
+        x += -ownerW if self.__directedToRight else 0
+
+        if self.__ownerType == "Player":
+            x += 11 if self.__directedToRight else -11
+            y += 8
+        elif self.__ownerType == "BigEnemy":
+            x += 106 if self.__directedToRight else -105
+        else:
+            x += 24 if self.__directedToRight else -24
 
         self.__gunAnimation.blit(dst, (pos[0] - x, pos[1] - y + ownerH / 2))
         self.__gunAnimation.clearTransforms()
