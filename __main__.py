@@ -4,8 +4,10 @@ try:
     from process.MenuProcess import MenuProcess
 
     pg.init()
+    pg.mixer.init()
     game = Game()
     game.run(MenuProcess(game))
+    pg.mixer.quit()
     pg.quit()
 except:
     try:

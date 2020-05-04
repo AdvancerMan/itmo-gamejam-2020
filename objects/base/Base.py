@@ -2,7 +2,7 @@ import pygame as pg
 import pyganim as pga
 from Box2D import *
 from game.Game import Game
-from config.Config import BASE_SPEED
+from config.Config import BASE_SPEED, HEAL_COOLDOWN, AMMO_COOLDOWN
 from objects.friendly.Player import Player
 from objects.platforms.HalfCollidedPlatform import HalfCollidedPlatform
 from util.FloatCmp import equals
@@ -40,6 +40,11 @@ class Base:
         self.__pos = b2Vec2(x, y)
         self.__speed = BASE_SPEED
 
+        self.__healCooldown = HEAL_COOLDOWN
+        self.__sinceLastHeal = self.__healCooldown
+        self.__ammoCooldown = AMMO_COOLDOWN
+        self.__sinceLastAmmo = self.__ammoCooldown
+
         self.__lowerPlatform = BasePlatform(game, process, x, y)
         self.__upperPlatform = BasePlatform(game, process, x,
                                             y + self.__light.get_size()[1] - self.__lowerPlatform.getAABB().h)
@@ -65,6 +70,8 @@ class Base:
 
     def preUpdate(self, delta: float):
         self.updatePosition(delta)
+        self.__sinceLastAmmo += delta
+        self.__sinceLastHeal += delta
         if self.__player.getAABB().intersects(self.__rect):
             self.__turnedOn = True
         else:
@@ -72,6 +79,13 @@ class Base:
         self.preUpdatePlatforms(delta)
 
     def postUpdate(self):
+        if self.__turnedOn:
+            if self.__healCooldown <= self.__sinceLastHeal:
+                self.__player.heal(1)
+                self.__sinceLastHeal = 0
+            if self.__ammoCooldown <= self.__sinceLastAmmo:
+                self.__player.incrementAmmo()
+                self.__sinceLastAmmo = 0
         self.__lowerPlatform.postUpdate()
         self.__upperPlatform.postUpdate()
 

@@ -50,7 +50,6 @@ class GameProcess(Process):
         self.__builder = Builder(game)
         self.__builder.build(self, self.__player, self.__base, "L1")
 
-        pg.mixer.init()
         pg.mixer.music.load(_createPath('music', 'fight.mp3'))
         pg.mixer.music.play()
 
@@ -109,13 +108,13 @@ class GameProcess(Process):
                 self.removeObject(obj)
 
     def draw(self, dst: pg.Surface):
-        backgroundW = self.__background.get_size()[0]
-        backgroundX = self.__cameraRect.x // 10 // backgroundW * backgroundW - self.__cameraRect.x // 10
-        if backgroundX < 0:
-            backgroundX += backgroundW
-
-        dst.blit(self.__background, (backgroundX, 0))
-        dst.blit(self.__background, (backgroundX - backgroundW, 0))
+        # backgroundW = self.__background.get_size()[0]
+        # backgroundX = self.__cameraRect.x // 10 // backgroundW * backgroundW - self.__cameraRect.x // 10
+        # if backgroundX < 0:
+        #     backgroundX += backgroundW
+        #
+        # dst.blit(self.__background, (backgroundX, 0))
+        # dst.blit(self.__background, (backgroundX - backgroundW, 0))
 
         self.__base.draw(dst, self.__cameraRect)
         for obj in self.__objects:
