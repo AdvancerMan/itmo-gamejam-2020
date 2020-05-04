@@ -119,6 +119,8 @@ class GameProcess(Process):
         self.__base.draw(dst, self.__cameraRect)
         for obj in self.__objects:
             obj.draw(dst, self.__cameraRect)
+        for obj in self.__objects:
+            obj.postDraw(dst, self.__cameraRect)
         self.__removeObjects()
 
     def __removeObjects(self):
