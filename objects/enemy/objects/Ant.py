@@ -12,7 +12,7 @@ class Ant(Enemy):
     def __init__(self, game: Game, process, player: Player, x: float, y: float):
         Enemy.__init__(self, game, process, player,
                        game.getTextureManager().getAnimationPack(AnimationPackInfo.ANT_ANIMATION),
-                       process.getFactory().createRectangleBody(b2_dynamicBody, 20, 10), 10, 0, [])
+                       process.getFactory().createRectangleBody(b2_dynamicBody, 22, 18), 10, 0, [])
         self.setPosition(x, y)
         self.resetHp(ANT_HP)
 

@@ -201,4 +201,6 @@ class AnimationPackInfo(Enum):
         (AnimationName.SHOOT, 1, 5, [30] * 5, "pics", "enemy", "enemy_gun.png")
     )
     STUPID_ENEMY_ANIMATION = PLAYER_ANIMATION
-    ANTHILL_ANIMATION = PLAYER_ANIMATION
+    ANTHILL_ANIMATION = _createAnimationPack(
+        (AnimationName.STAY, 1, 1, [100], "pics", "enemy", "Ant_hill.png")
+    )
