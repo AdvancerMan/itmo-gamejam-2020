@@ -4,6 +4,8 @@ from process.Process import Process
 from process.GameProcess import GameProcess
 from os.path import join
 
+from process.RainbowProcess import RainbowProcess
+
 
 def _createPath(*picPath: str) -> str:
     return join(*picPath)
@@ -24,3 +26,6 @@ class MenuProcess(Process):
             if e.type == pg.KEYDOWN:
                 pg.mixer.music.stop()
                 self.__game.addProcess(GameProcess(self.__game))
+
+    def update(self, delta: float):
+        self.__game.replaceProcess(RainbowProcess(self.__game, GameProcess))
