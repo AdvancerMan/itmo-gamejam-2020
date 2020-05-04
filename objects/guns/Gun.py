@@ -89,7 +89,7 @@ class Bullet(InGameObject):
         contact.enabled = False
 
     def beginContact(self, obj, contact: b2Contact):
-        if obj == self.__owner and not self.__hitOwner or type(obj) == Explode or type(obj) == Bullet:
+        if type(obj) == type(self.__owner) and not self.__hitOwner or type(obj) == Explode or type(obj) == Bullet:
             pass
         else:
             obj.takeDamage(self.__params["bulletPower"])

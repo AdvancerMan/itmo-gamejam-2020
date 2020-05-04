@@ -15,6 +15,11 @@ from objects.friendly.Player import Player
 from levels.LevelBuilder import Builder
 from util.box2d.ContactListener import ContactListener
 from util.textures.Textures import TextureInfo
+from os.path import join
+
+
+def _createPath(*picPath: str) -> str:
+    return join(*picPath)
 
 
 class GameProcess(Process):
@@ -44,6 +49,10 @@ class GameProcess(Process):
 
         self.__builder = Builder(game)
         self.__builder.build(self, self.__player, self.__base, "L1")
+
+        pg.mixer.init()
+        pg.mixer.music.load(_createPath('music', 'fight.mp3'))
+        pg.mixer.music.play()
 
     def centerCameraAt(self, x: float, y: float):
         self.__cameraRect.centerAt(x, y)
