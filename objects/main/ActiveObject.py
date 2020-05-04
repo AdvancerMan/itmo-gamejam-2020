@@ -35,6 +35,9 @@ class ActiveObject(InGameObject):
         if len(self.guns) > 0:
             self.guns[0].incrementAmmo()
 
+    def heal(self, amount: float):
+        self.__hp = min(self.__hp + amount, self.__maxHp)
+
     def resetHp(self, maxHp: float):
         self.__maxHp = maxHp
         self.__hp = maxHp
