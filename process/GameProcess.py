@@ -50,7 +50,6 @@ class GameProcess(Process):
         self.__builder = Builder(game)
         self.__builder.build(self, self.__player, self.__base, "L1")
 
-        pg.mixer.init()
         pg.mixer.music.load(_createPath('music', 'fight.mp3'))
         pg.mixer.music.play()
 

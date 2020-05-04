@@ -14,7 +14,6 @@ def _createPath(*picPath: str) -> str:
 class MenuProcess(Process):
     def __init__(self, game: Game):
         self.__game = game
-        pg.mixer.init()
         pg.mixer.music.load(_createPath('music', 'main_menu.mp3'))
         pg.mixer.music.play()
 
