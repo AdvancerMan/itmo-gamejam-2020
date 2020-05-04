@@ -92,6 +92,9 @@ class InGameObject:
     def getPosition(self):
         return tuple(map(toPix, self.__body.position.tuple))
 
+    def getStrType(self):
+        return ""
+
     def takeDamage(self, amount: float, ignoreInvulnerability: bool = False):
         pass
 

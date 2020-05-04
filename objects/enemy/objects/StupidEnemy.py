@@ -42,6 +42,9 @@ class StupidEnemyStaying(StupidEnemy):
             result.add("changeDirection")
         return result
 
+    def getStrType(self):
+        return "BigEnemy"
+
 
 class StupidEnemyRunningTo(StupidEnemy):
     def __init__(self, game: Game, process, player: Player, x: float, y: float):
@@ -57,6 +60,9 @@ class StupidEnemyRunningTo(StupidEnemy):
         else:
             result.add("goLeft")
         return result
+
+    def getStrType(self):
+        return "Enemy"
 
 
 class StupidEnemyRunningFrom(StupidEnemy):

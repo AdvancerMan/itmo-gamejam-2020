@@ -68,3 +68,6 @@ class Player(ActiveObject):
 
     def goRight(self):
         self.go(self.getSpeed())
+
+    def getStrType(self):
+        return "Player"
