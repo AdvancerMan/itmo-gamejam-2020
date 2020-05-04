@@ -37,6 +37,7 @@ class Base:
         self.__rect = rectFromSize(x, y, *self.__light.get_size())
 
         self.__path = []
+        self.__originalPath = []
         self.__movingTo = b2Vec2(0, 0)
         self.__pos = b2Vec2(x, y)
         self.__speed = BASE_SPEED
@@ -62,6 +63,8 @@ class Base:
         length = direction.length
         if equals(length, 0) and len(self.__path) != 0:
             self.__setPoint(self.__path.pop())
+        if len(self.__path) == 0:
+            self.__path = [x for x in self.__originalPath]
         if not equals(length, 0):
             self.__pos += direction / length * self.__speed * min(1, length / self.__speed)
         self.__rect.setPos(*self.__pos.tuple)
@@ -129,5 +132,6 @@ class Base:
     def setPath(self, path: list):
         # path: list of tuples of 2 float --- points that base will be sent to
         self.__path = list(reversed(path))
+        self.__originalPath = [x for x in self.__path]
         if len(self.__path) > 0:
             self.__setPoint(self.__path.pop())
