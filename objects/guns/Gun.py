@@ -108,7 +108,7 @@ class Bullet(InGameObject):
         if self.__dead:
             self.__process.addObject(Explode(self.__game, self.__process,
                                              self.__params["ExplodeAnimation"],
-                                             self.__process.getFactory().createRectangleBody(b2_staticBody,
+                                             self.__process.getFactory().createRectangleBody(b2_dynamicBody,
                                              self.__params["ExplodeSize"], self.__params["ExplodeSize"], gravityScale=0),
                                              self.getPosition(), self.__params))
             self.process.removeObject(self)
