@@ -1,6 +1,6 @@
 import pygame as pg
 
-from config.Config import WINDOW_RESOLUTION
+from config.Config import WINDOW_RESOLUTION, BASE_START_POS
 from game.Game import Game
 from gui.GunsList import GunsList
 from objects.base.Base import Base
@@ -45,7 +45,7 @@ class GameProcess(Process):
 
         self.__player = Player(game, self, GunsList(game, (20, 20)))
         self.addObject(self.__player)
-        self.__base = Base(game, self, 200, 200, self.__player)
+        self.__base = Base(game, self, *BASE_START_POS, self.__player)
 
         self.__builder = Builder(game)
         self.__builder.build(self, self.__player, self.__base, "L1")
@@ -119,6 +119,8 @@ class GameProcess(Process):
         self.__base.draw(dst, self.__cameraRect)
         for obj in self.__objects:
             obj.draw(dst, self.__cameraRect)
+        for obj in self.__objects:
+            obj.postDraw(dst, self.__cameraRect)
         self.__removeObjects()
 
     def __removeObjects(self):

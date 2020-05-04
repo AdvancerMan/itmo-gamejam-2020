@@ -39,6 +39,17 @@ class InGameObject:
     def _draw(self, dst: pg.Surface, aabb: Rectangle, pos: tuple):
         self.__animation.blit(dst, pos)
 
+    def _postDraw(self, dst: pg.Surface, aabb: Rectangle, pos: tuple):
+        pass
+
+    def postDraw(self, dst: pg.Surface, cameraRect: Rectangle):
+        if not self.__body.active:
+            return
+        aabb = self.getAABB()
+        if aabb.intersects(cameraRect):
+            camPos = cameraRect.pos()
+            self._postDraw(dst, aabb, (aabb.x - camPos[0], cameraRect.h - aabb.y - aabb.h + camPos[1]))
+
     def draw(self, dst: pg.Surface, cameraRect: Rectangle):
         if not self.__body.active:
             return
@@ -80,6 +91,9 @@ class InGameObject:
 
     def getPosition(self):
         return tuple(map(toPix, self.__body.position.tuple))
+
+    def getStrType(self):
+        return ""
 
     def takeDamage(self, amount: float, ignoreInvulnerability: bool = False):
         pass

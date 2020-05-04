@@ -148,6 +148,8 @@ class ActiveObject(InGameObject):
         super()._draw(dst, aabb, pos)
         if len(self.guns) > 0:
             self.guns[0].draw(dst, pos)
+
+    def _postDraw(self, dst: pg.Surface, aabb: Rectangle, pos: tuple):
         size = aabb.size()
         pos = (pos[0] + size[0] / 2 - self._healthBar.getWidth() / 2, pos[1] - self._healthBar.getWidth())
         self._healthBar.draw(dst, pos, self.__hp, self.__maxHp)

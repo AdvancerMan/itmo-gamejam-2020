@@ -89,7 +89,7 @@ class Bullet(InGameObject):
         contact.enabled = False
 
     def beginContact(self, obj, contact: b2Contact):
-        if type(obj) == type(self.__owner) and not self.__hitOwner or type(obj) == Explode or type(obj) == Bullet:
+        if obj.getStrType() == self.__params["tt"] and not self.__hitOwner or type(obj) == Explode or type(obj) == Bullet:
             pass
         else:
             obj.takeDamage(self.__params["bulletPower"])
@@ -108,7 +108,7 @@ class Bullet(InGameObject):
         if self.__dead:
             self.__process.addObject(Explode(self.__game, self.__process,
                                              self.__params["ExplodeAnimation"],
-                                             self.__process.getFactory().createRectangleBody(b2_staticBody,
+                                             self.__process.getFactory().createRectangleBody(b2_dynamicBody,
                                              self.__params["ExplodeSize"], self.__params["ExplodeSize"], gravityScale=0),
                                              self.getPosition(), self.__params))
             self.process.removeObject(self)
@@ -123,6 +123,7 @@ class Gun:
         self.__owner = owner
         self.__game = game
         self.__process = process
+        params["tt"] = ownerType
         self.__params = params      # params = {"bulletSpeed", "bulletType", "bulletPower"}
                                     # maybe add "deviation" and "angle"
         self.__bulletAnimation = bulletAnim
