@@ -11,6 +11,6 @@ Authors
 
 * __[Lavrentyev Nikolay](https://github.com/Klanick)__
 
-    Artist
+    Artist, Level designer
 
 
